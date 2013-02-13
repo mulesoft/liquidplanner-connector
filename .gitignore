@@ -1,0 +1,10 @@
+*.class
+*.project
+*.settings
+service-client/target/*
+service-cloud-connector/target/*
+
+# Package Files #
+*.jar
+*.war
+*.ear

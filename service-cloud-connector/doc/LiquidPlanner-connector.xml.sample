@@ -1,0 +1,27 @@
+<!-- BEGIN_INCLUDE(liquidplanner:get-time-sheets) -->
+    <liquidplanner:get-time-sheets workSpaceId="#[map-payload:workspace-id]" >
+    	<liquidplanner:filters ref="#[map-payload:filters]" />
+    </liquidplanner:get-time-sheets>
+<!-- END_INCLUDE(liquidplanner:get-time-sheets) --> 
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-time-sheet) -->
+	<liquidplanner:get-time-sheet workSpaceId="#[map-payload:content]" timesheetId="#[map-payload:time-sheet-id]" />
+<!-- END_INCLUDE(liquidplanner:get-time-sheet) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-time-sheet-entries) -->
+	<liquidplanner:get-time-sheet-entries workSpaceId="#[map-payload:content]" timesheetId="#[map-payload:time-sheet-id]" >
+		<liquidplanner:filters ref="#[map-payload:filters]" />
+	</liquidplanner:get-time-sheet-entries >
+<!-- END_INCLUDE(liquidplanner:get-time-sheet-entries) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-time-sheet-entry) -->
+	<liquidplanner:get-time-sheet-entry workSpaceId="#[map-payload:content]" timesheetId="#[map-payload:time-sheet-id]" timesheetEntryId ="#[map-payload:time-sheet-entry-id]" />
+<!-- END_INCLUDE(liquidplanner:get-time-sheet-entry) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-members) -->
+	<liquidplanner:get-members workSpaceId="#[map-payload:content]" />
+<!-- END_INCLUDE(liquidplanner:get-members) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-member) -->
+	<liquidplanner:get-member workSpaceId="#[map-payload:content]" memberId="#[map-payload:content]"/>
+<!-- END_INCLUDE(liquidplanner:get-member) -->
