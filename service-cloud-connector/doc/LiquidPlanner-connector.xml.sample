@@ -25,3 +25,11 @@
 <!-- BEGIN_INCLUDE(liquidplanner:get-member) -->
 	<liquidplanner:get-member workSpaceId="#[map-payload:content]" memberId="#[map-payload:content]"/>
 <!-- END_INCLUDE(liquidplanner:get-member) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-projects) -->
+	<liquidplanner:get-projects workSpaceId="#[map-payload:workspaceid]" />
+<!-- END_INCLUDE(liquidplanner:get-projects) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-project) -->
+	<liquidplanner:get-project workSpaceId="#[map-payload:workspaceid]" projectId="#[map-payload:projectid]"/>
+<!-- END_INCLUDE(liquidplanner:get-project) -->

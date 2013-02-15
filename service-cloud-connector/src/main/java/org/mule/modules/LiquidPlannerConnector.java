@@ -16,7 +16,9 @@ import java.util.List;
 
 import org.mule.LiquidPlanner.client.core.LiquidPlannerClient;
 import org.mule.LiquidPlanner.client.model.Filter;
+import org.mule.LiquidPlanner.client.model.Project;
 import org.mule.LiquidPlanner.client.services.MemberService;
+import org.mule.LiquidPlanner.client.services.ProjectService;
 import org.mule.LiquidPlanner.client.services.TimeSheetService;
 import org.mule.api.ConnectionException;
 import org.mule.api.annotations.Connect;
@@ -34,7 +36,7 @@ import org.mule.api.annotations.param.Optional;
  * @author MuleSoft, Inc.
  */
 @Connector(name = "liquidplanner", schemaVersion = "1.0-SNAPSHOT")
-public class LiquidPlannerConnector implements TimeSheetService, MemberService {
+public class LiquidPlannerConnector implements TimeSheetService, MemberService, ProjectService {
 
     private LiquidPlannerClient client;
 
@@ -189,6 +191,42 @@ public class LiquidPlannerConnector implements TimeSheetService, MemberService {
     @Override
     public String getMember(String workSpaceId, String memberId) {
         return client.getMember(workSpaceId, memberId);
+    }
+
+    /**
+     * Return a list of projects
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-projects}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * 
+     * @return a JSON string representing list of projects member
+     */
+    @Processor
+    @Override
+    public List<Project> getProjects(String workSpaceId) {
+        return client.getProjects(workSpaceId);
+    }
+
+    /**
+     * Return a particular projects
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-project}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param projectId
+     *            the id of the project you are looking for
+     * 
+     * @return a JSON string representing the member
+     */
+    @Processor
+    @Override
+    public Project getProject(String workSpaceId, String projectId) {
+        return client.getProject(workSpaceId, projectId);
     }
 
     // /**

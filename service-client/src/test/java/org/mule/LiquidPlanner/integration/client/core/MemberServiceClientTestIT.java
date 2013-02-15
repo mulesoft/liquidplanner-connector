@@ -9,10 +9,7 @@ import org.mule.LiquidPlanner.client.services.impl.MemberServiceClient;
 
 public class MemberServiceClientTestIT extends AbstractServiceClientTestIT {
     private static final String WORKSPACE_ID = "79456";
-    // private static final String MEMBER_ID = "260403";
-
-    // private static final String MEMBER_ID = "248998";
-    private static final String MEMBER_ID = "249341";
+    private static final String MEMBER_ID = "260403";
 
     @Before
     public void setUp() {

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 import org.mule.LiquidPlanner.client.model.Filter;
+import org.mule.LiquidPlanner.client.model.Project;
 import org.mule.LiquidPlanner.client.services.MemberService;
 import org.mule.LiquidPlanner.client.services.ProjectService;
 import org.mule.LiquidPlanner.client.services.TimeSheetService;
@@ -54,12 +55,12 @@ public class LiquidPlannerClient implements ProjectService, TimeSheetService, Me
     }
 
     @Override
-    public String getProjects(String workSpaceId) {
+    public List<Project> getProjects(String workSpaceId) {
         return projectService.getProjects(workSpaceId);
     }
 
     @Override
-    public String getProject(String workSpaceId, String projectId) {
+    public Project getProject(String workSpaceId, String projectId) {
         return projectService.getProject(workSpaceId, projectId);
     }
 

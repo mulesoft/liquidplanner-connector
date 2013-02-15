@@ -14,6 +14,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.mule.LiquidPlanner.client.model.Filter;
 
 import com.sun.jersey.api.client.Client;
@@ -38,6 +39,7 @@ public abstract class AbstractServiceClient {
     protected String password;
 
     private static final String DEFAULT_BASE_URL = "https://app.liquidplanner.com/api";
+    protected static final ObjectMapper MAPPER = new ObjectMapper();
 
     private String baseUrl = "";
 

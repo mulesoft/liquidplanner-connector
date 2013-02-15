@@ -1,5 +1,9 @@
 package org.mule.LiquidPlanner.client.services;
 
+import java.util.List;
+
+import org.mule.LiquidPlanner.client.model.Project;
+
 /**
  * The interface describe operations to be performed over the Project resources
  * of the LiquidPlanner API.
@@ -10,20 +14,20 @@ package org.mule.LiquidPlanner.client.services;
 public interface ProjectService {
 
     /**
-     * Retrieve List of projects.
+     * Retrieve List of {@link Project}.
      * 
      * @param workSpaceId
      * @return
      */
-    public String getProjects(String workSpaceId);
+    public List<Project> getProjects(String workSpaceId);
 
     /**
-     * Retrieve a particular project.
+     * Retrieve a particular {@link Project}.
      * 
      * @param workSpaceId
      * @param projectId
      * @return
      */
-    public String getProject(String workSpaceId, String projectId);
+    public Project getProject(String workSpaceId, String projectId);
 
 }

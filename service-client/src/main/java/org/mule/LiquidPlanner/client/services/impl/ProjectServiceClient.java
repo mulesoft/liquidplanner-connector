@@ -1,6 +1,11 @@
 package org.mule.LiquidPlanner.client.services.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang.Validate;
+import org.codehaus.jackson.type.TypeReference;
+import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
+import org.mule.LiquidPlanner.client.model.Project;
 import org.mule.LiquidPlanner.client.services.ProjectService;
 
 import com.sun.jersey.api.client.ClientResponse;
@@ -34,7 +39,7 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
      * (java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public String getProjects(String workSpaceId) {
+    public List<Project> getProjects(String workSpaceId) {
         Validate.notEmpty(user, "The user can not be null nor empty.");
         Validate.notEmpty(password, "The password can not be null nor empty.");
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
@@ -46,10 +51,16 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
 
         String response = readResponseFromClientResponse(clientResponse);
         if (clientResponse.getStatus() >= 400) {
-            return response;
+            throw new LiquidPlannerException("There has been an error when invoking the API: " + response);
         }
 
-        return response;
+        try {
+            return MAPPER.readValue(response, new TypeReference<List<Project>>() {
+            });
+        } catch (Exception e) {
+            throw new LiquidPlannerException("There has been an error when de seralizing the response: " + response, e);
+        }
+
     }
 
     /*
@@ -60,7 +71,7 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
      * (java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public String getProject(String workSpaceId, String projectId) {
+    public Project getProject(String workSpaceId, String projectId) {
         Validate.notEmpty(user, "The user can not be null nor empty.");
         Validate.notEmpty(password, "The password can not be null nor empty.");
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
@@ -73,10 +84,14 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
 
         String response = readResponseFromClientResponse(clientResponse);
         if (clientResponse.getStatus() >= 400) {
-            return response;
+            throw new LiquidPlannerException("There has been an error when invoking the API: " + response);
         }
 
-        return response;
+        try {
+            return MAPPER.readValue(response, Project.class);
+        } catch (Exception e) {
+            throw new LiquidPlannerException("There has been an error when de seralizing the response: " + response, e);
+        }
     }
 
     @Override
