@@ -1,15 +1,11 @@
 package org.mule.LiquidPlanner.client.services.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.Validate;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.type.TypeReference;
 import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
 import org.mule.LiquidPlanner.client.model.Comment;
@@ -19,6 +15,8 @@ import org.mule.LiquidPlanner.client.services.ProjectService;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.filter.ClientFilter;
+import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
 
 public class ProjectServiceClient extends AbstractServiceClient implements ProjectService {
 
@@ -136,7 +134,7 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
      * (java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public String createProject(String workSpaceId, Project project) {
+    public Project createProject(String workSpaceId, Project project) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
         String url = getProjectBaseURL(workSpaceId);
@@ -152,18 +150,15 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
         }
 
         WebResource.Builder builder = getBuilder(user, password, url, null);
-
         ClientResponse clientResponse = builder.post(ClientResponse.class, payload);
         String response = clientResponse.getEntity(String.class);
-        // new
-        // String(Base64.decodeBase64(clientResponse.getEntity(String.class).getBytes()));
 
         if (clientResponse.getStatus() >= 400) {
             throw new LiquidPlannerException("There has been an error when invoking the API: " + response);
         }
 
         try {
-            return response; // MAPPER.readValue(response, Project.class);
+            return  MAPPER.readValue(response, Project.class);
         } catch (Exception e) {
             throw new LiquidPlannerException("There has been an error when de seralizing the response: " + response, e);
         }
@@ -178,6 +173,13 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
     protected ClientConfig getJerseyClientConfiguration() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    protected List<ClientFilter> getJerseyClientFilters() {
+        List<ClientFilter> clientFilters = new ArrayList<ClientFilter>();
+        clientFilters.add(new GZIPContentEncodingFilter(false));
+        return clientFilters;
     }
 
     private String getProjectBaseURL(String workSpaceId) {

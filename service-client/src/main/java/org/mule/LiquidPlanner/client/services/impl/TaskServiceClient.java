@@ -9,6 +9,7 @@ import org.mule.LiquidPlanner.client.services.TaskService;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.filter.ClientFilter;
 
 public class TaskServiceClient extends AbstractServiceClient implements TaskService {
     private static final String API_WORKSPACE_PATH = "/workspaces";
@@ -159,6 +160,12 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
 
     private String getTimesheetBaseURL(String workSpaceId) {
         return getBaseURL() + "/" + workSpaceId + API_TASK_PATH;
+    }
+
+    @Override
+    protected List<ClientFilter> getJerseyClientFilters() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

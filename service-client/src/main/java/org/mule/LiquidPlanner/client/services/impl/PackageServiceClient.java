@@ -9,6 +9,7 @@ import org.mule.LiquidPlanner.client.services.PackageService;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.filter.ClientFilter;
 
 public class PackageServiceClient extends AbstractServiceClient implements PackageService {
     private static final String API_WORKSPACE_PATH = "/workspaces";
@@ -95,6 +96,12 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
 
     private String getTimesheetBaseURL(String workSpaceId) {
         return getBaseURL() + "/" + workSpaceId + API_PACKAGE_PATH;
+    }
+
+    @Override
+    protected List<ClientFilter> getJerseyClientFilters() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

@@ -1,11 +1,14 @@
 package org.mule.LiquidPlanner.client.services.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang.Validate;
 import org.mule.LiquidPlanner.client.services.MemberService;
 
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.filter.ClientFilter;
 
 /**
  * Provide access to all the account's related operations in LiquidPlanner.
@@ -85,5 +88,11 @@ public class MemberServiceClient extends AbstractServiceClient implements Member
 
     private String getMemeberBaseURL(String workSpaceId) {
         return getBaseURL() + "/" + workSpaceId + API_MEMEBER_PATH;
+    }
+
+    @Override
+    protected List<ClientFilter> getJerseyClientFilters() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

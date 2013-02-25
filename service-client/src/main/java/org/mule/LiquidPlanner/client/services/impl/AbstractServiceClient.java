@@ -21,6 +21,8 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.filter.ClientFilter;
+import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
@@ -105,6 +107,13 @@ public abstract class AbstractServiceClient {
 
         client.addFilter(getBasicAuthenticationFilter(user, password));
 
+        List<ClientFilter> clientFilters = getJerseyClientFilters();
+        if (clientFilters != null) {
+            for (ClientFilter clientFilter : clientFilters) {
+                client.addFilter(clientFilter);
+            }
+        }
+
         WebResource wr = client.resource(url);
 
         MultivaluedMap<String, String> actualQueryParameters = mapToMultivaluedMap(queryParameters);
@@ -121,9 +130,19 @@ public abstract class AbstractServiceClient {
      * {@link Client}. The {@link ClientConfig} is used to create the
      * {@link Client}.
      * 
-     * @return
+     * @return null if there are {@link ClientConfig} to be added.
      */
     protected abstract ClientConfig getJerseyClientConfiguration();
+
+    /**
+     * This method is called by getBuilder before the creation of the
+     * {@link Client}. The {@link ClientFilter} is used to create the
+     * {@link Client}. If there are no {@link ClientFilter} to be added just
+     * return null.
+     * 
+     * @return null if there are no {@link ClientFilter} to be added.
+     */
+    protected abstract List<ClientFilter> getJerseyClientFilters();
 
     // /**
     // * Returns the value of the Authorization HTTP header (HTTP basic

@@ -70,7 +70,7 @@ public class ProjectServiceClientTestIT extends AbstractServiceClientTestIT {
         project.setDescription("some description");
         project.setName("Test_iapp_Name");
         project.setParentId("6875321");
-        String response = service.createProject(WORKSPACE_ID, project);
+        Project response = service.createProject(WORKSPACE_ID, project);
 
         printOutResponse(response.toString());
     }

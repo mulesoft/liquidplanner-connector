@@ -9,6 +9,7 @@ import org.mule.LiquidPlanner.client.services.TimeSheetService;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.filter.ClientFilter;
 
 public class TimeSheetServiceClient extends AbstractServiceClient implements TimeSheetService {
 
@@ -152,5 +153,11 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
 
     private String getTimesheetBaseURL(String workSpaceId) {
         return getBaseURL() + "/" + workSpaceId + API_TIMESHEET_PATH;
+    }
+
+    @Override
+    protected List<ClientFilter> getJerseyClientFilters() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

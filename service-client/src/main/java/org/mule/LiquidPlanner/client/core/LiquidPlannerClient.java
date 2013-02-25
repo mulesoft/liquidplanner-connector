@@ -71,7 +71,7 @@ public class LiquidPlannerClient implements ProjectService, TimeSheetService, Me
     }
 
     @Override
-    public String createProject(String workSpaceId, Project project) {
+    public Project createProject(String workSpaceId, Project project) {
         return projectService.createProject(workSpaceId, project);
     }
 

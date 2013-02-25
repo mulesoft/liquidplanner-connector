@@ -41,11 +41,11 @@ public interface ProjectService {
     public List<Comment> getProjectComments(String workSpaceId, String projectId);
 
     /**
-     * Create a new Project .
+     * Create a new Project.
      * 
      * @param workSpaceId
      * @return
      */
-    public String createProject(String workSpaceId, Project project);
+    public Project createProject(String workSpaceId, Project project);
 
 }

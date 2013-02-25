@@ -260,11 +260,11 @@ public class LiquidPlannerConnector implements TimeSheetService, MemberService, 
      * @param project
      *            the project entity you're trying to create
      * 
-     * @return a JSON string representing the project
+     * @return a {@link Project}
      */
     @Processor
     @Override
-    public String createProject(String workSpaceId, Project project) {
+    public Project createProject(String workSpaceId, Project project) {
         return client.createProject(workSpaceId, project);
     }
 
