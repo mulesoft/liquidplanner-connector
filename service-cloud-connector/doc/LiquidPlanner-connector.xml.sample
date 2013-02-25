@@ -33,3 +33,13 @@
 <!-- BEGIN_INCLUDE(liquidplanner:get-project) -->
 	<liquidplanner:get-project workSpaceId="#[map-payload:workspaceid]" projectId="#[map-payload:projectid]"/>
 <!-- END_INCLUDE(liquidplanner:get-project) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-project-comments) -->
+	<liquidplanner:get-project-comments workSpaceId="#[map-payload:workspaceid]" projectId="#[map-payload:projectid]"/>
+<!-- END_INCLUDE(liquidplanner:get-project-comments) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:create-project) -->
+	<liquidplanner:create-project workSpaceId="#[map-payload:workspaceid]" >
+		<liquidplanner:project ref="#[map-payload:project]" />
+	</liquidplanner:create-project>	
+<!-- END_INCLUDE(liquidplanner:create-project) -->

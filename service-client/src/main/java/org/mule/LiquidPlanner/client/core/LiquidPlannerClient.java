@@ -3,6 +3,7 @@ package org.mule.LiquidPlanner.client.core;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
+import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Filter;
 import org.mule.LiquidPlanner.client.model.Project;
 import org.mule.LiquidPlanner.client.services.MemberService;
@@ -62,6 +63,16 @@ public class LiquidPlannerClient implements ProjectService, TimeSheetService, Me
     @Override
     public Project getProject(String workSpaceId, String projectId) {
         return projectService.getProject(workSpaceId, projectId);
+    }
+
+    @Override
+    public List<Comment> getProjectComments(String workSpaceId, String projectId) {
+        return projectService.getProjectComments(workSpaceId, projectId);
+    }
+
+    @Override
+    public String createProject(String workSpaceId, Project project) {
+        return projectService.createProject(workSpaceId, project);
     }
 
     @Override

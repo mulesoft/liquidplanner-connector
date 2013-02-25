@@ -1,5 +1,6 @@
 package org.mule.LiquidPlanner.client.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public class Project {
     private String createdBy;
 
     @JsonProperty("custom_field_values")
-    private Map<String, String> customFieldValues;
+    private Map<String, String> customFieldValues = new HashMap<String, String>();
 
     @JsonProperty("delay_until")
     private String delayUntil;

@@ -2,6 +2,7 @@ package org.mule.LiquidPlanner.client.services;
 
 import java.util.List;
 
+import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Project;
 
 /**
@@ -29,5 +30,22 @@ public interface ProjectService {
      * @return
      */
     public Project getProject(String workSpaceId, String projectId);
+
+    /**
+     * Retrieve the comments related to a particular ProjectId.
+     * 
+     * @param workSpaceId
+     * @param projectId
+     * @return
+     */
+    public List<Comment> getProjectComments(String workSpaceId, String projectId);
+
+    /**
+     * Create a new Project .
+     * 
+     * @param workSpaceId
+     * @return
+     */
+    public String createProject(String workSpaceId, Project project);
 
 }

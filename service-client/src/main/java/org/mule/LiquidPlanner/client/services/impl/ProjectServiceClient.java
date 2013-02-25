@@ -1,10 +1,18 @@
 package org.mule.LiquidPlanner.client.services.impl;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.Validate;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.type.TypeReference;
 import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
+import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Project;
 import org.mule.LiquidPlanner.client.services.ProjectService;
 
@@ -40,8 +48,6 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
      */
     @Override
     public List<Project> getProjects(String workSpaceId) {
-        Validate.notEmpty(user, "The user can not be null nor empty.");
-        Validate.notEmpty(password, "The password can not be null nor empty.");
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
         String url = getProjectBaseURL(workSpaceId);
@@ -72,8 +78,6 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
      */
     @Override
     public Project getProject(String workSpaceId, String projectId) {
-        Validate.notEmpty(user, "The user can not be null nor empty.");
-        Validate.notEmpty(password, "The password can not be null nor empty.");
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(projectId, "The project id can not be null nor empty.");
 
@@ -89,6 +93,77 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
 
         try {
             return MAPPER.readValue(response, Project.class);
+        } catch (Exception e) {
+            throw new LiquidPlannerException("There has been an error when de seralizing the response: " + response, e);
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.ProjectService#getProjectComments
+     * (java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public List<Comment> getProjectComments(String workSpaceId, String projectId) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+        Validate.notEmpty(projectId, "The project id can not be null nor empty.");
+
+        String url = getProjectBaseURL(workSpaceId) + "/" + projectId + API_COMMENT_PATH;
+        WebResource.Builder builder = getBuilder(user, password, url, null);
+
+        ClientResponse clientResponse = builder.get(ClientResponse.class);
+
+        String response = readResponseFromClientResponse(clientResponse);
+        if (clientResponse.getStatus() >= 400) {
+            throw new LiquidPlannerException("There has been an error when invoking the API: " + response);
+        }
+
+        try {
+            return MAPPER.readValue(response, new TypeReference<List<Comment>>() {
+            });
+        } catch (Exception e) {
+            throw new LiquidPlannerException("There has been an error when de seralizing the response: " + response, e);
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.ProjectService#createProject
+     * (java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public String createProject(String workSpaceId, Project project) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+
+        String url = getProjectBaseURL(workSpaceId);
+
+        Map<String, Object> payloadMap = new HashMap<String, Object>();
+        payloadMap.put("project", project);
+
+        String payload;
+        try {
+            payload = MAPPER.writeValueAsString(payloadMap);
+        } catch (Exception e) {
+            throw new LiquidPlannerException("There has been an error when serializing the project to json", e);
+        }
+
+        WebResource.Builder builder = getBuilder(user, password, url, null);
+
+        ClientResponse clientResponse = builder.post(ClientResponse.class, payload);
+        String response = clientResponse.getEntity(String.class);
+        // new
+        // String(Base64.decodeBase64(clientResponse.getEntity(String.class).getBytes()));
+
+        if (clientResponse.getStatus() >= 400) {
+            throw new LiquidPlannerException("There has been an error when invoking the API: " + response);
+        }
+
+        try {
+            return response; // MAPPER.readValue(response, Project.class);
         } catch (Exception e) {
             throw new LiquidPlannerException("There has been an error when de seralizing the response: " + response, e);
         }

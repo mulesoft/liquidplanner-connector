@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.mule.LiquidPlanner.client.core.LiquidPlannerClient;
+import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Filter;
 import org.mule.LiquidPlanner.client.model.Project;
 import org.mule.LiquidPlanner.client.services.MemberService;
@@ -227,6 +228,44 @@ public class LiquidPlannerConnector implements TimeSheetService, MemberService, 
     @Override
     public Project getProject(String workSpaceId, String projectId) {
         return client.getProject(workSpaceId, projectId);
+    }
+
+    /**
+     * Return a particular projects
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-project-comments}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param projectId
+     *            the id of the project you are looking for
+     * 
+     * @return a JSON string representing the project comments
+     */
+    @Processor
+    @Override
+    public List<Comment> getProjectComments(String workSpaceId, String projectId) {
+        return client.getProjectComments(workSpaceId, projectId);
+    }
+
+    /**
+     * Create a new Project
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:create-project}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param project
+     *            the project entity you're trying to create
+     * 
+     * @return a JSON string representing the project
+     */
+    @Processor
+    @Override
+    public String createProject(String workSpaceId, Project project) {
+        return client.createProject(workSpaceId, project);
     }
 
     // /**
