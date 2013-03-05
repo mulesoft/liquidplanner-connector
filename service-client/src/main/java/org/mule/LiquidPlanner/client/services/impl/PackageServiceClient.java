@@ -39,8 +39,6 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
      */
     @Override
     public String getPackages(String workSpaceId, List<Filter> filters) {
-        Validate.notEmpty(user, "The user can not be null nor empty.");
-        Validate.notEmpty(password, "The password can not be null nor empty.");
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
         String url = getTimesheetBaseURL(workSpaceId);
@@ -48,7 +46,7 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = readResponseFromClientResponse(clientResponse);
+        String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
             return response;
         }
@@ -65,8 +63,6 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
      */
     @Override
     public String getPackage(String workSpaceId, String packageId) {
-        Validate.notEmpty(user, "The user can not be null nor empty.");
-        Validate.notEmpty(password, "The password can not be null nor empty.");
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(packageId, "The package id can not be null nor empty.");
 
@@ -75,7 +71,7 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = readResponseFromClientResponse(clientResponse);
+        String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
             return response;
         }

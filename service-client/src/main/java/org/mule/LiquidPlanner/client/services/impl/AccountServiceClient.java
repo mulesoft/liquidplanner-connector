@@ -32,7 +32,7 @@ public class AccountServiceClient extends AbstractServiceClient implements Accou
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = readResponseFromClientResponse(clientResponse);
+        String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
             return response;
         }

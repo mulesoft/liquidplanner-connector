@@ -45,8 +45,6 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
      */
     @Override
     public String getTasks(String workSpaceId, List<Filter> filters) {
-        Validate.notEmpty(user, "The user can not be null nor empty.");
-        Validate.notEmpty(password, "The password can not be null nor empty.");
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notNull(filters, "The filters parameter can not be null");
 
@@ -55,7 +53,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
         WebResource.Builder builder = getBuilder(user, password, url, filterListToMap(filters));
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = readResponseFromClientResponse(clientResponse);
+        String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
             return response;
         }
@@ -72,8 +70,6 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
      */
     @Override
     public String getTask(String workSpaceId, String taskId) {
-        Validate.notEmpty(user, "The user can not be null nor empty.");
-        Validate.notEmpty(password, "The password can not be null nor empty.");
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(taskId, "The task id can not be null nor empty.");
 
@@ -82,7 +78,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = readResponseFromClientResponse(clientResponse);
+        String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
             return response;
         }
@@ -99,8 +95,6 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
      */
     @Override
     public String getTimeSheets(String workSpaceId, String taskId, List<Filter> filters) {
-        Validate.notEmpty(user, "The user can not be null nor empty.");
-        Validate.notEmpty(password, "The password can not be null nor empty.");
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(taskId, "The task id can not be null nor empty.");
         Validate.notNull(filters, "The filters parameter can not be null");
@@ -110,7 +104,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = readResponseFromClientResponse(clientResponse);
+        String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
             return response;
         }
@@ -128,8 +122,6 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
      */
     @Override
     public String getTimeSheet(String workSpaceId, String taskId, String timesheetId) {
-        Validate.notEmpty(user, "The user can not be null nor empty.");
-        Validate.notEmpty(password, "The password can not be null nor empty.");
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(taskId, "The task id can not be null nor empty.");
         Validate.notEmpty(timesheetId, "The timesheet id can not be null nor empty.");
@@ -139,7 +131,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = readResponseFromClientResponse(clientResponse);
+        String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
             return response;
         }

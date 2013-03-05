@@ -37,8 +37,6 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
     @Override
     public String getTimeSheets(String workSpaceId, List<Filter> filters) {
 
-        Validate.notEmpty(user, "The user can not be null nor empty.");
-        Validate.notEmpty(password, "The password can not be null nor empty.");
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notNull(filters, "The filter list can not be null");
 
@@ -47,7 +45,7 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = readResponseFromClientResponse(clientResponse);
+        String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
             return response;
         }
@@ -64,8 +62,6 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
      */
     @Override
     public String getTimeSheet(String workSpaceId, String timesheetId) {
-        Validate.notEmpty(user, "The user can not be null nor empty.");
-        Validate.notEmpty(password, "The password can not be null nor empty.");
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(timesheetId, "The timesheet id can not be null nor empty.");
 
@@ -74,7 +70,7 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = readResponseFromClientResponse(clientResponse);
+        String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
             return response;
         }
@@ -91,8 +87,6 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
      */
     @Override
     public String getTimeSheetEntries(String workSpaceId, String timesheetId, List<Filter> filters) {
-        Validate.notEmpty(user, "The user can not be null nor empty.");
-        Validate.notEmpty(password, "The password can not be null nor empty.");
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(timesheetId, "The timesheet id can not be null nor empty.");
         Validate.notNull(filters, "The filter list can not be null");
@@ -102,7 +96,7 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = readResponseFromClientResponse(clientResponse);
+        String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
             return response;
         }
@@ -119,8 +113,6 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
      */
     @Override
     public String getTimeSheetEntry(String workSpaceId, String timesheetId, String timesheetEntryId) {
-        Validate.notEmpty(user, "The user can not be null nor empty.");
-        Validate.notEmpty(password, "The password can not be null nor empty.");
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(timesheetId, "The timesheet id can not be null nor empty.");
         Validate.notEmpty(timesheetEntryId, "The timesheet entry id can not be null nor empty.");
@@ -132,7 +124,7 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = readResponseFromClientResponse(clientResponse);
+        String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
             return response;
         }

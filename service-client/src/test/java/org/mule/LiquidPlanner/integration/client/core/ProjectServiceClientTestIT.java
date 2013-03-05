@@ -13,6 +13,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONException;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Project;
@@ -62,6 +63,7 @@ public class ProjectServiceClientTestIT extends AbstractServiceClientTestIT {
         printOutResponse(response.toString());
     }
 
+    @Ignore
     @Test
     public void testCreateProject() throws JSONException, JsonParseException, JsonMappingException, IOException {
         ProjectService service = new ProjectServiceClient(USER, PASSWORD);

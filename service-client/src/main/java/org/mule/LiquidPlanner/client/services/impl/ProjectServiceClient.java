@@ -53,7 +53,7 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = readResponseFromClientResponse(clientResponse);
+        String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
             throw new LiquidPlannerException("There has been an error when invoking the API: " + response);
         }
@@ -84,7 +84,7 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = readResponseFromClientResponse(clientResponse);
+        String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
             throw new LiquidPlannerException("There has been an error when invoking the API: " + response);
         }
@@ -113,7 +113,7 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = readResponseFromClientResponse(clientResponse);
+        String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
             throw new LiquidPlannerException("There has been an error when invoking the API: " + response);
         }
@@ -158,7 +158,7 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
         }
 
         try {
-            return  MAPPER.readValue(response, Project.class);
+            return MAPPER.readValue(response, Project.class);
         } catch (Exception e) {
             throw new LiquidPlannerException("There has been an error when de seralizing the response: " + response, e);
         }
