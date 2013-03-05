@@ -3,6 +3,7 @@
 *.settings
 service-client/target/*
 service-cloud-connector/target/*
+service-client/src/test/resources/test_credentials.properties
 
 # Package Files #
 *.jar
