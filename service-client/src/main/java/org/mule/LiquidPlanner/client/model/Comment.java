@@ -147,7 +147,7 @@ public class Comment {
         return updatedBy;
     }
 
-    public void setUpdatedBy(int updatedBçy) {
+    public void setUpdatedBy(int updatedBy) {
         this.updatedBy = updatedBy;
     }
 

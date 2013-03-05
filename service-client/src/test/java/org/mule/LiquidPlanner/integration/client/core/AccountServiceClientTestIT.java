@@ -47,7 +47,7 @@ public class AccountServiceClientTestIT extends AbstractServiceClientTestIT {
         String response = service.getAccountDetails();
 
         printOutResponse(response);
-        JSONObject jsObject = new JSONObject(response);
+        // JSONObject jsObject = new JSONObject(response);
 
     }
 }

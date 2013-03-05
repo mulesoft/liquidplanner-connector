@@ -144,21 +144,6 @@ public abstract class AbstractServiceClient {
      */
     protected abstract List<ClientFilter> getJerseyClientFilters();
 
-    // /**
-    // * Returns the value of the Authorization HTTP header (HTTP basic
-    // * authentication).
-    // *
-    // * @param user
-    // * @param passwords
-    // * @return a string with this format Basic base64Hash(user:passowrd).
-    // */
-    // protected String getBasicAuthenticationHeaderValue(String user, String
-    // password) {
-    // String data = user + ":" + password;
-    // return AUTH_HEADER_TYPE + new
-    // String(Base64.encodeBase64(data.getBytes()));
-    // }
-
     /**
      * Creates a {@link HTTPBasicAuthFilter} for HTTP basic authentication.
      * 
