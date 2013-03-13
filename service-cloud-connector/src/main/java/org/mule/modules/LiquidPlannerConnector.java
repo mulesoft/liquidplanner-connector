@@ -17,10 +17,21 @@ import java.util.List;
 import org.mule.LiquidPlanner.client.core.LiquidPlannerClient;
 import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Filter;
+import org.mule.LiquidPlanner.client.model.Folder;
+import org.mule.LiquidPlanner.client.model.Milestone;
 import org.mule.LiquidPlanner.client.model.Project;
+import org.mule.LiquidPlanner.client.model.Task;
+import org.mule.LiquidPlanner.client.model.TreeItem;
+import org.mule.LiquidPlanner.client.model.TreeItemType;
+import org.mule.LiquidPlanner.client.services.FolderService;
 import org.mule.LiquidPlanner.client.services.MemberService;
+import org.mule.LiquidPlanner.client.services.MileStoneService;
 import org.mule.LiquidPlanner.client.services.ProjectService;
 import org.mule.LiquidPlanner.client.services.TimeSheetService;
+import org.mule.LiquidPlanner.client.services.TreeItemService;
+import org.mule.LiquidPlanner.client.services.impl.FolderServiceClient;
+import org.mule.LiquidPlanner.client.services.impl.MilestoneServiceClient;
+import org.mule.LiquidPlanner.client.services.impl.TaskServiceClient;
 import org.mule.api.ConnectionException;
 import org.mule.api.annotations.Connect;
 import org.mule.api.annotations.ConnectionIdentifier;
@@ -266,6 +277,116 @@ public class LiquidPlannerConnector implements TimeSheetService, MemberService, 
     @Override
     public Project createProject(String workSpaceId, Project project) {
         return client.createProject(workSpaceId, project);
+    }
+
+    /**
+     * Get all the Tree items related to a workspace
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-tree-items}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * 
+     * @return a {@link TreeItem} list
+     */
+    @Processor
+    public String getTreeItems(String workSpaceId) {
+
+        return client.getTreeItems(workSpaceId);
+    }
+
+    // <!-- BEGIN_INCLUDE(liquidplanner:get-tree-item) -->
+    // <liquidplanner:get-tree-item workSpaceId="#[map-payload:workspaceid]"
+    // treeItemId="#[map-payload:treeitemid]" clazz="#[map-payload:clazz]"/>
+    // <!-- END_INCLUDE(liquidplanner:get-tree-item) -->
+    // /**
+    // * Get a particular Tree items related to a workspace
+    // *
+    // * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+    // * liquidplanner:get-tree-item}
+    // *
+    // * @param workSpaceId
+    // * the id of the workspace
+    // * @param treeItemId
+    // * the id of the tree item
+    // * @param clazz
+    // * the class of the treeitem to be returned
+    // *
+    // * @return a {@link TreeItem}
+    // */
+    // @Processor
+    // @Override
+    // public <T extends TreeItem> T getTreeItem(String workSpaceId, String
+    // treeItemId, Class<T> clazz) {
+    // return client.getTreeItem(workSpaceId, treeItemId, clazz);
+    // }
+
+    /**
+     * Duplicates a particular {@link Project}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:duplicate-project}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param sourceProjectId
+     *            the id of the source project
+     * @param destinationParentId
+     *            the id of the parent destination
+     * @param newProjectName
+     *            the name of the new project
+     * @return the created {@link Project}
+     */
+    @Processor
+    public Project duplicateProject(String workSpaceId, String sourceProjectId, String destinationParentId,
+            String newProjectName) {
+        Project project = client.getTreeItem(workSpaceId, sourceProjectId, Project.class);
+
+        project.setId(null);
+        project.setCreatedAt(null);
+        project.setCreatedBy(null);
+        project.setName(newProjectName);
+        project.setParentId(destinationParentId);
+
+        Project newProject = client.createProject(workSpaceId, project);
+        duplicateChidren(workSpaceId, project.getChildren(), newProject.getId());
+
+        return newProject;
+    }
+
+    private void duplicateChidren(String workSpaceId, List<TreeItem> chlidrens, String parentId) {
+        for (TreeItem children : chlidrens) {
+
+            if (children.getType().equals(TreeItemType.FOLDER_TYPE.type())) {
+                Folder folder = (Folder) children;
+
+                folder.setId(null);
+                folder.setParentId(new Integer(parentId));
+                Folder newFolder = client.createFolder(workSpaceId, folder);
+
+                this.duplicateChidren(workSpaceId, folder.getChildren(), newFolder.getId().toString());
+                continue;
+            }
+
+            if (children.getType().equals(TreeItemType.MILESTONE_TYPE.type())) {
+                Milestone milestone = (Milestone) children;
+
+                milestone.setId(null);
+                milestone.setParentId(new Integer(parentId));
+                client.createMilestone(workSpaceId, milestone);
+                continue;
+            }
+
+            if (children.getType().equals(TreeItemType.TASK_TYPE.type())) {
+                Task task = (Task) children;
+
+                task.setId(null);
+                task.setParentId(new Integer(parentId));
+                client.createTask(workSpaceId, task);
+                continue;
+            }
+        }
     }
 
     // /**

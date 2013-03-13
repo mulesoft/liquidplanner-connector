@@ -1,15 +1,25 @@
 package org.mule.LiquidPlanner.client.services.impl;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.Validate;
+import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
 import org.mule.LiquidPlanner.client.model.Filter;
+import org.mule.LiquidPlanner.client.model.Milestone;
+import org.mule.LiquidPlanner.client.model.Project;
+import org.mule.LiquidPlanner.client.model.Task;
 import org.mule.LiquidPlanner.client.services.TaskService;
 
+import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.filter.ClientFilter;
+import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
 
 public class TaskServiceClient extends AbstractServiceClient implements TaskService {
     private static final String API_WORKSPACE_PATH = "/workspaces";
@@ -44,21 +54,18 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
      * .lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public String getTasks(String workSpaceId, List<Filter> filters) {
+    public List<Task> getTasks(String workSpaceId, List<Filter> filters) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notNull(filters, "The filters parameter can not be null");
 
-        String url = getTimesheetBaseURL(workSpaceId);
+        String url = getTaskBaseURL(workSpaceId);
 
         WebResource.Builder builder = getBuilder(user, password, url, filterListToMap(filters));
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = clientResponse.getEntity(String.class);
-        if (clientResponse.getStatus() >= 400) {
-            return response;
-        }
-
-        return response;
+        Type type = new TypeToken<List<Task>>() {
+        }.getType();
+        return deserializeResponse(clientResponse, type);
     }
 
     /*
@@ -69,21 +76,16 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
      * lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public String getTask(String workSpaceId, String taskId) {
+    public Task getTask(String workSpaceId, String taskId) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(taskId, "The task id can not be null nor empty.");
 
-        String url = getTimesheetBaseURL(workSpaceId) + "/" + taskId;
+        String url = getTaskBaseURL(workSpaceId) + "/" + taskId;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = clientResponse.getEntity(String.class);
-        if (clientResponse.getStatus() >= 400) {
-            return response;
-        }
-
-        return response;
+        return deserializeResponse(clientResponse, Task.class);
     }
 
     /*
@@ -99,7 +101,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
         Validate.notEmpty(taskId, "The task id can not be null nor empty.");
         Validate.notNull(filters, "The filters parameter can not be null");
 
-        String url = getTimesheetBaseURL(workSpaceId) + "/" + taskId + API_TIMESEET_ENTRY_PATH;
+        String url = getTaskBaseURL(workSpaceId) + "/" + taskId + API_TIMESEET_ENTRY_PATH;
         WebResource.Builder builder = getBuilder(user, password, url, filterListToMap(filters));
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -126,7 +128,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
         Validate.notEmpty(taskId, "The task id can not be null nor empty.");
         Validate.notEmpty(timesheetId, "The timesheet id can not be null nor empty.");
 
-        String url = getTimesheetBaseURL(workSpaceId) + "/" + taskId + API_TIMESEET_ENTRY_PATH + "/" + timesheetId;
+        String url = getTaskBaseURL(workSpaceId) + "/" + taskId + API_TIMESEET_ENTRY_PATH + "/" + timesheetId;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -137,6 +139,20 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
         }
 
         return response;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.mule.LiquidPlanner.client.services.impl.TaskService#createTask(
+     * java.lang.String, org.mule.LiquidPlaner.client.Model.Task)
+     */
+    @Override
+    public Task createTask(String workSpaceId, Task task) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+
+        String url = getTaskBaseURL(workSpaceId);
+        return this.createEntity("task", task, url);
     }
 
     @Override
@@ -150,14 +166,15 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
         return null;
     }
 
-    private String getTimesheetBaseURL(String workSpaceId) {
+    private String getTaskBaseURL(String workSpaceId) {
         return getBaseURL() + "/" + workSpaceId + API_TASK_PATH;
     }
 
     @Override
     protected List<ClientFilter> getJerseyClientFilters() {
-        // TODO Auto-generated method stub
-        return null;
+        List<ClientFilter> clientFilters = new ArrayList<ClientFilter>();
+        clientFilters.add(new GZIPContentEncodingFilter(false));
+        return clientFilters;
     }
 
 }

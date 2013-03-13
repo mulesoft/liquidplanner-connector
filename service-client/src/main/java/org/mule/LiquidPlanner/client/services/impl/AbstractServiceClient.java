@@ -2,6 +2,7 @@ package org.mule.LiquidPlanner.client.services.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.security.KeyStore.Builder;
 import java.util.HashMap;
 import java.util.List;
@@ -15,14 +16,24 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
 import org.mule.LiquidPlanner.client.model.Filter;
+import org.mule.LiquidPlanner.client.model.Folder;
+import org.mule.LiquidPlanner.client.model.Milestone;
+import org.mule.LiquidPlanner.client.model.Project;
+import org.mule.LiquidPlanner.client.model.Task;
+import org.mule.LiquidPlanner.client.model.TreeItem;
+import org.mule.LiquidPlanner.client.serializer.CustomDeserializer;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.filter.ClientFilter;
-import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
@@ -37,13 +48,15 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
  * 
  */
 public abstract class AbstractServiceClient {
-    protected String user;
-    protected String password;
 
     private static final String DEFAULT_BASE_URL = "https://app.liquidplanner.com/api";
-    protected static final ObjectMapper MAPPER = new ObjectMapper();
+    // protected static final ObjectMapper MAPPER = new ObjectMapper();
 
+    protected String user;
+    protected String password;
     private String baseUrl = "";
+
+    protected Gson mapper;
 
     public AbstractServiceClient(String user, String password) {
         Validate.notEmpty(user, "The user can not be null nor empty");
@@ -51,6 +64,18 @@ public abstract class AbstractServiceClient {
 
         this.user = user;
         this.password = password;
+
+        GsonBuilder gsonBuilder = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .serializeNulls();
+
+        CustomDeserializer deserializer = new CustomDeserializer();
+        gsonBuilder.registerTypeAdapter(TreeItem.class, deserializer);
+        gsonBuilder.registerTypeAdapter(Folder.class, deserializer);
+        gsonBuilder.registerTypeAdapter(Milestone.class, deserializer);
+        gsonBuilder.registerTypeAdapter(Package.class, deserializer);
+        gsonBuilder.registerTypeAdapter(Project.class, deserializer);
+        gsonBuilder.registerTypeAdapter(Task.class, deserializer);
+        mapper = gsonBuilder.create();
     }
 
     public void setBaseUrl(String baseUrl) {
@@ -213,5 +238,52 @@ public abstract class AbstractServiceClient {
         }
 
         return filterMap.isEmpty() ? null : filterMap;
+    }
+
+    protected <T extends TreeItem> T deserializeResponse(ClientResponse clientResponse, Class<T> clazz) {
+
+        String response = clientResponse.getEntity(String.class);
+        if (clientResponse.getStatus() >= 400) {
+            throw new LiquidPlannerException("There has been an error when invoking the API: " + response);
+        }
+
+        try {
+            return mapper.fromJson(response, clazz);
+        } catch (Exception e) {
+            throw new LiquidPlannerException("There has been an error when de deseralizing the response: " + response,
+                    e);
+        }
+    }
+
+    protected <T> T deserializeResponse(ClientResponse clientResponse, Type type) {
+
+        String response = clientResponse.getEntity(String.class);
+        if (clientResponse.getStatus() >= 400) {
+            throw new LiquidPlannerException("There has been an error when invoking the API: " + response);
+        }
+
+        try {
+             return mapper.fromJson(response, type);
+        } catch (Exception e) {
+            throw new LiquidPlannerException("There has been an error when de deseralizing the response: " + response,
+                    e);
+        }
+    }
+
+    protected <T extends TreeItem> T createEntity(String entityType, T entity, String url) {
+        Map<String, Object> payloadMap = new HashMap<String, Object>();
+        payloadMap.put(entityType, entity);
+
+        String payload;
+        try {
+            payload = mapper.toJson(payloadMap);
+        } catch (Exception e) {
+            throw new LiquidPlannerException("There has been an error when serializing the project to json", e);
+        }
+
+        WebResource.Builder builder = getBuilder(user, password, url, null);
+        ClientResponse clientResponse = builder.post(ClientResponse.class, payload);
+
+        return (T) this.deserializeResponse(clientResponse, entity.getClass());
     }
 }

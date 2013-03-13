@@ -1,5 +1,6 @@
 package org.mule.LiquidPlanner.client.services.impl;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,9 +10,12 @@ import org.apache.commons.lang.Validate;
 import org.codehaus.jackson.type.TypeReference;
 import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
 import org.mule.LiquidPlanner.client.model.Comment;
+import org.mule.LiquidPlanner.client.model.Folder;
+import org.mule.LiquidPlanner.client.model.Milestone;
 import org.mule.LiquidPlanner.client.model.Project;
 import org.mule.LiquidPlanner.client.services.ProjectService;
 
+import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
@@ -53,18 +57,9 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = clientResponse.getEntity(String.class);
-        if (clientResponse.getStatus() >= 400) {
-            throw new LiquidPlannerException("There has been an error when invoking the API: " + response);
-        }
-
-        try {
-            return MAPPER.readValue(response, new TypeReference<List<Project>>() {
-            });
-        } catch (Exception e) {
-            throw new LiquidPlannerException("There has been an error when de seralizing the response: " + response, e);
-        }
-
+        Type type = new TypeToken<List<Project>>() {
+        }.getType();
+        return deserializeResponse(clientResponse, type);
     }
 
     /*
@@ -84,16 +79,7 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = clientResponse.getEntity(String.class);
-        if (clientResponse.getStatus() >= 400) {
-            throw new LiquidPlannerException("There has been an error when invoking the API: " + response);
-        }
-
-        try {
-            return MAPPER.readValue(response, Project.class);
-        } catch (Exception e) {
-            throw new LiquidPlannerException("There has been an error when de seralizing the response: " + response, e);
-        }
+        return deserializeResponse(clientResponse, Project.class);
     }
 
     /*
@@ -113,17 +99,9 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = clientResponse.getEntity(String.class);
-        if (clientResponse.getStatus() >= 400) {
-            throw new LiquidPlannerException("There has been an error when invoking the API: " + response);
-        }
-
-        try {
-            return MAPPER.readValue(response, new TypeReference<List<Comment>>() {
-            });
-        } catch (Exception e) {
-            throw new LiquidPlannerException("There has been an error when de seralizing the response: " + response, e);
-        }
+        Type type = new TypeToken<List<Comment>>() {
+        }.getType();
+        return deserializeResponse(clientResponse, type);
     }
 
     /*
@@ -139,29 +117,7 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
 
         String url = getProjectBaseURL(workSpaceId);
 
-        Map<String, Object> payloadMap = new HashMap<String, Object>();
-        payloadMap.put("project", project);
-
-        String payload;
-        try {
-            payload = MAPPER.writeValueAsString(payloadMap);
-        } catch (Exception e) {
-            throw new LiquidPlannerException("There has been an error when serializing the project to json", e);
-        }
-
-        WebResource.Builder builder = getBuilder(user, password, url, null);
-        ClientResponse clientResponse = builder.post(ClientResponse.class, payload);
-        String response = clientResponse.getEntity(String.class);
-
-        if (clientResponse.getStatus() >= 400) {
-            throw new LiquidPlannerException("There has been an error when invoking the API: " + response);
-        }
-
-        try {
-            return MAPPER.readValue(response, Project.class);
-        } catch (Exception e) {
-            throw new LiquidPlannerException("There has been an error when de seralizing the response: " + response, e);
-        }
+        return this.createEntity("project", project, url);
     }
 
     @Override

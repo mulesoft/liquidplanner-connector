@@ -1,134 +1,110 @@
 package org.mule.LiquidPlanner.client.model;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.ObjectMapper;
 
-/**
- * POJO that represents the Project entity
- * 
- * @author damiansima
- * 
- */
-public class Project extends TreeItem {
-    @JsonProperty("alerts")
-    private List<Alert> alerts;
-
-    @JsonProperty("client_id")
-    private String clientId;
-
-    @JsonProperty("created_at")
-    private String createdAt;
-
-    @JsonProperty("created_by")
-    private String createdBy;
-
-    @JsonProperty("custom_field_values")
-    private Map<String, String> customFieldValues = new HashMap<String, String>();
-
-    @JsonProperty("delay_until")
-    private String delayUntil;
-
-    @JsonProperty("description")
-    private String description;
-
-    @JsonProperty("done_on")
-    private String doneOn;
-
-    @JsonProperty("earliest_finish")
-    private String earliestFinish;
-
-    @JsonProperty("earliest_start")
-    private String earliestStart;
-
-    @JsonProperty("expected_finish")
-    private String expectedFinish;
-
-    @JsonProperty("expected_start")
-    private String expectedStart;
-
-    @JsonProperty("external_reference")
-    private String externalReference;
-
-    @JsonProperty("global_priority")
-    private List<String> globalPriority;
-
-    @JsonProperty("has_note")
-    private Boolean hasNote;
-
-    @JsonProperty("high_effort_remaining")
-    private Double highEffortRemaining;
-
-    @JsonProperty("id")
-    private String id;
-
-    @JsonProperty("is_done")
-    private Boolean isDone;
-
-    @JsonProperty("is_on_hold")
-    private Boolean isOnHold;
-
-    @JsonProperty("latest_finish")
-    private String latestFinish;
-
-    @JsonProperty("low_effort_remaining")
-    private Double lowEffortRemaining;
-
-    @JsonProperty("manual_alert")
-    private String manualAlert;
-
-    @JsonProperty("max_effort")
-    private String maxEffort;
-
-    @JsonProperty("name")
-    private String name;
-
-    @JsonProperty("owner_id")
-    private String ownerId;
-
-    @JsonProperty("p98_finish")
-    private String p98Finish;
-
-    @JsonProperty("parent_crumbs")
-    private List<String> parentCrumbs;
-
-    @JsonProperty("parent_id")
-    private String parentId;
-
-    @JsonProperty("parent_ids")
-    private List<String> parentIds;
-
-    @JsonProperty("promise_by")
-    private String promiseBy;
-
-    @JsonProperty("started_on")
-    private String startedOn;
-
-    @JsonProperty("updated_at")
-    private String updatedAt;
-
-    @JsonProperty("updated_by")
-    private String updatedBy;
+public class Folder extends TreeItem {
 
     @JsonProperty("work")
     private Double work;
+    @JsonProperty("alerts")
+    private List<Object> alerts = new ArrayList<Object>();
+    @JsonProperty("project_id")
+    private Integer projectId;
+    @JsonProperty("client_id")
+    private Integer clientId;
+    @JsonProperty("created_at")
+    private String createdAt;
+    @JsonProperty("created_by")
+    private Integer createdBy;
+    @JsonProperty("done_on")
+    private Object doneOn;
+    @JsonProperty("started_on")
+    private Object startedOn;
+    @JsonProperty("delay_until")
+    private Object delayUntil;
+    @JsonProperty("description")
+    private String description;
+    @JsonProperty("earliest_finish")
+    private Object earliestFinish;
+    @JsonProperty("earliest_start")
+    private Object earliestStart;
+    @JsonProperty("expected_finish")
+    private Object expectedFinish;
+    @JsonProperty("expected_start")
+    private Object expectedStart;
+    @JsonProperty("p98_finish")
+    private Object p98Finish;
+    @JsonProperty("global_priority")
+    private List<Integer> globalPriority = new ArrayList<Integer>();
+    @JsonProperty("has_note")
+    private Boolean hasNote;
+    @JsonProperty("high_effort_remaining")
+    private Double highEffortRemaining;
+    @JsonProperty("is_done")
+    private Boolean isDone;
+    @JsonProperty("is_on_hold")
+    private Boolean isOnHold;
+    @JsonProperty("latest_finish")
+    private Object latestFinish;
+    @JsonProperty("low_effort_remaining")
+    private Double lowEffortRemaining;
+    @JsonProperty("manual_alert")
+    private String manualAlert;
+    @JsonProperty("max_effort")
+    private Object max_effort;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("owner_id")
+    private Integer ownerId;
+    @JsonProperty("parent_id")
+    private Integer parentId;
+    @JsonProperty("parent_ids")
+    private List<Integer> parentIds = new ArrayList<Integer>();
+    @JsonProperty("parent_crumbs")
+    private List<String> parentCrumbs = new ArrayList<String>();
+    @JsonProperty("promise_by")
+    private Object promiseBy;
+    @JsonProperty("external_reference")
+    private String externalReference;
+    @JsonProperty("updated_at")
+    private String updatedAt;
+    @JsonProperty("updated_by")
+    private Integer updatedBy;
+    @JsonProperty("id")
+    private Integer id;
 
-    public List<Alert> getAlerts() {
+    public Double getWork() {
+        return work;
+    }
+
+    public void setWork(Double work) {
+        this.work = work;
+    }
+
+    public List<Object> getAlerts() {
         return alerts;
     }
 
-    public void setAlerts(List<Alert> alerts) {
+    public void setAlerts(List<Object> alerts) {
         this.alerts = alerts;
     }
 
-    public String getClientId() {
+    public Integer getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
+    }
+
+    public Integer getClientId() {
         return clientId;
     }
 
-    public void setClientId(String clientId) {
+    public void setClientId(Integer clientId) {
         this.clientId = clientId;
     }
 
@@ -140,27 +116,35 @@ public class Project extends TreeItem {
         this.createdAt = createdAt;
     }
 
-    public String getCreatedBy() {
+    public Integer getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Integer createdBy) {
         this.createdBy = createdBy;
     }
 
-    public Map<String, String> getCustomFieldValues() {
-        return customFieldValues;
+    public Object getDoneOn() {
+        return doneOn;
     }
 
-    public void setCustomFieldValues(Map<String, String> customFieldValues) {
-        this.customFieldValues = customFieldValues;
+    public void setDoneOn(Object doneOn) {
+        this.doneOn = doneOn;
     }
 
-    public String getDelayUntil() {
+    public Object getStartedOn() {
+        return startedOn;
+    }
+
+    public void setStartedOn(Object startedOn) {
+        this.startedOn = startedOn;
+    }
+
+    public Object getDelayUntil() {
         return delayUntil;
     }
 
-    public void setDelayUntil(String delayUntil) {
+    public void setDelayUntil(Object delayUntil) {
         this.delayUntil = delayUntil;
     }
 
@@ -172,59 +156,51 @@ public class Project extends TreeItem {
         this.description = description;
     }
 
-    public String getDoneOn() {
-        return doneOn;
-    }
-
-    public void setDoneOn(String doneOn) {
-        this.doneOn = doneOn;
-    }
-
-    public String getEarliestFinish() {
+    public Object getEarliestFinish() {
         return earliestFinish;
     }
 
-    public void setEarliestFinish(String earliestFinish) {
+    public void setEarliestFinish(Object earliestFinish) {
         this.earliestFinish = earliestFinish;
     }
 
-    public String getEarliestStart() {
+    public Object getEarliestStart() {
         return earliestStart;
     }
 
-    public void setEarliestStart(String earliestStart) {
+    public void setEarliestStart(Object earliestStart) {
         this.earliestStart = earliestStart;
     }
 
-    public String getExpectedFinish() {
+    public Object getExpectedFinish() {
         return expectedFinish;
     }
 
-    public void setExpectedFinish(String expectedFinish) {
+    public void setExpectedFinish(Object expectedFinish) {
         this.expectedFinish = expectedFinish;
     }
 
-    public String getExpectedStart() {
+    public Object getExpectedStart() {
         return expectedStart;
     }
 
-    public void setExpectedStart(String expectedStart) {
+    public void setExpectedStart(Object expectedStart) {
         this.expectedStart = expectedStart;
     }
 
-    public String getExternalReference() {
-        return externalReference;
+    public Object getP98Finish() {
+        return p98Finish;
     }
 
-    public void setExternalReference(String externalReference) {
-        this.externalReference = externalReference;
+    public void setP98Finish(Object p98Finish) {
+        this.p98Finish = p98Finish;
     }
 
-    public List<String> getGlobalPriority() {
+    public List<Integer> getGlobalPriority() {
         return globalPriority;
     }
 
-    public void setGlobalPriority(List<String> globalPriority) {
+    public void setGlobalPriority(List<Integer> globalPriority) {
         this.globalPriority = globalPriority;
     }
 
@@ -244,14 +220,6 @@ public class Project extends TreeItem {
         this.highEffortRemaining = highEffortRemaining;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public Boolean getIsDone() {
         return isDone;
     }
@@ -268,11 +236,11 @@ public class Project extends TreeItem {
         this.isOnHold = isOnHold;
     }
 
-    public String getLatestFinish() {
+    public Object getLatestFinish() {
         return latestFinish;
     }
 
-    public void setLatestFinish(String latestFinish) {
+    public void setLatestFinish(Object latestFinish) {
         this.latestFinish = latestFinish;
     }
 
@@ -292,12 +260,12 @@ public class Project extends TreeItem {
         this.manualAlert = manualAlert;
     }
 
-    public String getMaxEffort() {
-        return maxEffort;
+    public Object getMax_effort() {
+        return max_effort;
     }
 
-    public void setMaxEffort(String maxEffort) {
-        this.maxEffort = maxEffort;
+    public void setMax_effort(Object max_effort) {
+        this.max_effort = max_effort;
     }
 
     public String getName() {
@@ -308,20 +276,28 @@ public class Project extends TreeItem {
         this.name = name;
     }
 
-    public String getOwnerId() {
+    public Integer getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(String ownerId) {
+    public void setOwnerId(Integer ownerId) {
         this.ownerId = ownerId;
     }
 
-    public String getP98Finish() {
-        return p98Finish;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setP98Finish(String p98Finish) {
-        this.p98Finish = p98Finish;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
+
+    public List<Integer> getParentIds() {
+        return parentIds;
+    }
+
+    public void setParentIds(List<Integer> parentIds) {
+        this.parentIds = parentIds;
     }
 
     public List<String> getParentCrumbs() {
@@ -332,36 +308,20 @@ public class Project extends TreeItem {
         this.parentCrumbs = parentCrumbs;
     }
 
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
-
-    public List<String> getParentIds() {
-        return parentIds;
-    }
-
-    public void setParentIds(List<String> parentIds) {
-        this.parentIds = parentIds;
-    }
-
-    public String getPromiseBy() {
+    public Object getPromiseBy() {
         return promiseBy;
     }
 
-    public void setPromiseBy(String promiseBy) {
+    public void setPromiseBy(Object promiseBy) {
         this.promiseBy = promiseBy;
     }
 
-    public String getStartedOn() {
-        return startedOn;
+    public String getExternalReference() {
+        return externalReference;
     }
 
-    public void setStartedOn(String starterdOn) {
-        this.startedOn = starterdOn;
+    public void setExternalReference(String externalReference) {
+        this.externalReference = externalReference;
     }
 
     public String getUpdatedAt() {
@@ -372,20 +332,20 @@ public class Project extends TreeItem {
         this.updatedAt = updatedAt;
     }
 
-    public String getUpdatedBy() {
+    public Integer getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(String updatedBy) {
+    public void setUpdatedBy(Integer updatedBy) {
         this.updatedBy = updatedBy;
     }
 
-    public Double getWork() {
-        return work;
+    public Integer getId() {
+        return id;
     }
 
-    public void setWork(Double work) {
-        this.work = work;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
 }

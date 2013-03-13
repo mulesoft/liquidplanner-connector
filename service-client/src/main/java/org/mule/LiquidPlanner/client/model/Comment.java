@@ -18,7 +18,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  * @author damiansima
  * 
  */
-public class Comment {
+public class Comment extends TreeItem {
 
     @JsonProperty("at_person_ids")
     private List<String> atPersonIds = new ArrayList<String>();
@@ -52,9 +52,6 @@ public class Comment {
 
     @JsonProperty("updated_by")
     private int updatedBy;
-
-    @JsonProperty("type")
-    private String type;
 
     @JsonProperty("id")
     private int id;
@@ -151,14 +148,6 @@ public class Comment {
         this.updatedBy = updatedBy;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public int getId() {
         return id;
     }
@@ -173,19 +162,6 @@ public class Comment {
 
     public void setAdditionalProperties(String name, Object value) {
         this.additionalProperties.put(name, value);
-    }
-
-    @Override
-    public String toString() {
-        String jsonRepresentation = "";
-
-        try {
-            jsonRepresentation = new ObjectMapper().writeValueAsString(this);
-        } catch (Exception e) {
-            throw new RuntimeException("There was an error when serializing the field to JSON", e);
-        }
-
-        return jsonRepresentation;
     }
 
 }

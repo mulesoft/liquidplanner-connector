@@ -43,3 +43,11 @@
 		<liquidplanner:project ref="#[map-payload:project]" />
 	</liquidplanner:create-project>	
 <!-- END_INCLUDE(liquidplanner:create-project) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-tree-items) -->
+	<liquidplanner:get-tree-items workSpaceId="#[map-payload:workspaceid]"/>
+<!-- END_INCLUDE(liquidplanner:get-tree-items) -->
+    
+<!-- BEGIN_INCLUDE(liquidplanner:duplicate-project) -->
+    <liquidplanner:duplicate-project workSpaceId="#[map-payload:workspaceid]" sourceProjectId="#[map-payload:sourceprojectid]" destinationParentId="#[map-payload:destinationparentid]" newProjectName="#[map-payload:newprojectname]"/>
+<!-- END_INCLUDE(liquidplanner:duplicate-project) -->
