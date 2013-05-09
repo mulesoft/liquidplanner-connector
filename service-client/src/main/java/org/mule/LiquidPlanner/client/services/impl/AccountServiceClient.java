@@ -36,7 +36,6 @@ public class AccountServiceClient extends AbstractServiceClient implements Accou
         if (clientResponse.getStatus() >= 400) {
             return response;
         }
-
         return response;
     }
 

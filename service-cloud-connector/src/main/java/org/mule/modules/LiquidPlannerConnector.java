@@ -412,25 +412,4 @@ public class LiquidPlannerConnector implements TimeSheetService, MemberService, 
     // {
     // return this.myProperty;
     // }
-    //
-    //
-    // /**
-    // * Custom processor
-    // *
-    // * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
-    // liquidplanner:my-processor}
-    // *
-    // * @param content Content to be processed
-    // * @return Some string
-    // */
-    // @Processor
-    // public String myProcessor(String content)
-    // {
-    // /*
-    // * MESSAGE PROCESSOR CODE GOES HERE
-    // */
-    //
-    // return content;
-    // }
-
 }
