@@ -39,6 +39,7 @@ public class CheckListItemServiceClient extends AbstractServiceClient implements
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<CheckListItem>>() {
         }.getType();
@@ -57,6 +58,7 @@ public class CheckListItemServiceClient extends AbstractServiceClient implements
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         return deserializeResponse(clientResponse, CheckListItem.class);
     }
