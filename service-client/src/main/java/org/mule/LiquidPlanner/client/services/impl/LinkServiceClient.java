@@ -33,6 +33,7 @@ public class LinkServiceClient extends AbstractServiceClient {
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Link>>() {
         }.getType();
@@ -49,6 +50,7 @@ public class LinkServiceClient extends AbstractServiceClient {
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         return deserializeResponse(clientResponse, Link.class);
     }
