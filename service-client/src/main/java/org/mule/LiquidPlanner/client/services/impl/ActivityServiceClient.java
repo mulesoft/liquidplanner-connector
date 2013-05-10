@@ -38,6 +38,7 @@ public class ActivityServiceClient extends AbstractServiceClient implements Acti
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Activity>>() {
         }.getType();
@@ -56,6 +57,7 @@ public class ActivityServiceClient extends AbstractServiceClient implements Acti
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         return deserializeResponse(clientResponse, Activity.class);
     }
