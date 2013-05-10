@@ -39,6 +39,7 @@ public class CommentServiceClient extends AbstractServiceClient implements Comme
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Comment>>() {
         }.getType();
@@ -58,6 +59,7 @@ public class CommentServiceClient extends AbstractServiceClient implements Comme
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         return deserializeResponse(clientResponse, Comment.class);
     }
