@@ -6,6 +6,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
 import org.mule.LiquidPlanner.client.model.Client;
 import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Document;
@@ -18,7 +19,7 @@ import org.mule.LiquidPlanner.client.services.impl.ClientServiceClient;
 public class ClientServiceClientTestIT extends AbstractServiceClientTestIT {
     private static final String WORKSPACE_ID = "79456";
     private static final String CLIENT_ID = "6870590";
-//     private static final String CLIENT_ID = "6874968";
+    // private static final String CLIENT_ID = "6874968";
 
     private static final String ESTIMATE_ID = "28380425";
 
@@ -85,8 +86,14 @@ public class ClientServiceClientTestIT extends AbstractServiceClientTestIT {
     @Test
     public void testGetClientNote() throws JSONException {
         ClientService service = new ClientServiceClient(USER, PASSWORD);
-        Note note = service.getClientNote(WORKSPACE_ID, CLIENT_ID);
+        Note note = service.getClientNote(WORKSPACE_ID, "6874968");
         printOutResponse(note.toString());
+    }
+
+    @Test(expected = LiquidPlannerException.class)
+    public void testGetClientNoteFail() throws JSONException {
+        ClientService service = new ClientServiceClient(USER, PASSWORD);
+        service.getClientNote(WORKSPACE_ID, CLIENT_ID);
     }
 
 }

@@ -55,6 +55,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Client>>() {
         }.getType();
@@ -78,6 +79,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         return deserializeResponse(clientResponse, Client.class);
     }
@@ -98,6 +100,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Comment>>() {
         }.getType();
@@ -121,6 +124,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Document>>() {
         }.getType();
@@ -144,6 +148,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Estimate>>() {
         }.getType();
@@ -167,6 +172,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         return deserializeResponse(clientResponse, Estimate.class);
     }
@@ -187,6 +193,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Link>>() {
         }.getType();
@@ -210,7 +217,6 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
-
         validateHttpStatus(clientResponse);
 
         return deserializeResponse(clientResponse, Note.class);
