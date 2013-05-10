@@ -48,6 +48,7 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Event>>() {
         }.getType();
@@ -66,6 +67,7 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         return deserializeResponse(clientResponse, Event.class);
     }
@@ -82,6 +84,8 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
+
         Type type = new TypeToken<List<CheckListItem>>() {
         }.getType();
         return deserializeResponse(clientResponse, type);
@@ -100,6 +104,7 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Comment>>() {
         }.getType();
@@ -118,6 +123,7 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Document>>() {
         }.getType();
@@ -136,6 +142,7 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Link>>() {
         }.getType();
