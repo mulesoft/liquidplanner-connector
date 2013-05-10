@@ -44,6 +44,7 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
         WebResource.Builder builder = getBuilder(user, password, url, filterListToMap(filters));
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
@@ -69,6 +70,7 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
@@ -95,6 +97,7 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
         WebResource.Builder builder = getBuilder(user, password, url, filterListToMap(filters));
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
@@ -123,6 +126,7 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
