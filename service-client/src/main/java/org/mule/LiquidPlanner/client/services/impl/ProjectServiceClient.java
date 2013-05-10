@@ -56,6 +56,7 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Project>>() {
         }.getType();
@@ -78,6 +79,7 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         return deserializeResponse(clientResponse, Project.class);
     }
@@ -98,6 +100,7 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Comment>>() {
         }.getType();
