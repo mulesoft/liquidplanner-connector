@@ -62,6 +62,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
 
         WebResource.Builder builder = getBuilder(user, password, url, filterListToMap(filters));
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Task>>() {
         }.getType();
@@ -84,6 +85,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         return deserializeResponse(clientResponse, Task.class);
     }
@@ -105,6 +107,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
         WebResource.Builder builder = getBuilder(user, password, url, filterListToMap(filters));
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
@@ -132,6 +135,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
