@@ -18,6 +18,7 @@ import org.apache.commons.lang.Validate;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
+import org.mule.LiquidPlanner.client.model.ErrorMessage;
 import org.mule.LiquidPlanner.client.model.Filter;
 import org.mule.LiquidPlanner.client.model.Folder;
 import org.mule.LiquidPlanner.client.model.Milestone;
@@ -146,7 +147,8 @@ public abstract class AbstractServiceClient {
         if (actualQueryParameters.isEmpty()) {
             return wr.type(MediaType.APPLICATION_JSON_TYPE).accept(MediaType.APPLICATION_JSON_TYPE);
         } else {
-            return wr.queryParams(actualQueryParameters).type(MediaType.APPLICATION_JSON_TYPE).accept(MediaType.APPLICATION_JSON_TYPE);
+            return wr.queryParams(actualQueryParameters).type(MediaType.APPLICATION_JSON_TYPE)
+                    .accept(MediaType.APPLICATION_JSON_TYPE);
         }
     }
 
@@ -263,7 +265,7 @@ public abstract class AbstractServiceClient {
         }
 
         try {
-             return mapper.fromJson(response, type);
+            return mapper.fromJson(response, type);
         } catch (Exception e) {
             throw new LiquidPlannerException("There has been an error when de deseralizing the response: " + response,
                     e);
@@ -285,5 +287,18 @@ public abstract class AbstractServiceClient {
         ClientResponse clientResponse = builder.post(ClientResponse.class, payload);
 
         return (T) this.deserializeResponse(clientResponse, entity.getClass());
+    }
+
+    /**
+     * Throws exception when the status is greater than 400. It knows how to
+     * build the error and deserialize the status response.
+     * 
+     * @param clientResponse
+     */
+    protected void validateHttpStatus(ClientResponse clientResponse) {
+        if (clientResponse.getStatus() >= 400) {
+            ErrorMessage errorMessage = deserializeResponse(clientResponse, ErrorMessage.class);
+            throw new LiquidPlannerException(errorMessage.getType() + ":" + errorMessage.getMessage());
+        }
     }
 }

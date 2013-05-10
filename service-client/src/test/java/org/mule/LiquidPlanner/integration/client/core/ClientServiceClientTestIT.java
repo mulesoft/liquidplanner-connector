@@ -11,13 +11,14 @@ import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Document;
 import org.mule.LiquidPlanner.client.model.Estimate;
 import org.mule.LiquidPlanner.client.model.Link;
+import org.mule.LiquidPlanner.client.model.Note;
 import org.mule.LiquidPlanner.client.services.ClientService;
 import org.mule.LiquidPlanner.client.services.impl.ClientServiceClient;
 
 public class ClientServiceClientTestIT extends AbstractServiceClientTestIT {
     private static final String WORKSPACE_ID = "79456";
     private static final String CLIENT_ID = "6870590";
-    // private static final String CLIENT_ID = "6874968";
+//     private static final String CLIENT_ID = "6874968";
 
     private static final String ESTIMATE_ID = "28380425";
 
@@ -84,7 +85,7 @@ public class ClientServiceClientTestIT extends AbstractServiceClientTestIT {
     @Test
     public void testGetClientNote() throws JSONException {
         ClientService service = new ClientServiceClient(USER, PASSWORD);
-        String note = service.getClientNote(WORKSPACE_ID, CLIENT_ID);
+        Note note = service.getClientNote(WORKSPACE_ID, CLIENT_ID);
         printOutResponse(note.toString());
     }
 

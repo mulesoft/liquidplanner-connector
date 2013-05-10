@@ -7,6 +7,7 @@ import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Document;
 import org.mule.LiquidPlanner.client.model.Estimate;
 import org.mule.LiquidPlanner.client.model.Link;
+import org.mule.LiquidPlanner.client.model.Note;
 
 public interface ClientService {
 
@@ -24,6 +25,6 @@ public interface ClientService {
 
     public List<Link> getClientLinks(String workSpaceId, String clientId);
 
-    public String getClientNote(String workSpaceId, String clientId);
+    public Note getClientNote(String workSpaceId, String clientId);
 
 }

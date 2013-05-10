@@ -4,11 +4,14 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
+import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
 import org.mule.LiquidPlanner.client.model.Client;
 import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Document;
+import org.mule.LiquidPlanner.client.model.ErrorMessage;
 import org.mule.LiquidPlanner.client.model.Estimate;
 import org.mule.LiquidPlanner.client.model.Link;
+import org.mule.LiquidPlanner.client.model.Note;
 import org.mule.LiquidPlanner.client.services.ClientService;
 
 import com.google.gson.reflect.TypeToken;
@@ -37,8 +40,12 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         super(user, password);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.ClientService#getClients(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.ClientService#getClients(
+     * java.lang.String)
      */
     @Override
     public List<Client> getClients(String workSpaceId) {
@@ -55,8 +62,12 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         return deserializeResponse(clientResponse, type);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.ClientService#getClient(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.ClientService#getClient(java
+     * .lang.String, java.lang.String)
      */
     @Override
     public Client getClient(String workSpaceId, String clientId) {
@@ -71,8 +82,12 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         return deserializeResponse(clientResponse, Client.class);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.ClientService#getClientComments(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.ClientService#getClientComments
+     * (java.lang.String, java.lang.String)
      */
     @Override
     public List<Comment> getClientComments(String workSpaceId, String clientId) {
@@ -89,16 +104,20 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
 
         return deserializeResponse(clientResponse, type);
     }
-    
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.ClientService#getClientEstimates(java.lang.String, java.lang.String)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.ClientService#getClientEstimates
+     * (java.lang.String, java.lang.String)
      */
     @Override
     public List<Document> getClientDocuments(String workSpaceId, String clientId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(clientId, "The client id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + clientId +  API_CLIENT_DOCUMENT_PATH;
+        String url = getMemeberBaseURL(workSpaceId) + "/" + clientId + API_CLIENT_DOCUMENT_PATH;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -109,9 +128,12 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         return deserializeResponse(clientResponse, type);
     }
 
-
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.ClientService#getClientEstimates(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.ClientService#getClientEstimates
+     * (java.lang.String, java.lang.String)
      */
     @Override
     public List<Estimate> getClientEstimates(String workSpaceId, String clientId) {
@@ -129,8 +151,12 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         return deserializeResponse(clientResponse, type);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.ClientService#getClientEstimate(java.lang.String, java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.ClientService#getClientEstimate
+     * (java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
     public Estimate getClientEstimate(String workSpaceId, String clientId, String estimateId) {
@@ -145,8 +171,12 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         return deserializeResponse(clientResponse, Estimate.class);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.ClientService#getClientLinks(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.ClientService#getClientLinks
+     * (java.lang.String, java.lang.String)
      */
     @Override
     public List<Link> getClientLinks(String workSpaceId, String clientId) {
@@ -164,11 +194,15 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         return deserializeResponse(clientResponse, type);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.ClientService#getClientNote(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.ClientService#getClientNote
+     * (java.lang.String, java.lang.String)
      */
     @Override
-    public String getClientNote(String workSpaceId, String clientId) {
+    public Note getClientNote(String workSpaceId, String clientId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(clientId, "The client id should not be null nor empty");
 
@@ -177,15 +211,9 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = clientResponse.getEntity(String.class);
-        if (clientResponse.getStatus() >= 400) {
-            return response;
-        }
-        return response;
+        validateHttpStatus(clientResponse);
 
-        // Type type = new TypeToken<List<Link>>() {
-        // }.getType();
-        // return deserializeResponse(clientResponse, type);
+        return deserializeResponse(clientResponse, Note.class);
     }
 
     @Override
