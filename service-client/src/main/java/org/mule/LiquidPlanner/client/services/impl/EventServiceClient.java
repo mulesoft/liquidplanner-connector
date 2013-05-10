@@ -9,6 +9,7 @@ import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Document;
 import org.mule.LiquidPlanner.client.model.Event;
 import org.mule.LiquidPlanner.client.model.Link;
+import org.mule.LiquidPlanner.client.services.EventService;
 
 import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.ClientResponse;
@@ -22,7 +23,7 @@ import com.sun.jersey.api.client.filter.ClientFilter;
  * @author damiansima
  * 
  */
-public class EventServiceClient extends AbstractServiceClient {
+public class EventServiceClient extends AbstractServiceClient implements EventService {
     private static final String API_WORKSPACE_PATH = "/workspaces";
     private static final String API_EVENT_PATH = "/events";
 
@@ -36,6 +37,10 @@ public class EventServiceClient extends AbstractServiceClient {
         super(user, password);
     }
 
+    /* (non-Javadoc)
+     * @see org.mule.LiquidPlanner.client.services.impl.EventService#getEvents(java.lang.String)
+     */
+    @Override
     public List<Event> getEvents(String workSpaceId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
 
@@ -49,6 +54,10 @@ public class EventServiceClient extends AbstractServiceClient {
         return deserializeResponse(clientResponse, type);
     }
 
+    /* (non-Javadoc)
+     * @see org.mule.LiquidPlanner.client.services.impl.EventService#getEvent(java.lang.String, java.lang.String)
+     */
+    @Override
     public Event getEvent(String workSpaceId, String eventId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(eventId, "The event id should not be null nor empty");
@@ -61,6 +70,10 @@ public class EventServiceClient extends AbstractServiceClient {
         return deserializeResponse(clientResponse, Event.class);
     }
 
+    /* (non-Javadoc)
+     * @see org.mule.LiquidPlanner.client.services.impl.EventService#getEventCheckListItems(java.lang.String, java.lang.String)
+     */
+    @Override
     public List<CheckListItem> getEventCheckListItems(String workSpaceId, String eventId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(eventId, "The event id should not be null nor empty");
@@ -75,6 +88,10 @@ public class EventServiceClient extends AbstractServiceClient {
 
     }
 
+    /* (non-Javadoc)
+     * @see org.mule.LiquidPlanner.client.services.impl.EventService#getEventComments(java.lang.String, java.lang.String)
+     */
+    @Override
     public List<Comment> getEventComments(String workSpaceId, String eventId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(eventId, "The event id should not be null nor empty");
@@ -89,6 +106,10 @@ public class EventServiceClient extends AbstractServiceClient {
         return deserializeResponse(clientResponse, type);
     }
 
+    /* (non-Javadoc)
+     * @see org.mule.LiquidPlanner.client.services.impl.EventService#getEventDocuments(java.lang.String, java.lang.String)
+     */
+    @Override
     public List<Document> getEventDocuments(String workSpaceId, String eventId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(eventId, "The event id should not be null nor empty");
@@ -103,6 +124,10 @@ public class EventServiceClient extends AbstractServiceClient {
         return deserializeResponse(clientResponse, type);
     }
 
+    /* (non-Javadoc)
+     * @see org.mule.LiquidPlanner.client.services.impl.EventService#getEventLinks(java.lang.String, java.lang.String)
+     */
+    @Override
     public List<Link> getEventLinks(String workSpaceId, String eventId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(eventId, "The event id should not be null nor empty");
@@ -117,6 +142,10 @@ public class EventServiceClient extends AbstractServiceClient {
         return deserializeResponse(clientResponse, type);
     }
 
+    /* (non-Javadoc)
+     * @see org.mule.LiquidPlanner.client.services.impl.EventService#getEventTimesheetEntries(java.lang.String, java.lang.String)
+     */
+    @Override
     public String getEventTimesheetEntries(String workSpaceId, String eventId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(eventId, "The event id should not be null nor empty");

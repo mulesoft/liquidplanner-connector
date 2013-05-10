@@ -11,6 +11,7 @@ import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Document;
 import org.mule.LiquidPlanner.client.model.Event;
 import org.mule.LiquidPlanner.client.model.Link;
+import org.mule.LiquidPlanner.client.services.EventService;
 import org.mule.LiquidPlanner.client.services.impl.EventServiceClient;
 
 public class EventServiceClientTestIT extends AbstractServiceClientTestIT {
@@ -29,7 +30,7 @@ public class EventServiceClientTestIT extends AbstractServiceClientTestIT {
 
     @Test
     public void testGetEvents() throws JSONException {
-        EventServiceClient service = new EventServiceClient(USER, PASSWORD);
+        EventService service = new EventServiceClient(USER, PASSWORD);
         List<Event> events = service.getEvents(WORKSPACE_ID);
 
         printOutResponse(events.toString());
@@ -37,7 +38,7 @@ public class EventServiceClientTestIT extends AbstractServiceClientTestIT {
 
     @Test
     public void testGetEvent() throws JSONException {
-        EventServiceClient service = new EventServiceClient(USER, PASSWORD);
+        EventService service = new EventServiceClient(USER, PASSWORD);
         Event event = service.getEvent(WORKSPACE_ID, EVENT_ID);
 
         printOutResponse(event.toString());
@@ -45,7 +46,7 @@ public class EventServiceClientTestIT extends AbstractServiceClientTestIT {
 
     @Test
     public void testGetEventCheckListItems() throws JSONException {
-        EventServiceClient service = new EventServiceClient(USER, PASSWORD);
+        EventService service = new EventServiceClient(USER, PASSWORD);
         List<CheckListItem> checkListItems = service.getEventCheckListItems(WORKSPACE_ID, EVENT_ID);
 
         printOutResponse(checkListItems.toString());
@@ -53,7 +54,7 @@ public class EventServiceClientTestIT extends AbstractServiceClientTestIT {
 
     @Test
     public void testGetEventComments() throws JSONException {
-        EventServiceClient service = new EventServiceClient(USER, PASSWORD);
+        EventService service = new EventServiceClient(USER, PASSWORD);
         List<Comment> comments = service.getEventComments(WORKSPACE_ID, EVENT_ID);
 
         printOutResponse(comments.toString());
@@ -61,7 +62,7 @@ public class EventServiceClientTestIT extends AbstractServiceClientTestIT {
 
     @Test
     public void testGetEventDocuments() throws JSONException {
-        EventServiceClient service = new EventServiceClient(USER, PASSWORD);
+        EventService service = new EventServiceClient(USER, PASSWORD);
         List<Document> documents = service.getEventDocuments(WORKSPACE_ID, EVENT_ID);
 
         printOutResponse(documents.toString());
@@ -69,7 +70,7 @@ public class EventServiceClientTestIT extends AbstractServiceClientTestIT {
 
     @Test
     public void testGetEventLinks() throws JSONException {
-        EventServiceClient service = new EventServiceClient(USER, PASSWORD);
+        EventService service = new EventServiceClient(USER, PASSWORD);
         List<Link> links = service.getEventLinks(WORKSPACE_ID, EVENT_ID);
 
         printOutResponse(links.toString());
@@ -77,7 +78,7 @@ public class EventServiceClientTestIT extends AbstractServiceClientTestIT {
 
     @Test
     public void testGetEventTimesheetEntries() throws JSONException {
-        EventServiceClient service = new EventServiceClient(USER, PASSWORD);
+        EventService service = new EventServiceClient(USER, PASSWORD);
         String response = service.getEventTimesheetEntries(WORKSPACE_ID, EVENT_ID);
 
         printOutResponse(response.toString());
