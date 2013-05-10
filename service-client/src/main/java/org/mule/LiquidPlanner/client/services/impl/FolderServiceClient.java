@@ -41,6 +41,7 @@ public class FolderServiceClient extends AbstractServiceClient implements Folder
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Folder>>() {
         }.getType();
@@ -61,6 +62,7 @@ public class FolderServiceClient extends AbstractServiceClient implements Folder
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         return deserializeResponse(clientResponse, Folder.class);
     }
