@@ -42,6 +42,7 @@ public class MilestoneServiceClient extends AbstractServiceClient implements Mil
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Milestone>>() {
         }.getType();
@@ -62,6 +63,7 @@ public class MilestoneServiceClient extends AbstractServiceClient implements Mil
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         return deserializeResponse(clientResponse, Milestone.class);
     }
