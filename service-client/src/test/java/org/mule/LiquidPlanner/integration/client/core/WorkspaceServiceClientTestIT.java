@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mule.LiquidPlanner.client.model.Workspace;
+import org.mule.LiquidPlanner.client.services.WorkspaceService;
 import org.mule.LiquidPlanner.client.services.impl.WorkspaceServiceClient;
 
 public class WorkspaceServiceClientTestIT extends AbstractServiceClientTestIT {
@@ -24,7 +25,7 @@ public class WorkspaceServiceClientTestIT extends AbstractServiceClientTestIT {
 
     @Test
     public void testGetWorkSpaces() throws JSONException {
-        WorkspaceServiceClient service = new WorkspaceServiceClient(USER, PASSWORD);
+        WorkspaceService service = new WorkspaceServiceClient(USER, PASSWORD);
         List<Workspace> workspaces = service.getWorkSpaces();
 
         printOutResponse(workspaces.toString());
@@ -32,7 +33,7 @@ public class WorkspaceServiceClientTestIT extends AbstractServiceClientTestIT {
 
     @Test
     public void testGetClient() throws JSONException {
-        WorkspaceServiceClient service = new WorkspaceServiceClient(USER, PASSWORD);
+        WorkspaceService service = new WorkspaceServiceClient(USER, PASSWORD);
         Workspace workspace = service.getComment(WORKSPACE_ID);
 
         System.out.println(workspace.getInbox_id());

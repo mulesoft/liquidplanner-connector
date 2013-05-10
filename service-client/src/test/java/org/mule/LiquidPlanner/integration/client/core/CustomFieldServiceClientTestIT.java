@@ -25,7 +25,7 @@ public class CustomFieldServiceClientTestIT extends AbstractServiceClientTestIT 
     }
 
     @Test
-    public void testActivities() throws JSONException {
+    public void testGetCustomFields() throws JSONException {
         CustomFieldService service = new CustomFieldServiceClient(USER, PASSWORD);
         List<CustomField> checklistItems = service.getCustomFields(WORKSPACE_ID);
 
@@ -33,11 +33,11 @@ public class CustomFieldServiceClientTestIT extends AbstractServiceClientTestIT 
     }
 
     @Test
-    public void testGetActivity() throws JSONException {
+    public void testGetCustomField() throws JSONException {
         CustomFieldService service = new CustomFieldServiceClient(USER, PASSWORD);
-        CustomField checklistItem = service.getCustomField(WORKSPACE_ID, CUSTOM_FIELD_ID);
+        CustomField customField = service.getCustomField(WORKSPACE_ID, CUSTOM_FIELD_ID);
 
-        printOutResponse(checklistItem.toString());
+        printOutResponse(customField.toString());
     }
 
 }

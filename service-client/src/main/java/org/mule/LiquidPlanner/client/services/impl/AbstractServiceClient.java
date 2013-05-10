@@ -144,9 +144,9 @@ public abstract class AbstractServiceClient {
         MultivaluedMap<String, String> actualQueryParameters = mapToMultivaluedMap(queryParameters);
 
         if (actualQueryParameters.isEmpty()) {
-            return wr.type(MediaType.APPLICATION_JSON_TYPE);
+            return wr.type(MediaType.APPLICATION_JSON_TYPE).accept(MediaType.APPLICATION_JSON_TYPE);
         } else {
-            return wr.queryParams(actualQueryParameters).type(MediaType.APPLICATION_JSON_TYPE);
+            return wr.queryParams(actualQueryParameters).type(MediaType.APPLICATION_JSON_TYPE).accept(MediaType.APPLICATION_JSON_TYPE);
         }
     }
 

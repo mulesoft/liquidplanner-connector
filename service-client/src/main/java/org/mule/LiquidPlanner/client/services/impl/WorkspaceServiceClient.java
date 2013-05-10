@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 import org.mule.LiquidPlanner.client.model.Workspace;
+import org.mule.LiquidPlanner.client.services.WorkspaceService;
 
 import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.ClientResponse;
@@ -13,18 +14,22 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.filter.ClientFilter;
 
 /**
- * Provide access to all the comments's related operations in LiquidPlanner.
+ * Provide access to all the workspace's related operations in LiquidPlanner.
  * 
  * @author damiansima
  * 
  */
-public class WorkspaceServiceClient extends AbstractServiceClient {
+public class WorkspaceServiceClient extends AbstractServiceClient implements WorkspaceService {
     private static final String API_WORKSPACE_PATH = "/workspaces";
 
     public WorkspaceServiceClient(String user, String password) {
         super(user, password);
     }
 
+    /* (non-Javadoc)
+     * @see org.mule.LiquidPlanner.client.services.impl.WorkspaceService#getWorkSpaces()
+     */
+    @Override
     public List<Workspace> getWorkSpaces() {
 
         String url = getMemeberBaseURL();
@@ -37,6 +42,10 @@ public class WorkspaceServiceClient extends AbstractServiceClient {
         return deserializeResponse(clientResponse, type);
     }
 
+    /* (non-Javadoc)
+     * @see org.mule.LiquidPlanner.client.services.impl.WorkspaceService#getComment(java.lang.String)
+     */
+    @Override
     public Workspace getComment(String workSpaceId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
 
