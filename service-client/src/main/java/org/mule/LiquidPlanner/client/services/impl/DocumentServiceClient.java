@@ -31,8 +31,12 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
         super(user, password);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.DocumentService#getDocuments(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.DocumentService#getDocuments
+     * (java.lang.String)
      */
     @Override
     public List<Document> getDocuments(String workSpaceId) {
@@ -42,6 +46,7 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Document>>() {
         }.getType();
@@ -49,8 +54,12 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
         return deserializeResponse(clientResponse, type);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.DocumentService#getDocument(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.DocumentService#getDocument
+     * (java.lang.String, java.lang.String)
      */
     @Override
     public Document getDocument(String workSpaceId, String documentId) {
@@ -61,12 +70,17 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         return deserializeResponse(clientResponse, Document.class);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.DocumentService#downloadDocument(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.DocumentService#downloadDocument
+     * (java.lang.String, java.lang.String)
      */
     @Override
     public InputStream downloadDocument(String workSpaceId, String documentId) {
@@ -77,6 +91,7 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         return clientResponse.getEntityInputStream();
     }
