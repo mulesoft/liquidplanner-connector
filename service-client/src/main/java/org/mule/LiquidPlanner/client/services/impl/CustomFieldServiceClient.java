@@ -38,6 +38,7 @@ public class CustomFieldServiceClient extends AbstractServiceClient implements C
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<CustomField>>() {
         }.getType();
@@ -56,6 +57,7 @@ public class CustomFieldServiceClient extends AbstractServiceClient implements C
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         return deserializeResponse(clientResponse, CustomField.class);
     }
