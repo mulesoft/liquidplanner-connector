@@ -26,8 +26,12 @@ public class WorkspaceServiceClient extends AbstractServiceClient implements Wor
         super(user, password);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.WorkspaceService#getWorkSpaces()
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.WorkspaceService#getWorkSpaces
+     * ()
      */
     @Override
     public List<Workspace> getWorkSpaces() {
@@ -36,14 +40,19 @@ public class WorkspaceServiceClient extends AbstractServiceClient implements Wor
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Workspace>>() {
         }.getType();
         return deserializeResponse(clientResponse, type);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.WorkspaceService#getComment(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.WorkspaceService#getComment
+     * (java.lang.String)
      */
     @Override
     public Workspace getComment(String workSpaceId) {
@@ -53,6 +62,7 @@ public class WorkspaceServiceClient extends AbstractServiceClient implements Wor
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         return deserializeResponse(clientResponse, Workspace.class);
 
