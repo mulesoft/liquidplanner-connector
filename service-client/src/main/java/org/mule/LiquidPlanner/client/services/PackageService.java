@@ -3,6 +3,7 @@ package org.mule.LiquidPlanner.client.services;
 import java.util.List;
 
 import org.mule.LiquidPlanner.client.model.Filter;
+import org.mule.LiquidPlanner.client.model.LPPackage;
 
 /**
  * The interface describe operations to be performed over the Package resources
@@ -20,7 +21,7 @@ public interface PackageService {
      * @filter filter
      * @return
      */
-    public String getPackages(String workSpaceId, List<Filter> filters);
+    public List<LPPackage> getPackages(String workSpaceId, List<Filter> filters);
 
     /**
      * Retrieve a particular package
@@ -31,6 +32,6 @@ public interface PackageService {
      * @param packageId
      * @return
      */
-    public String getPackage(String workSpaceId, String packageId);
+    public LPPackage getPackage(String workSpaceId, String packageId);
 
 }

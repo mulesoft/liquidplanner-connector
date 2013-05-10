@@ -1,11 +1,14 @@
 package org.mule.LiquidPlanner.client.services.impl;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
 import org.mule.LiquidPlanner.client.model.Filter;
+import org.mule.LiquidPlanner.client.model.LPPackage;
 import org.mule.LiquidPlanner.client.services.PackageService;
 
+import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
@@ -38,7 +41,7 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
      * (java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public String getPackages(String workSpaceId, List<Filter> filters) {
+    public List<LPPackage> getPackages(String workSpaceId, List<Filter> filters) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
         String url = getTimesheetBaseURL(workSpaceId);
@@ -47,12 +50,10 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
         ClientResponse clientResponse = builder.get(ClientResponse.class);
         validateHttpStatus(clientResponse);
 
-        String response = clientResponse.getEntity(String.class);
-        if (clientResponse.getStatus() >= 400) {
-            return response;
-        }
+        Type type = new TypeToken<List<LPPackage>>() {
+        }.getType();
+        return deserializeResponse(clientResponse, type);
 
-        return response;
     }
 
     /*
@@ -63,7 +64,7 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
      * (java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public String getPackage(String workSpaceId, String packageId) {
+    public LPPackage getPackage(String workSpaceId, String packageId) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(packageId, "The package id can not be null nor empty.");
 
@@ -73,12 +74,7 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
         ClientResponse clientResponse = builder.get(ClientResponse.class);
         validateHttpStatus(clientResponse);
 
-        String response = clientResponse.getEntity(String.class);
-        if (clientResponse.getStatus() >= 400) {
-            return response;
-        }
-
-        return response;
+        return deserializeResponse(clientResponse, LPPackage.class);
     }
 
     @Override
