@@ -43,6 +43,7 @@ public class TreeItemServiceClient extends AbstractServiceClient implements Tree
         WebResource.Builder builder = getBuilder(user, password, url, queryParameters);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         String response = clientResponse.getEntity(String.class);
         if (clientResponse.getStatus() >= 400) {
@@ -72,6 +73,7 @@ public class TreeItemServiceClient extends AbstractServiceClient implements Tree
         WebResource.Builder builder = getBuilder(user, password, url, queryParameters);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
+        validateHttpStatus(clientResponse);
 
         return deserializeResponse(clientResponse, clazz);
     }
