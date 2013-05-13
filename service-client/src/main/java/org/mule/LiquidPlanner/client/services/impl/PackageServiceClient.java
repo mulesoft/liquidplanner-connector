@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
 import org.mule.LiquidPlanner.client.core.ServicePath;
 import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Dependency;
@@ -221,7 +222,7 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
         String url = getPackageBaseURL(workSpaceId);
-        return this.createEntity("package", aPackage, url);
+        return this.createEntity(ServiceEntity.PACKAGE.getName(), aPackage, url);
     }
 
     @Override

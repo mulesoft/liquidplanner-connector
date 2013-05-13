@@ -102,7 +102,6 @@ public class Comment extends TreeItem {
         return personId;
     }
 
-    // @JsonProperty("person_id")
     public void setPersonId(int personId) {
         this.personId = personId;
     }
@@ -127,7 +126,6 @@ public class Comment extends TreeItem {
         return itemId;
     }
 
-    // @JsonProperty("item_id")
     public void setItemId(int itemId) {
         this.itemId = itemId;
     }
