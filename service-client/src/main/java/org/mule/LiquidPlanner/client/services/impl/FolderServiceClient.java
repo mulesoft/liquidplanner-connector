@@ -2,15 +2,12 @@ package org.mule.LiquidPlanner.client.services.impl;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.Validate;
-import org.codehaus.jackson.type.TypeReference;
-import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
+import org.mule.LiquidPlanner.client.core.ServicePath;
 import org.mule.LiquidPlanner.client.model.Folder;
-import org.mule.LiquidPlanner.client.model.Milestone;
 import org.mule.LiquidPlanner.client.services.FolderService;
 
 import com.google.gson.reflect.TypeToken;
@@ -22,15 +19,16 @@ import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
 
 public class FolderServiceClient extends AbstractServiceClient implements FolderService {
 
-    private static final String API_WORKSPACE_PATH = "/workspaces";
-    private static final String API_FOLDER_PATH = "/folders";
-
     public FolderServiceClient(String user, String password) {
         super(user, password);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.FolderService#getFolders(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.FolderService#getFolders(
+     * java.lang.String)
      */
     @Override
     public List<Folder> getFolders(String workSpaceId) {
@@ -49,8 +47,12 @@ public class FolderServiceClient extends AbstractServiceClient implements Folder
         return deserializeResponse(clientResponse, type);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.FolderService#getFolder(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.FolderService#getFolder(java
+     * .lang.String, java.lang.String)
      */
     @Override
     public Folder getFolder(String workSpaceId, String folderId) {
@@ -67,8 +69,12 @@ public class FolderServiceClient extends AbstractServiceClient implements Folder
         return deserializeResponse(clientResponse, Folder.class);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.FolderService#createFolder(java.lang.String, org.mule.LiquidPlanner.client.model.Folder)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.FolderService#createFolder
+     * (java.lang.String, org.mule.LiquidPlanner.client.model.Folder)
      */
     @Override
     public Folder createFolder(String workSpaceId, Folder folder) {
@@ -76,12 +82,12 @@ public class FolderServiceClient extends AbstractServiceClient implements Folder
 
         String url = getFolderBaseURL(workSpaceId);
 
-        return this.createEntity("folder", folder, url);
+        return this.createEntity(ServiceEntity.FOLDER.getName(), folder, url);
     }
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
-        return baseUrl + API_WORKSPACE_PATH;
+        return baseUrl + ServicePath.WORKSPACE.path();
     }
 
     @Override
@@ -97,6 +103,6 @@ public class FolderServiceClient extends AbstractServiceClient implements Folder
     }
 
     private String getFolderBaseURL(String workSpaceId) {
-        return getBaseURL() + "/" + workSpaceId + API_FOLDER_PATH;
+        return getBaseURL() + "/" + workSpaceId + ServicePath.FOLDER.path();
     }
 }

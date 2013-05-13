@@ -21,6 +21,8 @@ public enum ServicePath {
 
     EVENT("/events"),
 
+    FOLDER("/folders"),
+
     LINK("/links"),
 
     MEMEBER("/members"),

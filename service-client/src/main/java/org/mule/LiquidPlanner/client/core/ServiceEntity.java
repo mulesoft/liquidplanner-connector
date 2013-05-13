@@ -21,6 +21,8 @@ public enum ServiceEntity {
 
     EVENT("event"),
 
+    FOLDER("Folder"),
+
     LINK("link"),
 
     MEMEBER("member"),
