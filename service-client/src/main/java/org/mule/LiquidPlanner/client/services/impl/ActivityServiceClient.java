@@ -72,20 +72,6 @@ public class ActivityServiceClient extends AbstractServiceClient implements Acti
         return deserializeResponse(clientResponse, Activity.class);
     }
     
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.mule.LiquidPlanner.client.services.impl.PackageService#
-     * createPackage (java.lang.String, java.lang.String,
-     * org.mule.LiquidPLanner.client.model.LPPackage)
-     */
-    @Override
-    public Activity createActivity(String workSpaceId, Activity activity) {
-        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
-
-        String url = getActivityBaseURL(workSpaceId);
-        return this.createEntity(ServiceEntity.ACTIVITY.getName(), activity, url);
-    }
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {

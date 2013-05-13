@@ -10,6 +10,4 @@ public interface ActivityService {
 
     public Activity getActivity(String workSpaceId, String activityId);
 
-    public Activity createActivity(String workSpaceId, Activity activity);
-
 }

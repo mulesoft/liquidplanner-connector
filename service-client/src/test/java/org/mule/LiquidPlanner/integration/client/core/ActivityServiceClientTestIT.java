@@ -42,21 +42,4 @@ public class ActivityServiceClientTestIT extends AbstractServiceClientTestIT {
         printOutResponse(activity.toString());
     }
 
-    @Ignore
-    @Test
-    public void testCreateActivity() throws JSONException {
-        ActivityService service = new ActivityServiceClient(USER, PASSWORD);
-        Activity newActivity = new Activity();
-        newActivity.setName("A new Activity");
-        newActivity.setBillable(false);
-        newActivity.setShared(true);
-        newActivity.setType(ServiceEntity.ACTIVITY.getName());
-
-        System.err.println(newActivity.toString());
-
-        Activity activity = service.createActivity(WORKSPACE_ID, newActivity);
-
-        printOutResponse(activity.toString());
-    }
-
 }
