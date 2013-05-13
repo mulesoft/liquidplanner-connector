@@ -24,4 +24,6 @@ public interface EventService {
 
     public String getEventTimesheetEntries(String workSpaceId, String eventId);
 
+    public Event createEvent(String workSpaceId, Event event);
+
 }

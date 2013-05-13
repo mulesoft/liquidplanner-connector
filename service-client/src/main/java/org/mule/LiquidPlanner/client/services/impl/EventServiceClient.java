@@ -1,13 +1,17 @@
 package org.mule.LiquidPlanner.client.services.impl;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
+import org.mule.LiquidPlanner.client.core.ServicePath;
 import org.mule.LiquidPlanner.client.model.CheckListItem;
 import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Document;
 import org.mule.LiquidPlanner.client.model.Event;
+import org.mule.LiquidPlanner.client.model.LPPackage;
 import org.mule.LiquidPlanner.client.model.Link;
 import org.mule.LiquidPlanner.client.services.EventService;
 
@@ -16,6 +20,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.filter.ClientFilter;
+import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
 
 /**
  * Provide access to all the event's related operations in LiquidPlanner.
@@ -24,21 +29,17 @@ import com.sun.jersey.api.client.filter.ClientFilter;
  * 
  */
 public class EventServiceClient extends AbstractServiceClient implements EventService {
-    private static final String API_WORKSPACE_PATH = "/workspaces";
-    private static final String API_EVENT_PATH = "/events";
-
-    private static final String API_EVENT_CHECKLIST_ITEM_PATH = "/checklist_items";
-    private static final String API_EVENT_COMMENT_PATH = "/comments";
-    private static final String API_EVENT_DOCUMENT_PATH = "/documents";
-    private static final String API_EVENT_LINK_PATH = "/links";
-    private static final String API_EVENT_TIMESHEET_ENTRIES_PATH = "/timesheet_entries";
 
     public EventServiceClient(String user, String password) {
         super(user, password);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.EventService#getEvents(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.EventService#getEvents(java
+     * .lang.String)
      */
     @Override
     public List<Event> getEvents(String workSpaceId) {
@@ -55,8 +56,12 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         return deserializeResponse(clientResponse, type);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.EventService#getEvent(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.EventService#getEvent(java
+     * .lang.String, java.lang.String)
      */
     @Override
     public Event getEvent(String workSpaceId, String eventId) {
@@ -72,15 +77,18 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         return deserializeResponse(clientResponse, Event.class);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.EventService#getEventCheckListItems(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.mule.LiquidPlanner.client.services.impl.EventService#
+     * getEventCheckListItems(java.lang.String, java.lang.String)
      */
     @Override
     public List<CheckListItem> getEventCheckListItems(String workSpaceId, String eventId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(eventId, "The event id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + API_EVENT_CHECKLIST_ITEM_PATH;
+        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + ServicePath.CHECKLIST_ITEM.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -92,15 +100,19 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
 
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.EventService#getEventComments(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.EventService#getEventComments
+     * (java.lang.String, java.lang.String)
      */
     @Override
     public List<Comment> getEventComments(String workSpaceId, String eventId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(eventId, "The event id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + API_EVENT_COMMENT_PATH;
+        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + ServicePath.COMMENT.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -111,15 +123,19 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         return deserializeResponse(clientResponse, type);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.EventService#getEventDocuments(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.EventService#getEventDocuments
+     * (java.lang.String, java.lang.String)
      */
     @Override
     public List<Document> getEventDocuments(String workSpaceId, String eventId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(eventId, "The event id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + API_EVENT_DOCUMENT_PATH;
+        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + ServicePath.DOCUMENT.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -130,15 +146,19 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         return deserializeResponse(clientResponse, type);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.EventService#getEventLinks(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.EventService#getEventLinks
+     * (java.lang.String, java.lang.String)
      */
     @Override
     public List<Link> getEventLinks(String workSpaceId, String eventId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(eventId, "The event id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + API_EVENT_LINK_PATH;
+        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + ServicePath.LINK.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -149,15 +169,18 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         return deserializeResponse(clientResponse, type);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.EventService#getEventTimesheetEntries(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.mule.LiquidPlanner.client.services.impl.EventService#
+     * getEventTimesheetEntries(java.lang.String, java.lang.String)
      */
     @Override
     public String getEventTimesheetEntries(String workSpaceId, String eventId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(eventId, "The event id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + API_EVENT_TIMESHEET_ENTRIES_PATH;
+        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + ServicePath.TIMESHEET_ENTRIES.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -173,9 +196,24 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         return response;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.mule.LiquidPlanner.client.services.impl.EventService#
+     * createEvent (java.lang.String, java.lang.String,
+     * org.mule.LiquidPLanner.client.model.Event)
+     */
+    @Override
+    public Event createEvent(String workSpaceId, Event event) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+
+        String url = getMemeberBaseURL(workSpaceId);
+        return this.createEntity(ServiceEntity.EVENT.getName(), event, url);
+    }
+
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
-        return baseUrl + API_WORKSPACE_PATH;
+        return baseUrl + ServicePath.WORKSPACE.path();
     }
 
     @Override
@@ -185,12 +223,13 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
     }
 
     private String getMemeberBaseURL(String workSpaceId) {
-        return getBaseURL() + "/" + workSpaceId + API_EVENT_PATH;
+        return getBaseURL() + "/" + workSpaceId + ServicePath.EVENT.path();
     }
 
     @Override
     protected List<ClientFilter> getJerseyClientFilters() {
-        // TODO Auto-generated method stub
-        return null;
+        List<ClientFilter> clientFilters = new ArrayList<ClientFilter>();
+        clientFilters.add(new GZIPContentEncodingFilter(false));
+        return clientFilters;
     }
 }

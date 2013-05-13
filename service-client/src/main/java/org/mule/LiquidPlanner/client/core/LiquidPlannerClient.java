@@ -6,6 +6,7 @@ import org.apache.commons.lang.Validate;
 import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Filter;
 import org.mule.LiquidPlanner.client.model.Folder;
+import org.mule.LiquidPlanner.client.model.Member;
 import org.mule.LiquidPlanner.client.model.Milestone;
 import org.mule.LiquidPlanner.client.model.Project;
 import org.mule.LiquidPlanner.client.model.Task;
@@ -97,12 +98,12 @@ public class LiquidPlannerClient implements ProjectService, TimeSheetService, Me
     }
 
     @Override
-    public String getMembers(String workspaceId) {
+    public List<Member> getMembers(String workspaceId) {
         return memberService.getMembers(workspaceId);
     }
 
     @Override
-    public String getMember(String workspaceId, String memeberId) {
+    public Member getMember(String workspaceId, String memeberId) {
         return memberService.getMember(workspaceId, memeberId);
     }
 

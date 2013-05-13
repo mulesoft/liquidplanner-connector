@@ -25,7 +25,7 @@ public enum ServiceEntity {
 
     MEMEBER("member"),
 
-    MILESTONE("milestone"),
+    MILESTONE("Milestone"),
 
     NOTE("note"),
 

@@ -5,7 +5,9 @@ import java.util.List;
 import org.codehaus.jettison.json.JSONException;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
 import org.mule.LiquidPlanner.client.model.CheckListItem;
 import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Document;
@@ -84,4 +86,19 @@ public class EventServiceClientTestIT extends AbstractServiceClientTestIT {
         printOutResponse(response.toString());
     }
 
+    @Ignore
+    @Test
+    public void testCreateEvent() throws JSONException {
+        EventService service = new EventServiceClient(USER, PASSWORD);
+        Event aEvent = new Event();
+        aEvent.setType(ServiceEntity.MILESTONE.name());
+        aEvent.setActivity_id(9034657);
+        aEvent.setParent_id(9034648);
+        aEvent.setDescription("A test event");
+        aEvent.setName("A event name");
+
+        Event event = service.createEvent(WORKSPACE_ID, aEvent);
+
+        printOutResponse(event.toString());
+    }
 }
