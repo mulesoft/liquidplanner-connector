@@ -1,10 +1,13 @@
 package org.mule.LiquidPlanner.client.services.impl;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
+import org.mule.LiquidPlanner.client.model.Member;
 import org.mule.LiquidPlanner.client.services.MemberService;
 
+import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
@@ -32,7 +35,7 @@ public class MemberServiceClient extends AbstractServiceClient implements Member
      * (java.lang.String)
      */
     @Override
-    public String getMembers(String workSpaceId) {
+    public List<Member> getMembers(String workSpaceId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
 
         String url = getMemeberBaseURL(workSpaceId);
@@ -40,12 +43,9 @@ public class MemberServiceClient extends AbstractServiceClient implements Member
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = clientResponse.getEntity(String.class);
-        if (clientResponse.getStatus() >= 400) {
-            return response;
-        }
-
-        return response;
+        Type type = new TypeToken<List<Member>>() {
+        }.getType();
+        return deserializeResponse(clientResponse, type);
     }
 
     /*
@@ -56,7 +56,7 @@ public class MemberServiceClient extends AbstractServiceClient implements Member
      * java.lang.String, java.lang.String)
      */
     @Override
-    public String getMember(String workSpaceId, String memberId) {
+    public Member getMember(String workSpaceId, String memberId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(memberId, "The memeber id should not be null nor empty");
 
@@ -65,12 +65,7 @@ public class MemberServiceClient extends AbstractServiceClient implements Member
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        String response = clientResponse.getEntity(String.class);
-        if (clientResponse.getStatus() >= 400) {
-            return response;
-        }
-
-        return response;
+        return deserializeResponse(clientResponse, Member.class);
     }
 
     @Override

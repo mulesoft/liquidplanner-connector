@@ -1,5 +1,9 @@
 package org.mule.LiquidPlanner.client.services;
 
+import java.util.List;
+
+import org.mule.LiquidPlanner.client.model.Member;
+
 public interface MemberService {
 
     /**
@@ -8,7 +12,7 @@ public interface MemberService {
      * @param workspaceId
      * @return
      */
-    public String getMembers(String workSpaceId);
+    public List<Member> getMembers(String workSpaceId);
 
     /**
      * Retrieve a particular member
@@ -17,6 +21,6 @@ public interface MemberService {
      * @param memeberId
      * @return
      */
-    public String getMember(String workSpaceId, String memberId);
+    public Member getMember(String workSpaceId, String memberId);
 
 }

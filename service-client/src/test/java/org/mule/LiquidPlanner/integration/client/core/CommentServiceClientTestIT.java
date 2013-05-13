@@ -43,7 +43,6 @@ public class CommentServiceClientTestIT extends AbstractServiceClientTestIT {
         printOutResponse(comment.toString());
     }
 
-    @Ignore
     @Test
     public void testCreateComment() throws JSONException {
         CommentService service = new CommentServiceClient(USER, PASSWORD);
@@ -52,6 +51,8 @@ public class CommentServiceClientTestIT extends AbstractServiceClientTestIT {
         aComment.setComment("Some Valid Comment");
         aComment.setType(ServiceEntity.COMMENT.getName());
         aComment.setPersonId(260403);
+        // aComment.setItemId(9034648);
+        aComment.setItemId(9034654);
 
         Comment comment = service.createComment(WORKSPACE_ID, aComment);
         printOutResponse(comment.toString());
