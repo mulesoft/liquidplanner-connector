@@ -6,6 +6,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
 import org.mule.LiquidPlanner.client.model.Link;
 import org.mule.LiquidPlanner.client.services.impl.LinkServiceClient;
 
@@ -35,6 +36,20 @@ public class LinkServiceClientTestIT extends AbstractServiceClientTestIT {
     public void testGetLink() throws JSONException {
         LinkServiceClient service = new LinkServiceClient(USER, PASSWORD);
         Link link = service.getLink(WORKSPACE_ID, LINK_ID);
+
+        printOutResponse(link.toString());
+    }
+
+    @Test
+    public void testCreateLink() throws JSONException {
+        LinkServiceClient service = new LinkServiceClient(USER, PASSWORD);
+        Link aLink = new Link();
+        aLink.setType(ServiceEntity.LINK.getName());
+        aLink.setDescription("A test link");
+        aLink.setItem_id(9034654);
+        aLink.setUrl("http://www.fakesite.com");
+
+        Link link = service.createLink(WORKSPACE_ID, aLink);
 
         printOutResponse(link.toString());
     }

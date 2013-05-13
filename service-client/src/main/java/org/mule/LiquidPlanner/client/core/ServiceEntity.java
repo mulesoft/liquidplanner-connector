@@ -23,7 +23,7 @@ public enum ServiceEntity {
 
     FOLDER("Folder"),
 
-    LINK("link"),
+    LINK("Link"),
 
     MEMEBER("member"),
 
