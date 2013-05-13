@@ -15,7 +15,7 @@ public enum ServiceEntity {
 
     DEPENDENCY("dependency"),
 
-    DOCUMENT("document"),
+    DOCUMENT("Document"),
 
     ESTIMATE("estimate"),
 

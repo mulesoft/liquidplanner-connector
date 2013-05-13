@@ -12,6 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
 import org.mule.LiquidPlanner.client.model.Document;
 import org.mule.LiquidPlanner.client.services.DocumentService;
 import org.mule.LiquidPlanner.client.services.impl.DocumentServiceClient;
@@ -63,6 +64,21 @@ public class DocumentServiceClientTestIT extends AbstractServiceClientTestIT {
         outStream.close();
 
         printOutResponse("file saved");
+    }
+
+    @Ignore
+    @Test
+    public void testCreateDocumentDocument() throws JSONException {
+        DocumentService service = new DocumentServiceClient(USER, PASSWORD);
+        Document aDocument = new Document();
+        aDocument.setFile_name("afilename.docx");
+        aDocument.setDescription("fake document description");
+        aDocument.setType(ServiceEntity.DOCUMENT.getName());
+        aDocument.setItem_id(9034648);
+
+        Document document = service.createDocument(WORKSPACE_ID, aDocument);
+
+        printOutResponse(document.toString());
     }
 
 }

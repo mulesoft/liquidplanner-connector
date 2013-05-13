@@ -13,4 +13,6 @@ public interface DocumentService {
 
     public InputStream downloadDocument(String workSpaceId, String documentId);
 
+    public Document createDocument(String workSpaceId, Document document);
+
 }

@@ -2,10 +2,14 @@ package org.mule.LiquidPlanner.client.services.impl;
 
 import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
+import org.mule.LiquidPlanner.client.core.ServicePath;
 import org.mule.LiquidPlanner.client.model.Document;
+import org.mule.LiquidPlanner.client.model.LPPackage;
 import org.mule.LiquidPlanner.client.services.DocumentService;
 
 import com.google.gson.reflect.TypeToken;
@@ -13,6 +17,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.filter.ClientFilter;
+import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
 
 /**
  * Provide access to all the document's related operations in LiquidPlanner.
@@ -21,8 +26,6 @@ import com.sun.jersey.api.client.filter.ClientFilter;
  * 
  */
 public class DocumentServiceClient extends AbstractServiceClient implements DocumentService {
-    private static final String API_WORKSPACE_PATH = "/workspaces";
-    private static final String API_DOCUMENT_PATH = "/documents";
 
     private static final String API_DOCUMENT_DOWNLOAD_PATH = "/download";
     private static final String API_DOCUMENT_THUMBNAIL_PATH = "/thumbnail";
@@ -42,7 +45,7 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
     public List<Document> getDocuments(String workSpaceId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId);
+        String url = getDocumentBaseURL(workSpaceId);
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -66,7 +69,7 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(documentId, "The document id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + documentId;
+        String url = getDocumentBaseURL(workSpaceId) + "/" + documentId;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -87,7 +90,7 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(documentId, "The document id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + documentId + API_DOCUMENT_DOWNLOAD_PATH;
+        String url = getDocumentBaseURL(workSpaceId) + "/" + documentId + API_DOCUMENT_DOWNLOAD_PATH;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -95,10 +98,25 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
 
         return clientResponse.getEntityInputStream();
     }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.mule.LiquidPlanner.client.services.impl.PackageService#
+     * createPackage (java.lang.String, java.lang.String,
+     * org.mule.createDocument.client.model.Document)
+     */
+    @Override
+    public Document createDocument(String workSpaceId, Document document) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
+        String url = getDocumentBaseURL(workSpaceId);
+        return this.createEntity(ServiceEntity.DOCUMENT.getName(), document, url);
+    }
+    
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
-        return baseUrl + API_WORKSPACE_PATH;
+        return baseUrl + ServicePath.WORKSPACE.path();
     }
 
     @Override
@@ -107,13 +125,14 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
         return null;
     }
 
-    private String getMemeberBaseURL(String workSpaceId) {
-        return getBaseURL() + "/" + workSpaceId + API_DOCUMENT_PATH;
+    private String getDocumentBaseURL(String workSpaceId) {
+        return getBaseURL() + "/" + workSpaceId + ServicePath.DOCUMENT.path();
     }
 
     @Override
     protected List<ClientFilter> getJerseyClientFilters() {
-        // TODO Auto-generated method stub
-        return null;
+        List<ClientFilter> clientFilters = new ArrayList<ClientFilter>();
+        clientFilters.add(new GZIPContentEncodingFilter(false));
+        return clientFilters;
     }
 }
