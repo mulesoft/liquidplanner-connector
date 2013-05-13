@@ -1,17 +1,21 @@
 package org.mule.LiquidPlanner.client.services.impl;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
+import org.mule.LiquidPlanner.client.core.ServicePath;
 import org.mule.LiquidPlanner.client.model.Activity;
-import org.mule.LiquidPlanner.client.model.ActivityService;
+import org.mule.LiquidPlanner.client.services.ActivityService;
 
 import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.filter.ClientFilter;
+import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
 
 /**
  * Provide access to all the activity's related operations in LiquidPlanner.
@@ -20,21 +24,23 @@ import com.sun.jersey.api.client.filter.ClientFilter;
  * 
  */
 public class ActivityServiceClient extends AbstractServiceClient implements ActivityService {
-    private static final String API_WORKSPACE_PATH = "/workspaces";
-    private static final String API_ACTIVITY_PATH = "/activities";
 
     public ActivityServiceClient(String user, String password) {
         super(user, password);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.ActivityService#getActivities(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.ActivityService#getActivities
+     * (java.lang.String)
      */
     @Override
     public List<Activity> getActivities(String workSpaceId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId);
+        String url = getActivityBaseURL(workSpaceId);
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -45,15 +51,19 @@ public class ActivityServiceClient extends AbstractServiceClient implements Acti
         return deserializeResponse(clientResponse, type);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.ActivityService#getActivity(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.ActivityService#getActivity
+     * (java.lang.String, java.lang.String)
      */
     @Override
     public Activity getActivity(String workSpaceId, String activityId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(activityId, "The activity id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + activityId;
+        String url = getActivityBaseURL(workSpaceId) + "/" + activityId;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -61,10 +71,25 @@ public class ActivityServiceClient extends AbstractServiceClient implements Acti
 
         return deserializeResponse(clientResponse, Activity.class);
     }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.mule.LiquidPlanner.client.services.impl.PackageService#
+     * createPackage (java.lang.String, java.lang.String,
+     * org.mule.LiquidPLanner.client.model.LPPackage)
+     */
+    @Override
+    public Activity createActivity(String workSpaceId, Activity activity) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+
+        String url = getActivityBaseURL(workSpaceId);
+        return this.createEntity(ServiceEntity.ACTIVITY.getName(), activity, url);
+    }
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
-        return baseUrl + API_WORKSPACE_PATH;
+        return baseUrl + ServicePath.WORKSPACE.path();
     }
 
     @Override
@@ -73,13 +98,14 @@ public class ActivityServiceClient extends AbstractServiceClient implements Acti
         return null;
     }
 
-    private String getMemeberBaseURL(String workSpaceId) {
-        return getBaseURL() + "/" + workSpaceId + API_ACTIVITY_PATH;
+    private String getActivityBaseURL(String workSpaceId) {
+        return getBaseURL() + "/" + workSpaceId + ServicePath.ACTIVITY.path();
     }
 
     @Override
     protected List<ClientFilter> getJerseyClientFilters() {
-        // TODO Auto-generated method stub
-        return null;
+        List<ClientFilter> clientFilters = new ArrayList<ClientFilter>();
+        clientFilters.add(new GZIPContentEncodingFilter(false));
+        return clientFilters;
     }
 }

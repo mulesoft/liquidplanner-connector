@@ -5,9 +5,11 @@ import java.util.List;
 import org.codehaus.jettison.json.JSONException;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
 import org.mule.LiquidPlanner.client.model.Activity;
-import org.mule.LiquidPlanner.client.model.ActivityService;
+import org.mule.LiquidPlanner.client.services.ActivityService;
 import org.mule.LiquidPlanner.client.services.impl.ActivityServiceClient;
 
 public class ActivityServiceClientTestIT extends AbstractServiceClientTestIT {
@@ -36,6 +38,23 @@ public class ActivityServiceClientTestIT extends AbstractServiceClientTestIT {
     public void testGetActivity() throws JSONException {
         ActivityService service = new ActivityServiceClient(USER, PASSWORD);
         Activity activity = service.getActivity(WORKSPACE_ID, ACTIVITY_ID);
+
+        printOutResponse(activity.toString());
+    }
+
+    @Ignore
+    @Test
+    public void testCreateActivity() throws JSONException {
+        ActivityService service = new ActivityServiceClient(USER, PASSWORD);
+        Activity newActivity = new Activity();
+        newActivity.setName("A new Activity");
+        newActivity.setBillable(false);
+        newActivity.setShared(true);
+        newActivity.setType(ServiceEntity.ACTIVITY.getName());
+
+        System.err.println(newActivity.toString());
+
+        Activity activity = service.createActivity(WORKSPACE_ID, newActivity);
 
         printOutResponse(activity.toString());
     }
