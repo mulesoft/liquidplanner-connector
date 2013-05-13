@@ -5,6 +5,7 @@ import java.util.List;
 import org.codehaus.jettison.json.JSONException;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
 import org.mule.LiquidPlanner.client.model.Client;
@@ -94,6 +95,18 @@ public class ClientServiceClientTestIT extends AbstractServiceClientTestIT {
     public void testGetClientNoteFail() throws JSONException {
         ClientService service = new ClientServiceClient(USER, PASSWORD);
         service.getClientNote(WORKSPACE_ID, CLIENT_ID);
+    }
+
+    @Ignore
+    @Test
+    public void testCreateClient() throws JSONException {
+        ClientService service = new ClientServiceClient(USER, PASSWORD);
+
+        Client aClient = new Client();
+        aClient.setName("A new Client");
+
+        Client client = service.createClient(WORKSPACE_ID, aClient);
+        printOutResponse(client.toString());
     }
 
 }

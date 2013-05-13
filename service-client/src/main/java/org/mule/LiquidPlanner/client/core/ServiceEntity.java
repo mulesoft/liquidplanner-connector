@@ -7,7 +7,7 @@ public enum ServiceEntity {
 
     CHECKLIST_ITEM("checklistItem"),
 
-    CLIENTE("client"),
+    CLIENT("client"),
 
     COMMENT("comment"),
 

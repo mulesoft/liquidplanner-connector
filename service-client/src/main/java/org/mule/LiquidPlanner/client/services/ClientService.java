@@ -27,4 +27,6 @@ public interface ClientService {
 
     public Note getClientNote(String workSpaceId, String clientId);
 
+    public Client createClient(String workSpaceId, Client client);
+
 }

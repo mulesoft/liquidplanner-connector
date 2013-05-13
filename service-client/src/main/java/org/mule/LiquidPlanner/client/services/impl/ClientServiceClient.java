@@ -1,15 +1,19 @@
 package org.mule.LiquidPlanner.client.services.impl;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
+import org.mule.LiquidPlanner.client.core.ServicePath;
 import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
 import org.mule.LiquidPlanner.client.model.Client;
 import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Document;
 import org.mule.LiquidPlanner.client.model.ErrorMessage;
 import org.mule.LiquidPlanner.client.model.Estimate;
+import org.mule.LiquidPlanner.client.model.LPPackage;
 import org.mule.LiquidPlanner.client.model.Link;
 import org.mule.LiquidPlanner.client.model.Note;
 import org.mule.LiquidPlanner.client.services.ClientService;
@@ -19,6 +23,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.filter.ClientFilter;
+import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
 
 /**
  * Provide access to all the client's related operations in LiquidPlanner.
@@ -27,14 +32,6 @@ import com.sun.jersey.api.client.filter.ClientFilter;
  * 
  */
 public class ClientServiceClient extends AbstractServiceClient implements ClientService {
-    private static final String API_WORKSPACE_PATH = "/workspaces";
-    private static final String API_CLIENTE_PATH = "/clients";
-
-    private static final String API_CLIENT_COMMENT_PATH = "/comments";
-    private static final String API_CLIENT_DOCUMENT_PATH = "/documents";
-    private static final String API_CLIENT_ESTIMATE_PATH = "/estimates";
-    private static final String API_CLIENT_LINK_PATH = "/links";
-    private static final String API_CLIENT_NOTE_PATH = "/note";
 
     public ClientServiceClient(String user, String password) {
         super(user, password);
@@ -51,7 +48,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
     public List<Client> getClients(String workSpaceId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId);
+        String url = getClientBaseURL(workSpaceId);
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -75,7 +72,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(clientId, "The client id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + clientId;
+        String url = getClientBaseURL(workSpaceId) + "/" + clientId;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -96,7 +93,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(clientId, "The client id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + clientId + API_CLIENT_COMMENT_PATH;
+        String url = getClientBaseURL(workSpaceId) + "/" + clientId + ServicePath.COMMENT.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -120,7 +117,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(clientId, "The client id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + clientId + API_CLIENT_DOCUMENT_PATH;
+        String url = getClientBaseURL(workSpaceId) + "/" + clientId + ServicePath.DOCUMENT.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -144,7 +141,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(clientId, "The client id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + clientId + API_CLIENT_ESTIMATE_PATH;
+        String url = getClientBaseURL(workSpaceId) + "/" + clientId + ServicePath.ESTIMATE.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -168,7 +165,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(clientId, "The client id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + clientId + API_CLIENT_ESTIMATE_PATH + "/" + estimateId;
+        String url = getClientBaseURL(workSpaceId) + "/" + clientId + ServicePath.ESTIMATE.path() + "/" + estimateId;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -189,7 +186,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(clientId, "The client id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + clientId + API_CLIENT_LINK_PATH;
+        String url = getClientBaseURL(workSpaceId) + "/" + clientId + ServicePath.LINK.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -213,7 +210,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(clientId, "The client id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + clientId + API_CLIENT_NOTE_PATH;
+        String url = getClientBaseURL(workSpaceId) + "/" + clientId + ServicePath.NOTE.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -222,9 +219,24 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         return deserializeResponse(clientResponse, Note.class);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.mule.LiquidPlanner.client.services.impl.PackageService#
+     * createClient (java.lang.String, java.lang.String,
+     * org.mule.LiquidPLanner.client.model.Client)
+     */
+    @Override
+    public Client createClient(String workSpaceId, Client client) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+
+        String url = getClientBaseURL(workSpaceId);
+        return this.createEntity(ServiceEntity.CLIENT.getName(), client, url);
+    }
+
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
-        return baseUrl + API_WORKSPACE_PATH;
+        return baseUrl + ServicePath.WORKSPACE.path();
     }
 
     @Override
@@ -233,13 +245,14 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         return null;
     }
 
-    private String getMemeberBaseURL(String workSpaceId) {
-        return getBaseURL() + "/" + workSpaceId + API_CLIENTE_PATH;
+    private String getClientBaseURL(String workSpaceId) {
+        return getBaseURL() + "/" + workSpaceId + ServicePath.CLIENTE.path();
     }
 
     @Override
     protected List<ClientFilter> getJerseyClientFilters() {
-        // TODO Auto-generated method stub
-        return null;
+        List<ClientFilter> clientFilters = new ArrayList<ClientFilter>();
+        clientFilters.add(new GZIPContentEncodingFilter(false));
+        return clientFilters;
     }
 }
