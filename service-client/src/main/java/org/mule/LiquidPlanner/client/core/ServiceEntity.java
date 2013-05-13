@@ -11,7 +11,7 @@ public enum ServiceEntity {
 
     COMMENT("comment"),
 
-    CUSTOM_FIELD("customField"),
+    CUSTOM_FIELD("CustomField"),
 
     DEPENDENCY("dependency"),
 

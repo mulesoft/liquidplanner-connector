@@ -5,7 +5,9 @@ import java.util.List;
 import org.codehaus.jettison.json.JSONException;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
 import org.mule.LiquidPlanner.client.services.CustomField;
 import org.mule.LiquidPlanner.client.services.CustomFieldService;
 import org.mule.LiquidPlanner.client.services.impl.CustomFieldServiceClient;
@@ -36,6 +38,21 @@ public class CustomFieldServiceClientTestIT extends AbstractServiceClientTestIT 
     public void testGetCustomField() throws JSONException {
         CustomFieldService service = new CustomFieldServiceClient(USER, PASSWORD);
         CustomField customField = service.getCustomField(WORKSPACE_ID, CUSTOM_FIELD_ID);
+
+        printOutResponse(customField.toString());
+    }
+
+    @Ignore
+    @Test
+    public void testCreateCustomField() throws JSONException {
+        CustomFieldService service = new CustomFieldServiceClient(USER, PASSWORD);
+
+        CustomField aCustomField = new CustomField();
+        aCustomField.setCategory("project");
+        aCustomField.setName("Sima NEW custom field");
+        aCustomField.setType(ServiceEntity.CUSTOM_FIELD.getName());
+
+        CustomField customField = service.createCuatomField(WORKSPACE_ID, aCustomField);
 
         printOutResponse(customField.toString());
     }
