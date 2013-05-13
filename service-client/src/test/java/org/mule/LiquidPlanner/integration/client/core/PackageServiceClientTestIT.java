@@ -95,4 +95,15 @@ public class PackageServiceClientTestIT extends AbstractServiceClientTestIT {
         printOutResponse(notes.toString());
     }
 
+    @Test
+    public void testCreatePackage() throws JSONException {
+        PackageService service = new PackageServiceClient(USER, PASSWORD);
+
+        LPPackage aPackage = new LPPackage();
+        aPackage.setName("newTestPackage");
+
+        LPPackage newPackage = service.createPackage(WORKSPACE_ID, aPackage);
+        printOutResponse(newPackage.toString());
+    }
+
 }

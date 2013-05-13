@@ -88,4 +88,12 @@ public interface PackageService {
      */
     public List<Note> getPackageNote(String workSpaceId, String packageId);
 
+    /**
+     * 
+     * @param workSpaceId
+     * @param aPackage
+     * @return
+     */
+    public LPPackage createPackage(String workSpaceId, LPPackage aPackage);
+
 }
