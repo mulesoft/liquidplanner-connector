@@ -37,7 +37,6 @@ public class LinkServiceClient extends AbstractServiceClient {
 
         Type type = new TypeToken<List<Link>>() {
         }.getType();
-
         return deserializeResponse(clientResponse, type);
 
     }

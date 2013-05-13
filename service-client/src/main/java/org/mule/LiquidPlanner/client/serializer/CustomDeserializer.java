@@ -5,6 +5,7 @@ import java.lang.reflect.Type;
 import org.mule.LiquidPlanner.client.model.Alert;
 import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Folder;
+import org.mule.LiquidPlanner.client.model.LPPackage;
 import org.mule.LiquidPlanner.client.model.Milestone;
 import org.mule.LiquidPlanner.client.model.Project;
 import org.mule.LiquidPlanner.client.model.Task;
@@ -26,6 +27,8 @@ public class CustomDeserializer implements JsonDeserializer {
     private static final String FOLDER_TYPE = "Folder";
     private static final String MILESTONE_TYPE = "Milestone";
     private static final String PROJECT_TYPE = "Project";
+    private static final String PACKAGE_TYPE = "Package";
+    private static final String INBOX_TYPE = "Inbox";
     private static final String TASK_TYPE = "Task";
 
     @Override
@@ -74,6 +77,10 @@ public class CustomDeserializer implements JsonDeserializer {
 
         if (type.equals(PROJECT_TYPE)) {
             return Project.class;
+        }
+
+        if (type.equals(PACKAGE_TYPE) || type.equals(INBOX_TYPE)) {
+            return LPPackage.class;
         }
 
         if (type.equals(TASK_TYPE)) {

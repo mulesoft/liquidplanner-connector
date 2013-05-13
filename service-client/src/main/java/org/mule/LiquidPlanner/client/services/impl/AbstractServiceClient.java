@@ -15,12 +15,11 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
 import org.mule.LiquidPlanner.client.model.ErrorMessage;
 import org.mule.LiquidPlanner.client.model.Filter;
 import org.mule.LiquidPlanner.client.model.Folder;
+import org.mule.LiquidPlanner.client.model.LPPackage;
 import org.mule.LiquidPlanner.client.model.Milestone;
 import org.mule.LiquidPlanner.client.model.Project;
 import org.mule.LiquidPlanner.client.model.Task;
@@ -30,6 +29,7 @@ import org.mule.LiquidPlanner.client.serializer.CustomDeserializer;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -73,7 +73,7 @@ public abstract class AbstractServiceClient {
         gsonBuilder.registerTypeAdapter(TreeItem.class, deserializer);
         gsonBuilder.registerTypeAdapter(Folder.class, deserializer);
         gsonBuilder.registerTypeAdapter(Milestone.class, deserializer);
-        gsonBuilder.registerTypeAdapter(Package.class, deserializer);
+        gsonBuilder.registerTypeAdapter(LPPackage.class, deserializer);
         gsonBuilder.registerTypeAdapter(Project.class, deserializer);
         gsonBuilder.registerTypeAdapter(Task.class, deserializer);
         mapper = gsonBuilder.create();
@@ -243,11 +243,8 @@ public abstract class AbstractServiceClient {
     }
 
     protected <T extends TreeItem> T deserializeResponse(ClientResponse clientResponse, Class<T> clazz) {
-
+        validateHttpStatus(clientResponse);
         String response = clientResponse.getEntity(String.class);
-        if (clientResponse.getStatus() >= 400) {
-            throw new LiquidPlannerException("There has been an error when invoking the API: " + response);
-        }
 
         try {
             return mapper.fromJson(response, clazz);
@@ -258,11 +255,8 @@ public abstract class AbstractServiceClient {
     }
 
     protected <T> T deserializeResponse(ClientResponse clientResponse, Type type) {
-
+        validateHttpStatus(clientResponse);
         String response = clientResponse.getEntity(String.class);
-        if (clientResponse.getStatus() >= 400) {
-            throw new LiquidPlannerException("There has been an error when invoking the API: " + response);
-        }
 
         try {
             return mapper.fromJson(response, type);
@@ -297,8 +291,16 @@ public abstract class AbstractServiceClient {
      */
     protected void validateHttpStatus(ClientResponse clientResponse) {
         if (clientResponse.getStatus() >= 400) {
-            ErrorMessage errorMessage = deserializeResponse(clientResponse, ErrorMessage.class);
-            throw new LiquidPlannerException(errorMessage.getType() + ":" + errorMessage.getMessage());
+            String response = clientResponse.getEntity(String.class);
+            try {
+                ErrorMessage errorMessage = mapper.fromJson(response, ErrorMessage.class);
+                throw new LiquidPlannerException("There has been an error when invoking the API: "
+                        + errorMessage.getType() + ":" + errorMessage.getMessage());
+            } catch (JsonSyntaxException e) {
+                throw new LiquidPlannerException("There has been an error when de deseralizing the response: "
+                        + response, e);
+            }
+
         }
     }
 }
