@@ -51,11 +51,10 @@ public class CommentServiceClientTestIT extends AbstractServiceClientTestIT {
         aComment.setComment("Some Valid Comment");
         aComment.setType(ServiceEntity.COMMENT.getName());
         aComment.setPersonId(260403);
-        // aComment.setItemId(9034648);
-        aComment.setItemId(9034654);
+        aComment.setItemId(9034648);
+        aComment.setMemberId(260403);
 
         Comment comment = service.createComment(WORKSPACE_ID, aComment);
         printOutResponse(comment.toString());
     }
-
 }
