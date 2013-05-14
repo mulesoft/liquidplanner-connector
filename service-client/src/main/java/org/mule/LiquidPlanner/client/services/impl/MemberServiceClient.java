@@ -1,9 +1,12 @@
 package org.mule.LiquidPlanner.client.services.impl;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
+import org.mule.LiquidPlanner.client.model.LPPackage;
 import org.mule.LiquidPlanner.client.model.Member;
 import org.mule.LiquidPlanner.client.services.MemberService;
 
@@ -12,6 +15,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.filter.ClientFilter;
+import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
 
 /**
  * Provide access to all the account's related operations in LiquidPlanner.
@@ -20,8 +24,6 @@ import com.sun.jersey.api.client.filter.ClientFilter;
  * 
  */
 public class MemberServiceClient extends AbstractServiceClient implements MemberService {
-    private static final String API_WORKSPACE_PATH = "/workspaces";
-    private static final String API_MEMEBER_PATH = "/members";
 
     public MemberServiceClient(String user, String password) {
         super(user, password);
@@ -68,9 +70,24 @@ public class MemberServiceClient extends AbstractServiceClient implements Member
         return deserializeResponse(clientResponse, Member.class);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.mule.LiquidPlanner.client.services.impl.PackageService#
+     * createMember (java.lang.String, java.lang.String,
+     * org.mule.LiquidPLanner.client.model.Member)
+     */
+    @Override
+    public Member createMember(String workSpaceId, Member member) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+
+        String url = getMemeberBaseURL(workSpaceId);
+        return this.createEntity(ServiceEntity.MEMEBER.getName(), member, url);
+    }
+
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
-        return baseUrl + API_WORKSPACE_PATH;
+        return baseUrl + ServiceEntity.WORKSPACE.path();
     }
 
     @Override
@@ -80,12 +97,13 @@ public class MemberServiceClient extends AbstractServiceClient implements Member
     }
 
     private String getMemeberBaseURL(String workSpaceId) {
-        return getBaseURL() + "/" + workSpaceId + API_MEMEBER_PATH;
+        return getBaseURL() + "/" + workSpaceId + ServiceEntity.MEMEBER.path();
     }
 
     @Override
     protected List<ClientFilter> getJerseyClientFilters() {
-        // TODO Auto-generated method stub
-        return null;
+        List<ClientFilter> clientFilters = new ArrayList<ClientFilter>();
+        clientFilters.add(new GZIPContentEncodingFilter(false));
+        return clientFilters;
     }
 }

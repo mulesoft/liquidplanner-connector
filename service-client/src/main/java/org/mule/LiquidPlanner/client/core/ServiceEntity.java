@@ -13,7 +13,7 @@ public enum ServiceEntity {
 
     CUSTOM_FIELD("CustomField", "/custom_fields"),
 
-    DEPENDENCY("dependency", "/dependencies"),
+    DEPENDENCY("Dependency", "/dependencies"),
 
     DOCUMENT("Document", "/documents"),
 

@@ -5,7 +5,9 @@ import java.util.List;
 import org.codehaus.jettison.json.JSONException;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
 import org.mule.LiquidPlanner.client.model.Member;
 import org.mule.LiquidPlanner.client.services.MemberService;
 import org.mule.LiquidPlanner.client.services.impl.MemberServiceClient;
@@ -36,6 +38,27 @@ public class MemberServiceClientTestIT extends AbstractServiceClientTestIT {
     public void testGetMemeber() throws JSONException {
         MemberService service = new MemberServiceClient(USER, PASSWORD);
         Member member = service.getMember(WORKSPACE_ID, MEMBER_ID);
+
+        printOutResponse(member.toString());
+    }
+
+    @Ignore
+    @Test
+    public void testCreateMemeber() throws JSONException {
+        MemberService service = new MemberServiceClient(USER, PASSWORD);
+
+        Member aMember = new Member();
+        aMember.setAccess_level("member");
+        aMember.setCompany("fakemember");
+        aMember.setEmail("fake.member@gmail.com");
+        aMember.setFirst_name("Fake");
+        aMember.setIs_virtual(false);
+        aMember.setLast_name("Memeber");
+        aMember.setUser_name("fakemember");
+        aMember.setTeam_name("iApps");
+        aMember.setType(ServiceEntity.MEMEBER.getName());
+
+        Member member = service.createMember(WORKSPACE_ID, aMember);
 
         printOutResponse(member.toString());
     }
