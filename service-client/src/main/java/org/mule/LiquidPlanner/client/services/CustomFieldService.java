@@ -8,6 +8,4 @@ public interface CustomFieldService {
 
     public CustomField getCustomField(String workSpaceId, String customFieldId);
 
-    public CustomField createCuatomField(String workSpaceId, CustomField customField);
-
 }

@@ -70,20 +70,6 @@ public class CustomFieldServiceClient extends AbstractServiceClient implements C
         return deserializeResponse(clientResponse, CustomField.class);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.mule.LiquidPlanner.client.services.impl.PackageService#
-     * createCuatomField (java.lang.String, java.lang.String,
-     * org.mule.LiquidPLanner.client.model.CustomField)
-     */
-    @Override
-    public CustomField createCuatomField(String workSpaceId, CustomField customField) {
-        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
-
-        String url = getCustomFieldBaseURL(workSpaceId);
-        return this.createEntity(ServiceEntity.CUSTOM_FIELD.getName(), customField, url);
-    }
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {

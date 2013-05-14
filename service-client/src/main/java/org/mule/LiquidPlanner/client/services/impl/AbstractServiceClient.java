@@ -268,7 +268,7 @@ public abstract class AbstractServiceClient {
 
     protected <T extends TreeItem> T createEntity(String entityType, T entity, String url) {
         Map<String, Object> payloadMap = new HashMap<String, Object>();
-        payloadMap.put(entityType, entity);
+        payloadMap.put(entityType.toLowerCase(), entity);
 
         String payload;
         try {

@@ -59,7 +59,7 @@ public class LinkServiceClient extends AbstractServiceClient {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
         String url = getLinkBaseURL(workSpaceId);
-        return this.createEntity(ServiceEntity.LINK.getName(), link, url);
+        return this.createEntity(ServiceEntity.LINK.getName().toLowerCase(), link, url);
     }
 
     @Override

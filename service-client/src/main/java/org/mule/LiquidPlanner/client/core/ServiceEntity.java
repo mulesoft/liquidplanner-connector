@@ -5,11 +5,11 @@ public enum ServiceEntity {
 
     ACTIVITY("Activity", "/activities"),
 
-    CHECKLIST_ITEM("checklistItem", "/checklist_items"),
+    CHECKLIST_ITEM("ChecklistItem", "/checklist_items"),
 
-    CLIENT("client", "/clients"),
+    CLIENT("Client", "/clients"),
 
-    COMMENT("comment", "/comments"),
+    COMMENT("Comment", "/comments"),
 
     CUSTOM_FIELD("CustomField", "/custom_fields"),
 
@@ -19,29 +19,29 @@ public enum ServiceEntity {
 
     ESTIMATE("estimate", "/estimates"),
 
-    EVENT("event", "/events"),
+    EVENT("Event", "/events"),
 
     FOLDER("Folder", "/folders"),
 
     LINK("Link", "/links"),
 
-    MEMEBER("member", "/members"),
+    MEMEBER("Member", "/members"),
 
     MILESTONE("Milestone", "/milestones"),
 
-    NOTE("note", "/note"),
+    NOTE("Note", "/note"),
 
-    PACKAGE("package", "/packages"),
+    PACKAGE("Package", "/packages"),
 
-    PROJECT("project", "/projects"),
+    PROJECT("Project", "/projects"),
 
-    TASK("task", "/tasks"),
+    TASK("Task", "/tasks"),
 
-    TIMESHEET_ENTRIES("timesheetEntrie", "/timesheet_entries"),
+    TIMESHEET_ENTRIES("TimesheetEntrie", "/timesheet_entries"),
 
-    TREEITEM("treeitem", "/treeitems"),
+    TREEITEM("Treeitem", "/treeitems"),
 
-    WORKSPACE("workspace", "/workspaces");
+    WORKSPACE("Workspace", "/workspaces");
 
     private String name;
     private String path;

@@ -46,7 +46,7 @@ public class LinkServiceClientTestIT extends AbstractServiceClientTestIT {
         Link aLink = new Link();
         aLink.setType(ServiceEntity.LINK.getName());
         aLink.setDescription("A test link");
-        aLink.setItem_id(9034654);
+        aLink.setItem_id(9034648);
         aLink.setUrl("http://www.fakesite.com");
 
         Link link = service.createLink(WORKSPACE_ID, aLink);

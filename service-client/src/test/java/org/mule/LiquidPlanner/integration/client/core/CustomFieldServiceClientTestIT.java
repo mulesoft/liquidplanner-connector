@@ -42,19 +42,21 @@ public class CustomFieldServiceClientTestIT extends AbstractServiceClientTestIT 
         printOutResponse(customField.toString());
     }
 
-    @Ignore
-    @Test
-    public void testCreateCustomField() throws JSONException {
-        CustomFieldService service = new CustomFieldServiceClient(USER, PASSWORD);
-
-        CustomField aCustomField = new CustomField();
-        aCustomField.setCategory("project");
-        aCustomField.setName("Sima NEW custom field");
-        aCustomField.setType(ServiceEntity.CUSTOM_FIELD.getName());
-
-        CustomField customField = service.createCuatomField(WORKSPACE_ID, aCustomField);
-
-        printOutResponse(customField.toString());
-    }
+    // @Ignore
+    // @Test
+    // public void testCreateCustomField() throws JSONException {
+    // CustomFieldService service = new CustomFieldServiceClient(USER,
+    // PASSWORD);
+    //
+    // CustomField aCustomField = new CustomField();
+    // aCustomField.setCategory("project");
+    // aCustomField.setName("Sima NEW custom field");
+    // aCustomField.setType(ServiceEntity.CUSTOM_FIELD.getName());
+    //
+    // CustomField customField = service.createCuatomField(WORKSPACE_ID,
+    // aCustomField);
+    //
+    // printOutResponse(customField.toString());
+    // }
 
 }
