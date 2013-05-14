@@ -1,12 +1,14 @@
 package org.mule.LiquidPlanner.integration.client.core;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.codehaus.jettison.json.JSONException;
 import org.junit.After;
 import org.junit.Before;
@@ -68,17 +70,22 @@ public class DocumentServiceClientTestIT extends AbstractServiceClientTestIT {
 
     @Ignore
     @Test
-    public void testCreateDocumentDocument() throws JSONException {
+    public void testCreateDocumentDocument() throws JSONException, IOException {
         DocumentService service = new DocumentServiceClient(USER, PASSWORD);
-        Document aDocument = new Document();
-        aDocument.setFile_name("afilename.docx");
-        aDocument.setDescription("fake document description");
-        aDocument.setType(ServiceEntity.DOCUMENT.getName());
-        aDocument.setItem_id(9034648);
 
-        Document document = service.createDocument(WORKSPACE_ID, aDocument);
+        // Package ID
+        String entityId = "9034648";
+
+        String fileName = "SOME_NEW_FILE.DOCX";
+        String fileDescription = "A test file uploaded to package id 9034648";
+        InputStream fileInputStream = new FileInputStream(new File("/Users/damiansima/Documents/tmp/something.docx"));
+
+        String document = service.createDocument(WORKSPACE_ID, ServiceEntity.PACKAGE, entityId, fileName,
+                fileDescription, fileInputStream);
 
         printOutResponse(document.toString());
+
+        fileInputStream.close();
     }
 
 }

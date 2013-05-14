@@ -1,55 +1,61 @@
 package org.mule.LiquidPlanner.client.core;
 
 public enum ServiceEntity {
-    ACCOUNT("account"),
+    ACCOUNT("Account", "/account"),
 
-    ACTIVITY("Activity"),
+    ACTIVITY("Activity", "/activities"),
 
-    CHECKLIST_ITEM("checklistItem"),
+    CHECKLIST_ITEM("checklistItem", "/checklist_items"),
 
-    CLIENT("client"),
+    CLIENT("client", "/clients"),
 
-    COMMENT("comment"),
+    COMMENT("comment", "/comments"),
 
-    CUSTOM_FIELD("CustomField"),
+    CUSTOM_FIELD("CustomField", "/custom_fields"),
 
-    DEPENDENCY("dependency"),
+    DEPENDENCY("dependency", "/dependencies"),
 
-    DOCUMENT("Document"),
+    DOCUMENT("Document", "/documents"),
 
-    ESTIMATE("estimate"),
+    ESTIMATE("estimate", "/estimates"),
 
-    EVENT("event"),
+    EVENT("event", "/events"),
 
-    FOLDER("Folder"),
+    FOLDER("Folder", "/folders"),
 
-    LINK("Link"),
+    LINK("Link", "/links"),
 
-    MEMEBER("member"),
+    MEMEBER("member", "/members"),
 
-    MILESTONE("Milestone"),
+    MILESTONE("Milestone", "/milestones"),
 
-    NOTE("note"),
+    NOTE("note", "/note"),
 
-    PACKAGE("package"),
+    PACKAGE("package", "/packages"),
 
-    PROJECT("project"),
+    PROJECT("project", "/projects"),
 
-    TASK("task"),
+    TASK("task", "/tasks"),
 
-    TIMESHEET_ENTRIES("timesheetEntrie"),
+    TIMESHEET_ENTRIES("timesheetEntrie", "/timesheet_entries"),
 
-    TREEITEM("treeitem"),
+    TREEITEM("treeitem", "/treeitems"),
 
-    WORKSPACE("workspace");
+    WORKSPACE("workspace", "/workspaces");
 
     private String name;
+    private String path;
 
-    private ServiceEntity(String path) {
-        this.name = path;
+    private ServiceEntity(String name, String path) {
+        this.name = name;
+        this.path = path;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String path() {
+        return path;
     }
 }

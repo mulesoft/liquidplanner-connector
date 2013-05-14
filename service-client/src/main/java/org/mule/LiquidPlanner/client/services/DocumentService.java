@@ -3,6 +3,7 @@ package org.mule.LiquidPlanner.client.services;
 import java.io.InputStream;
 import java.util.List;
 
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
 import org.mule.LiquidPlanner.client.model.Document;
 
 public interface DocumentService {
@@ -13,6 +14,7 @@ public interface DocumentService {
 
     public InputStream downloadDocument(String workSpaceId, String documentId);
 
-    public Document createDocument(String workSpaceId, Document document);
+    public String createDocument(String workSpaceId, ServiceEntity entity, String entityId, String fileName,
+            String fileDescription, InputStream fileInputStream);
 
 }

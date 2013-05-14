@@ -5,11 +5,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.core.MediaType;
+
 import org.apache.commons.lang.Validate;
 import org.mule.LiquidPlanner.client.core.ServiceEntity;
 import org.mule.LiquidPlanner.client.core.ServicePath;
 import org.mule.LiquidPlanner.client.model.Document;
-import org.mule.LiquidPlanner.client.model.LPPackage;
 import org.mule.LiquidPlanner.client.services.DocumentService;
 
 import com.google.gson.reflect.TypeToken;
@@ -18,6 +19,11 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.filter.ClientFilter;
 import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
+import com.sun.jersey.multipart.BodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.MultiPart;
+import com.sun.jersey.multipart.MultiPartMediaTypes;
+import com.sun.jersey.multipart.file.StreamDataBodyPart;
 
 /**
  * Provide access to all the document's related operations in LiquidPlanner.
@@ -49,11 +55,9 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
-        validateHttpStatus(clientResponse);
 
         Type type = new TypeToken<List<Document>>() {
         }.getType();
-
         return deserializeResponse(clientResponse, type);
     }
 
@@ -73,7 +77,6 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
-        validateHttpStatus(clientResponse);
 
         return deserializeResponse(clientResponse, Document.class);
     }
@@ -94,26 +97,44 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
-        validateHttpStatus(clientResponse);
 
         return clientResponse.getEntityInputStream();
     }
-    
+
     /*
      * (non-Javadoc)
      * 
      * @see org.mule.LiquidPlanner.client.services.impl.PackageService#
-     * createPackage (java.lang.String, java.lang.String,
+     * createDocument (java.lang.String, java.lang.String,
      * org.mule.createDocument.client.model.Document)
      */
     @Override
-    public Document createDocument(String workSpaceId, Document document) {
+    public String createDocument(String workSpaceId, ServiceEntity entity, String entityId, String fileName,
+            String fileDescription, InputStream fileInputStream) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
-        String url = getDocumentBaseURL(workSpaceId);
-        return this.createEntity(ServiceEntity.DOCUMENT.getName(), document, url);
+        String url = getBaseURL() + "/" + workSpaceId + entity.path() + "/" + entityId + ServiceEntity.DOCUMENT.path();
+
+        WebResource.Builder builder = getBuilder(user, password, url, null);
+
+        // Add headers
+        builder = builder.type(MediaType.MULTIPART_FORM_DATA);
+
+        FormDataMultiPart form = new FormDataMultiPart();
+        form.field("document[file_name]", fileName);
+        form.field("document[description]", fileDescription);
+        form.bodyPart(new StreamDataBodyPart("document[attached_file]", fileInputStream));
+
+        ClientResponse clientResponse = builder.post(ClientResponse.class, form);
+
+        validateHttpStatus(clientResponse);
+        String response = clientResponse.getEntity(String.class);
+        return response;
+
+        // return deserializeResponse(clientResponse, Document.class);
+
     }
-    
+
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
         return baseUrl + ServicePath.WORKSPACE.path();
