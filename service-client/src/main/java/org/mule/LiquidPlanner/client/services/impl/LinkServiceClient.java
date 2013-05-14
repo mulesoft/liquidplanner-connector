@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 import org.mule.LiquidPlanner.client.core.ServiceEntity;
-import org.mule.LiquidPlanner.client.core.ServicePath;
-import org.mule.LiquidPlanner.client.model.LPPackage;
 import org.mule.LiquidPlanner.client.model.Link;
 
 import com.google.gson.reflect.TypeToken;
@@ -66,7 +64,7 @@ public class LinkServiceClient extends AbstractServiceClient {
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
-        return baseUrl + ServicePath.WORKSPACE.path();
+        return baseUrl + ServiceEntity.WORKSPACE.path();
     }
 
     @Override
@@ -76,7 +74,7 @@ public class LinkServiceClient extends AbstractServiceClient {
     }
 
     private String getLinkBaseURL(String workSpaceId) {
-        return getBaseURL() + "/" + workSpaceId + ServicePath.LINK.path();
+        return getBaseURL() + "/" + workSpaceId + ServiceEntity.LINK.path();
     }
 
     @Override

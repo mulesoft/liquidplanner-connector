@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 import org.mule.LiquidPlanner.client.core.ServiceEntity;
-import org.mule.LiquidPlanner.client.core.ServicePath;
 import org.mule.LiquidPlanner.client.model.Activity;
 import org.mule.LiquidPlanner.client.services.ActivityService;
 
@@ -75,7 +74,7 @@ public class ActivityServiceClient extends AbstractServiceClient implements Acti
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
-        return baseUrl + ServicePath.WORKSPACE.path();
+        return baseUrl + ServiceEntity.WORKSPACE.path();
     }
 
     @Override
@@ -85,7 +84,7 @@ public class ActivityServiceClient extends AbstractServiceClient implements Acti
     }
 
     private String getActivityBaseURL(String workSpaceId) {
-        return getBaseURL() + "/" + workSpaceId + ServicePath.ACTIVITY.path();
+        return getBaseURL() + "/" + workSpaceId + ServiceEntity.ACTIVITY.path();
     }
 
     @Override

@@ -9,7 +9,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang.Validate;
 import org.mule.LiquidPlanner.client.core.ServiceEntity;
-import org.mule.LiquidPlanner.client.core.ServicePath;
 import org.mule.LiquidPlanner.client.model.Document;
 import org.mule.LiquidPlanner.client.services.DocumentService;
 
@@ -19,10 +18,7 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.filter.ClientFilter;
 import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
-import com.sun.jersey.multipart.BodyPart;
 import com.sun.jersey.multipart.FormDataMultiPart;
-import com.sun.jersey.multipart.MultiPart;
-import com.sun.jersey.multipart.MultiPartMediaTypes;
 import com.sun.jersey.multipart.file.StreamDataBodyPart;
 
 /**
@@ -137,7 +133,7 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
-        return baseUrl + ServicePath.WORKSPACE.path();
+        return baseUrl + ServiceEntity.WORKSPACE.path();
     }
 
     @Override
@@ -147,7 +143,7 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
     }
 
     private String getDocumentBaseURL(String workSpaceId) {
-        return getBaseURL() + "/" + workSpaceId + ServicePath.DOCUMENT.path();
+        return getBaseURL() + "/" + workSpaceId + ServiceEntity.DOCUMENT.path();
     }
 
     @Override

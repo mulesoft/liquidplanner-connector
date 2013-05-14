@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 import org.mule.LiquidPlanner.client.core.ServiceEntity;
-import org.mule.LiquidPlanner.client.core.ServicePath;
 import org.mule.LiquidPlanner.client.model.Folder;
 import org.mule.LiquidPlanner.client.services.FolderService;
 
@@ -87,7 +86,7 @@ public class FolderServiceClient extends AbstractServiceClient implements Folder
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
-        return baseUrl + ServicePath.WORKSPACE.path();
+        return baseUrl + ServiceEntity.WORKSPACE.path();
     }
 
     @Override
@@ -103,6 +102,6 @@ public class FolderServiceClient extends AbstractServiceClient implements Folder
     }
 
     private String getFolderBaseURL(String workSpaceId) {
-        return getBaseURL() + "/" + workSpaceId + ServicePath.FOLDER.path();
+        return getBaseURL() + "/" + workSpaceId + ServiceEntity.FOLDER.path();
     }
 }

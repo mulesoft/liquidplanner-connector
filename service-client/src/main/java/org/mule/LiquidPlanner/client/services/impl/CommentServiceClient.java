@@ -6,10 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 import org.mule.LiquidPlanner.client.core.ServiceEntity;
-import org.mule.LiquidPlanner.client.core.ServicePath;
-import org.mule.LiquidPlanner.client.model.Client;
 import org.mule.LiquidPlanner.client.model.Comment;
-import org.mule.LiquidPlanner.client.model.LPPackage;
 import org.mule.LiquidPlanner.client.services.CommentService;
 
 import com.google.gson.reflect.TypeToken;
@@ -26,8 +23,6 @@ import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
  * 
  */
 public class CommentServiceClient extends AbstractServiceClient implements CommentService {
-    // private static final String API_WORKSPACE_PATH = "/workspaces";
-    // private static final String API_COMMENT_PATH = "/comments";
 
     public CommentServiceClient(String user, String password) {
         super(user, password);
@@ -94,7 +89,7 @@ public class CommentServiceClient extends AbstractServiceClient implements Comme
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
-        return baseUrl + ServicePath.WORKSPACE.path();
+        return baseUrl + ServiceEntity.WORKSPACE.path();
     }
 
     @Override
@@ -104,7 +99,7 @@ public class CommentServiceClient extends AbstractServiceClient implements Comme
     }
 
     private String getCommentBaseURL(String workSpaceId) {
-        return getBaseURL() + "/" + workSpaceId + ServicePath.COMMENT.path();
+        return getBaseURL() + "/" + workSpaceId + ServiceEntity.COMMENT.path();
     }
 
     @Override

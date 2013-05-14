@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 import org.mule.LiquidPlanner.client.core.ServiceEntity;
-import org.mule.LiquidPlanner.client.core.ServicePath;
-import org.mule.LiquidPlanner.client.model.LPPackage;
 import org.mule.LiquidPlanner.client.services.CustomField;
 import org.mule.LiquidPlanner.client.services.CustomFieldService;
 
@@ -89,7 +87,7 @@ public class CustomFieldServiceClient extends AbstractServiceClient implements C
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
-        return baseUrl + ServicePath.WORKSPACE.path();
+        return baseUrl + ServiceEntity.WORKSPACE.path();
     }
 
     @Override
@@ -99,7 +97,7 @@ public class CustomFieldServiceClient extends AbstractServiceClient implements C
     }
 
     private String getCustomFieldBaseURL(String workSpaceId) {
-        return getBaseURL() + "/" + workSpaceId + ServicePath.CUSTOM_FIELD.path();
+        return getBaseURL() + "/" + workSpaceId + ServiceEntity.CUSTOM_FIELD.path();
     }
 
     @Override

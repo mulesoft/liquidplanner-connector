@@ -6,12 +6,10 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 import org.mule.LiquidPlanner.client.core.ServiceEntity;
-import org.mule.LiquidPlanner.client.core.ServicePath;
 import org.mule.LiquidPlanner.client.model.CheckListItem;
 import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Document;
 import org.mule.LiquidPlanner.client.model.Event;
-import org.mule.LiquidPlanner.client.model.LPPackage;
 import org.mule.LiquidPlanner.client.model.Link;
 import org.mule.LiquidPlanner.client.services.EventService;
 
@@ -88,7 +86,7 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(eventId, "The event id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + ServicePath.CHECKLIST_ITEM.path();
+        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + ServiceEntity.CHECKLIST_ITEM.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -112,7 +110,7 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(eventId, "The event id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + ServicePath.COMMENT.path();
+        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + ServiceEntity.COMMENT.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -135,7 +133,7 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(eventId, "The event id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + ServicePath.DOCUMENT.path();
+        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + ServiceEntity.DOCUMENT.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -158,7 +156,7 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(eventId, "The event id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + ServicePath.LINK.path();
+        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + ServiceEntity.LINK.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -180,7 +178,7 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(eventId, "The event id should not be null nor empty");
 
-        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + ServicePath.TIMESHEET_ENTRIES.path();
+        String url = getMemeberBaseURL(workSpaceId) + "/" + eventId + ServiceEntity.TIMESHEET_ENTRIES.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -213,7 +211,7 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
-        return baseUrl + ServicePath.WORKSPACE.path();
+        return baseUrl + ServiceEntity.WORKSPACE.path();
     }
 
     @Override
@@ -223,7 +221,7 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
     }
 
     private String getMemeberBaseURL(String workSpaceId) {
-        return getBaseURL() + "/" + workSpaceId + ServicePath.EVENT.path();
+        return getBaseURL() + "/" + workSpaceId + ServiceEntity.EVENT.path();
     }
 
     @Override
