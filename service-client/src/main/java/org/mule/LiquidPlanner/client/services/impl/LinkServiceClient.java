@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 import org.mule.LiquidPlanner.client.core.ServiceEntity;
+import org.mule.LiquidPlanner.client.model.Folder;
 import org.mule.LiquidPlanner.client.model.Link;
 
 import com.google.gson.reflect.TypeToken;
@@ -30,7 +31,7 @@ public class LinkServiceClient extends AbstractServiceClient {
     public List<Link> getLinks(String workSpaceId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
 
-        String url = getLinkBaseURL(workSpaceId);
+        String url = getURL(workSpaceId);
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -46,7 +47,7 @@ public class LinkServiceClient extends AbstractServiceClient {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(linkId, "The link id should not be null nor empty");
 
-        String url = getLinkBaseURL(workSpaceId) + "/" + linkId;
+        String url = getURL(workSpaceId) + "/" + linkId;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -58,8 +59,23 @@ public class LinkServiceClient extends AbstractServiceClient {
     public Link createLink(String workSpaceId, Link link) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
-        String url = getLinkBaseURL(workSpaceId);
+        String url = getURL(workSpaceId);
         return this.createEntity(ServiceEntity.LINK.getName(), link, url);
+    }
+
+    public Link updateLink(String workSpaceId, Link link) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+
+        String url = getURL(workSpaceId) + "/" + link.getId();
+        return this.updateEntity(ServiceEntity.LINK.getName(), link, url);
+    }
+
+    public Link deleteLink(String workSpaceId, String id) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+        Validate.notEmpty(id, "The id can not be null nor empty.");
+
+        String url = getURL(workSpaceId) + "/" + id;
+        return this.deleteEntity(url, Link.class);
     }
 
     @Override
@@ -73,7 +89,7 @@ public class LinkServiceClient extends AbstractServiceClient {
         return null;
     }
 
-    private String getLinkBaseURL(String workSpaceId) {
+    private String getURL(String workSpaceId) {
         return getBaseURL() + "/" + workSpaceId + ServiceEntity.LINK.path();
     }
 
