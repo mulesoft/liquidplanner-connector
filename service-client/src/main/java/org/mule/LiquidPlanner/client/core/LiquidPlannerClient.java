@@ -108,6 +108,11 @@ public class LiquidPlannerClient implements ProjectService, TimeSheetService, Me
     }
 
     @Override
+    public Member createMember(String workSpaceId, Member member) {
+        return memberService.createMember(workSpaceId, member);
+    }
+
+    @Override
     public String getTreeItems(String workSpaceId) {
         return treeItemService.getTreeItems(workSpaceId);
     }
@@ -171,4 +176,5 @@ public class LiquidPlannerClient implements ProjectService, TimeSheetService, Me
     public Milestone createMilestone(String workSpaceId, Milestone milestone) {
         return milestoneService.createMilestone(workSpaceId, milestone);
     }
+
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.Validate;
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
 import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
 import org.mule.LiquidPlanner.client.model.Filter;
 import org.mule.LiquidPlanner.client.model.Milestone;
@@ -22,25 +23,15 @@ import com.sun.jersey.api.client.filter.ClientFilter;
 import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
 
 public class TaskServiceClient extends AbstractServiceClient implements TaskService {
-    private static final String API_WORKSPACE_PATH = "/workspaces";
-    private static final String API_TASK_PATH = "/tasks";
 
     private static final String API_MOVE_AFTER_PATH = "/move_after";
     private static final String API_MOVE_BEFORE_PATH = "/move_before";
     private static final String API_TRACK_TIME_PATH = "/track_time";
-    private static final String API_DEPENDENCY_PATH = "/dependencies";
-    private static final String API_COMMENT_PATH = "/comments";
-    private static final String API_DOCUMENT_PATH = "/documents";
-    private static final String API_ESTIMATE_PATH = "/estimates";
-    private static final String API_LINK_PATH = "/links";
-    private static final String API_NOTE_PATH = "/note";
     private static final String API_SNAPSHOT_PATH = "/snapshots";
 
-    private static final String API_ACTIVITY_PATH = "/activities";
     private static final String API_PACKAGE_AFTER_PATH = "/package_after";
     private static final String API_PACKAGE_BEFORE_PATH = "/package_before";
     private static final String API_TIMER_PATH = "/timer";
-    private static final String API_TIMESEET_ENTRY_PATH = "/timesheet_entries";
 
     public TaskServiceClient(String user, String password) {
         super(user, password);
@@ -103,7 +94,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
         Validate.notEmpty(taskId, "The task id can not be null nor empty.");
         Validate.notNull(filters, "The filters parameter can not be null");
 
-        String url = getTaskBaseURL(workSpaceId) + "/" + taskId + API_TIMESEET_ENTRY_PATH;
+        String url = getTaskBaseURL(workSpaceId) + "/" + taskId + ServiceEntity.TIMESHEET_ENTRIES.path();
         WebResource.Builder builder = getBuilder(user, password, url, filterListToMap(filters));
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -131,7 +122,8 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
         Validate.notEmpty(taskId, "The task id can not be null nor empty.");
         Validate.notEmpty(timesheetId, "The timesheet id can not be null nor empty.");
 
-        String url = getTaskBaseURL(workSpaceId) + "/" + taskId + API_TIMESEET_ENTRY_PATH + "/" + timesheetId;
+        String url = getTaskBaseURL(workSpaceId) + "/" + taskId + ServiceEntity.TIMESHEET_ENTRIES.path() + "/"
+                + timesheetId;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -161,7 +153,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
-        return baseUrl + API_WORKSPACE_PATH;
+        return baseUrl + ServiceEntity.WORKSPACE.path();
     }
 
     @Override
@@ -171,7 +163,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
     }
 
     private String getTaskBaseURL(String workSpaceId) {
-        return getBaseURL() + "/" + workSpaceId + API_TASK_PATH;
+        return getBaseURL() + "/" + workSpaceId + ServiceEntity.TASK.path();
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.Validate;
 import org.codehaus.jackson.type.TypeReference;
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
 import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
 import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Folder;
@@ -23,9 +24,6 @@ import com.sun.jersey.api.client.filter.ClientFilter;
 import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
 
 public class ProjectServiceClient extends AbstractServiceClient implements ProjectService {
-
-    private static final String API_WORKSPACE_PATH = "/workspaces";
-    private static final String API_PROJECT_PATH = "/projects";
 
     private static final String API_MOVE_AFTER_PATH = "/move_after";
     private static final String API_MOVE_BEFORE_PATH = "/move_before";
@@ -125,7 +123,7 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
-        return baseUrl + API_WORKSPACE_PATH;
+        return baseUrl + ServiceEntity.WORKSPACE.path();
     }
 
     @Override
@@ -142,6 +140,6 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
     }
 
     private String getProjectBaseURL(String workSpaceId) {
-        return getBaseURL() + "/" + workSpaceId + API_PROJECT_PATH;
+        return getBaseURL() + "/" + workSpaceId + ServiceEntity.PROJECT.path();
     }
 }

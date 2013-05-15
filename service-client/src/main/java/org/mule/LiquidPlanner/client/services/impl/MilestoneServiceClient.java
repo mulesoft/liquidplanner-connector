@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.Validate;
 import org.codehaus.jackson.type.TypeReference;
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
 import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
 import org.mule.LiquidPlanner.client.model.Folder;
 import org.mule.LiquidPlanner.client.model.Milestone;
@@ -23,15 +24,16 @@ import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
 
 public class MilestoneServiceClient extends AbstractServiceClient implements MileStoneService {
 
-    private static final String API_WORKSPACE_PATH = "/workspaces";
-    private static final String API_MILESTONE_PATH = "/milestones";
-
     public MilestoneServiceClient(String user, String password) {
         super(user, password);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.MileStoneService#getMilestones(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.MileStoneService#getMilestones
+     * (java.lang.String)
      */
     @Override
     public List<Milestone> getMilestones(String workSpaceId) {
@@ -50,8 +52,12 @@ public class MilestoneServiceClient extends AbstractServiceClient implements Mil
         return deserializeResponse(clientResponse, type);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.MileStoneService#getMilestone(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.MileStoneService#getMilestone
+     * (java.lang.String, java.lang.String)
      */
     @Override
     public Milestone getMilestone(String workSpaceId, String mileStoneId) {
@@ -68,8 +74,12 @@ public class MilestoneServiceClient extends AbstractServiceClient implements Mil
         return deserializeResponse(clientResponse, Milestone.class);
     }
 
-    /* (non-Javadoc)
-     * @see org.mule.LiquidPlanner.client.services.impl.MileStoneService#createMilestone(java.lang.String, org.mule.LiquidPlanner.client.model.Milestone)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.MileStoneService#createMilestone
+     * (java.lang.String, org.mule.LiquidPlanner.client.model.Milestone)
      */
     @Override
     public Milestone createMilestone(String workSpaceId, Milestone milestone) {
@@ -81,7 +91,7 @@ public class MilestoneServiceClient extends AbstractServiceClient implements Mil
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
-        return baseUrl + API_WORKSPACE_PATH;
+        return baseUrl + ServiceEntity.WORKSPACE.path();
     }
 
     @Override
@@ -98,6 +108,6 @@ public class MilestoneServiceClient extends AbstractServiceClient implements Mil
     }
 
     private String getMilestoneBaseURL(String workSpaceId) {
-        return getBaseURL() + "/" + workSpaceId + API_MILESTONE_PATH;
+        return getBaseURL() + "/" + workSpaceId + ServiceEntity.MILESTONE.path();
     }
 }
