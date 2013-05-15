@@ -240,7 +240,6 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         return this.deleteEntity(url, Event.class);
     }
     
-    
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {

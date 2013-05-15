@@ -12,4 +12,8 @@ public interface FolderService {
 
     public Folder createFolder(String workSpaceId, Folder folder);
 
+    public Folder updateFolder(String workSpaceId, Folder folder);
+
+    public Folder deleteFolder(String workSpaceId, String id);
+
 }
