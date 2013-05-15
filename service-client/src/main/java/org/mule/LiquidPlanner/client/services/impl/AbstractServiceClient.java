@@ -267,6 +267,8 @@ public abstract class AbstractServiceClient {
     }
 
     protected <T extends TreeItem> T createEntity(String entityType, T entity, String url) {
+        Validate.notNull(entity, "The entity: " + entityType + " can not be null.");
+
         Map<String, Object> payloadMap = new HashMap<String, Object>();
         payloadMap.put(entityType.toLowerCase(), entity);
 
@@ -281,6 +283,33 @@ public abstract class AbstractServiceClient {
         ClientResponse clientResponse = builder.post(ClientResponse.class, payload);
 
         return (T) this.deserializeResponse(clientResponse, entity.getClass());
+    }
+
+    protected <T extends TreeItem> T updateEntity(String entityType, T entity, String url) {
+        Validate.notNull(entity, "The entity: " + entityType + " can not be null.");
+
+        Map<String, Object> payloadMap = new HashMap<String, Object>();
+        payloadMap.put(entityType.toLowerCase(), entity);
+
+        String payload;
+        try {
+            payload = mapper.toJson(payloadMap);
+        } catch (Exception e) {
+            throw new LiquidPlannerException("There has been an error when serializing the project to json", e);
+        }
+
+        WebResource.Builder builder = getBuilder(user, password, url, null);
+        ClientResponse clientResponse = builder.put(ClientResponse.class, payload);
+
+        return (T) this.deserializeResponse(clientResponse, entity.getClass());
+    }
+
+    protected <T extends TreeItem> T deleteEntity(String url, Class clazz) {
+
+        WebResource.Builder builder = getBuilder(user, password, url, null);
+        ClientResponse clientResponse = builder.delete(ClientResponse.class);
+
+        return (T) this.deserializeResponse(clientResponse, clazz);
     }
 
     /**

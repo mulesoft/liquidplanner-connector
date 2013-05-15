@@ -148,7 +148,36 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
         String url = getTaskBaseURL(workSpaceId);
-        return this.createEntity("task", task, url);
+        return this.createEntity(ServiceEntity.TASK.getName(), task, url);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.mule.LiquidPlanner.client.services.impl.TaskService#createTask(
+     * java.lang.String, org.mule.LiquidPlaner.client.Model.Task)
+     */
+    @Override
+    public Task updateTask(String workSpaceId, Task task) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+
+        String url = getTaskBaseURL(workSpaceId) + "/" + task.getId();
+        return this.updateEntity(ServiceEntity.TASK.getName(), task, url);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.mule.LiquidPlanner.client.services.impl.TaskService#deleteTask(
+     * java.lang.String, java.lang.String)
+     */
+    @Override
+    public Task deleteTask(String workSpaceId, String taskId) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+        Validate.notEmpty(taskId, "The id can not be null nor empty.");
+
+        String url = getTaskBaseURL(workSpaceId) + "/" + taskId;
+        return (Task) this.deleteEntity(url, Task.class);
     }
 
     @Override

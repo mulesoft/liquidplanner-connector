@@ -57,4 +57,20 @@ public interface TaskService {
      */
     public Task createTask(String workSpaceId, Task task);
 
+    /**
+     * 
+     * @param workSpaceId
+     * @param task
+     * @return
+     */
+    public Task updateTask(String workSpaceId, Task task);
+
+    /**
+     * 
+     * @param workSpaceId
+     * @param taskId
+     * @return
+     */
+    public Task deleteTask(String workSpaceId, String taskId);
+
 }

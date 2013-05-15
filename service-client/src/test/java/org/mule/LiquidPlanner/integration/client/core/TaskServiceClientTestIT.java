@@ -84,7 +84,32 @@ public class TaskServiceClientTestIT extends AbstractServiceClientTestIT {
         response.setParentIds(parentIds);
         response.setWork(new Double(0));
 
-        Task newTask = ((TaskServiceClient) service).createTask(WORKSPACE_ID, response);
+        Task newTask = service.createTask(WORKSPACE_ID, response);
+
+        printOutResponse(newTask.toString());
+    }
+
+    @Ignore
+    @Test
+    public void testDeleteTask() throws JSONException {
+        TaskService service = new TaskServiceClient(USER, PASSWORD);
+
+        String taskId = "9069260";
+        Task newTask = service.deleteTask(WORKSPACE_ID, taskId);
+
+        printOutResponse(newTask.toString());
+    }
+
+    @Ignore
+    @Test
+    public void testUpdateTask() throws JSONException {
+        TaskService service = new TaskServiceClient(USER, PASSWORD);
+        Task task = service.getTask(WORKSPACE_ID, "9069525");
+
+        task.setName(task.getName() + " - [UPDATED-1]");
+        task.setParentId(9034648);
+
+        Task newTask = service.updateTask(WORKSPACE_ID, task);
 
         printOutResponse(newTask.toString());
     }
