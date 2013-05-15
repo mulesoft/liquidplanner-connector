@@ -39,7 +39,7 @@ public class CommentServiceClient extends AbstractServiceClient implements Comme
     public List<Comment> getComments(String workSpaceId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
 
-        String url = getCommentBaseURL(workSpaceId);
+        String url = getURL(workSpaceId);
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -63,7 +63,7 @@ public class CommentServiceClient extends AbstractServiceClient implements Comme
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(commentId, "The comment id should not be null nor empty");
 
-        String url = getCommentBaseURL(workSpaceId) + "/" + commentId;
+        String url = getURL(workSpaceId) + "/" + commentId;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -83,8 +83,39 @@ public class CommentServiceClient extends AbstractServiceClient implements Comme
     public Comment createComment(String workSpaceId, Comment comment) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
-        String url = getCommentBaseURL(workSpaceId);
+        String url = getURL(workSpaceId);
         return this.createEntity(ServiceEntity.COMMENT.getName(), comment, url);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.TaskService#updateComment(
+     * java.lang.String, org.mule.LiquidPlaner.client.Model.Comment)
+     */
+    @Override
+    public Comment updateComment(String workSpaceId, Comment comment) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+
+        String url = getURL(workSpaceId) + "/" + comment.getId();
+        return this.updateEntity(ServiceEntity.COMMENT.getName(), comment, url);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mule.LiquidPlanner.client.services.impl.TaskService#deleteComment(
+     * java.lang.String, org.mule.LiquidPlaner.client.Model.Comment)
+     */
+    @Override
+    public Comment deleteComment(String workSpaceId, String commentId) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+        Validate.notEmpty(commentId, "The id can not be null nor empty.");
+
+        String url = getURL(workSpaceId) + "/" + commentId;
+        return this.deleteEntity(url, Comment.class);
     }
 
     @Override
@@ -98,7 +129,7 @@ public class CommentServiceClient extends AbstractServiceClient implements Comme
         return null;
     }
 
-    private String getCommentBaseURL(String workSpaceId) {
+    private String getURL(String workSpaceId) {
         return getBaseURL() + "/" + workSpaceId + ServiceEntity.COMMENT.path();
     }
 

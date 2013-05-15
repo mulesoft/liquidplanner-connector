@@ -11,4 +11,9 @@ public interface CommentService {
     public Comment getComment(String workSpaceId, String commentId);
 
     public Comment createComment(String workSpaceId, Comment comment);
+
+    public Comment updateComment(String workSpaceId, Comment comment);
+
+    public Comment deleteComment(String workSpaceId, String commentId);
+
 }

@@ -49,7 +49,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notNull(filters, "The filters parameter can not be null");
 
-        String url = getTaskBaseURL(workSpaceId);
+        String url = getURL(workSpaceId);
 
         WebResource.Builder builder = getBuilder(user, password, url, filterListToMap(filters));
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -72,7 +72,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(taskId, "The task id can not be null nor empty.");
 
-        String url = getTaskBaseURL(workSpaceId) + "/" + taskId;
+        String url = getURL(workSpaceId) + "/" + taskId;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -94,7 +94,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
         Validate.notEmpty(taskId, "The task id can not be null nor empty.");
         Validate.notNull(filters, "The filters parameter can not be null");
 
-        String url = getTaskBaseURL(workSpaceId) + "/" + taskId + ServiceEntity.TIMESHEET_ENTRIES.path();
+        String url = getURL(workSpaceId) + "/" + taskId + ServiceEntity.TIMESHEET_ENTRIES.path();
         WebResource.Builder builder = getBuilder(user, password, url, filterListToMap(filters));
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -122,7 +122,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
         Validate.notEmpty(taskId, "The task id can not be null nor empty.");
         Validate.notEmpty(timesheetId, "The timesheet id can not be null nor empty.");
 
-        String url = getTaskBaseURL(workSpaceId) + "/" + taskId + ServiceEntity.TIMESHEET_ENTRIES.path() + "/"
+        String url = getURL(workSpaceId) + "/" + taskId + ServiceEntity.TIMESHEET_ENTRIES.path() + "/"
                 + timesheetId;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
@@ -147,7 +147,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
     public Task createTask(String workSpaceId, Task task) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
-        String url = getTaskBaseURL(workSpaceId);
+        String url = getURL(workSpaceId);
         return this.createEntity(ServiceEntity.TASK.getName(), task, url);
     }
 
@@ -161,7 +161,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
     public Task updateTask(String workSpaceId, Task task) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
-        String url = getTaskBaseURL(workSpaceId) + "/" + task.getId();
+        String url = getURL(workSpaceId) + "/" + task.getId();
         return this.updateEntity(ServiceEntity.TASK.getName(), task, url);
     }
 
@@ -176,7 +176,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(taskId, "The id can not be null nor empty.");
 
-        String url = getTaskBaseURL(workSpaceId) + "/" + taskId;
+        String url = getURL(workSpaceId) + "/" + taskId;
         return (Task) this.deleteEntity(url, Task.class);
     }
 
@@ -191,7 +191,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
         return null;
     }
 
-    private String getTaskBaseURL(String workSpaceId) {
+    private String getURL(String workSpaceId) {
         return getBaseURL() + "/" + workSpaceId + ServiceEntity.TASK.path();
     }
 

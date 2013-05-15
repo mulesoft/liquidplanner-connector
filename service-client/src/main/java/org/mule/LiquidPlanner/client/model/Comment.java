@@ -146,7 +146,7 @@ public class Comment extends TreeItem {
         this.updatedBy = updatedBy;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
