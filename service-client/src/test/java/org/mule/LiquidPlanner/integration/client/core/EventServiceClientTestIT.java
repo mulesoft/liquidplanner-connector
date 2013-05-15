@@ -2,27 +2,39 @@ package org.mule.LiquidPlanner.integration.client.core;
 
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.codehaus.jettison.json.JSONException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mule.LiquidPlanner.client.core.ServiceEntity;
+import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
 import org.mule.LiquidPlanner.client.model.CheckListItem;
 import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Document;
 import org.mule.LiquidPlanner.client.model.Event;
 import org.mule.LiquidPlanner.client.model.Link;
+import org.mule.LiquidPlanner.client.services.CommentService;
 import org.mule.LiquidPlanner.client.services.EventService;
+import org.mule.LiquidPlanner.client.services.impl.CommentServiceClient;
 import org.mule.LiquidPlanner.client.services.impl.EventServiceClient;
 
 public class EventServiceClientTestIT extends AbstractServiceClientTestIT {
     private static final String WORKSPACE_ID = "79456";
     private static final String EVENT_ID = "6910010";
 
+    private Event aEvent;
+
     @Before
     public void setUp() {
-
+        aEvent = new Event();
+        aEvent.setType(ServiceEntity.MILESTONE.name());
+        aEvent.setActivity_id(9034657);
+        aEvent.setParent_id(9034648);
+        aEvent.setDescription("A test event to be deleted or updated");
+        aEvent.setName("A test event to be deleted or updated");
     }
 
     @After
@@ -100,5 +112,41 @@ public class EventServiceClientTestIT extends AbstractServiceClientTestIT {
         Event event = service.createEvent(WORKSPACE_ID, aEvent);
 
         printOutResponse(event.toString());
+    }
+
+    @Test
+    public void testUpdateComment() throws JSONException {
+        EventService service = new EventServiceClient(USER, PASSWORD);
+
+        Event newEvent = service.createEvent(WORKSPACE_ID, aEvent);
+
+        String newEventName = newEvent.getName() + "[UPDATED]";
+
+        newEvent.setName(newEventName);
+
+        Event comment = service.updateEvent(WORKSPACE_ID, newEvent);
+
+        printOutResponse(comment.toString());
+
+        try {
+            Assert.assertEquals("The names should be the same", newEventName, comment.getName());
+        } finally {
+            service.deleteEvent(WORKSPACE_ID, comment.getId().toString());
+        }
+
+    }
+
+    @Test(expected = LiquidPlannerException.class)
+    public void testDeleteComment() throws JSONException {
+        EventService service = new EventServiceClient(USER, PASSWORD);
+
+        Event newComment = service.createEvent(WORKSPACE_ID, aEvent);
+
+        Event comment = service.deleteEvent(WORKSPACE_ID, newComment.getId().toString());
+
+        printOutResponse(comment.toString());
+
+        service.getEvent(WORKSPACE_ID, newComment.getId().toString());
+
     }
 }

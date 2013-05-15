@@ -26,4 +26,8 @@ public interface EventService {
 
     public Event createEvent(String workSpaceId, Event event);
 
+    public Event updateEvent(String workSpaceId, Event event);
+
+    public Event deleteEvent(String workSpaceId, String commentId);
+
 }
