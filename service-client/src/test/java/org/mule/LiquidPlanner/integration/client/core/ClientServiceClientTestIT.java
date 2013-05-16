@@ -2,6 +2,8 @@ package org.mule.LiquidPlanner.integration.client.core;
 
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.codehaus.jettison.json.JSONException;
 import org.junit.After;
 import org.junit.Before;
@@ -107,6 +109,42 @@ public class ClientServiceClientTestIT extends AbstractServiceClientTestIT {
 
         Client client = service.createClient(WORKSPACE_ID, aClient);
         printOutResponse(client.toString());
+    }
+
+    @Test
+    public void testUpdateClient() throws JSONException {
+        ClientService service = new ClientServiceClient(USER, PASSWORD);
+
+        Client newClient = new Client();
+        newClient.setName("A new Client to be deleted");
+        Client client = service.createClient(WORKSPACE_ID, newClient);
+
+        client = service.getClient(WORKSPACE_ID, client.getId().toString());
+
+        String updatedClientName = client.getName() + "[UPDATED]";
+        client.setName(updatedClientName);
+        service.updateClient(WORKSPACE_ID, client);
+
+        Client updateClient = service.getClient(WORKSPACE_ID, client.getId().toString());
+
+        try {
+            Assert.assertEquals("The names should be the same.", updatedClientName, updateClient.getName());
+        } finally {
+            service.deleteClient(WORKSPACE_ID, updateClient.getId().toString());
+        }
+    }
+
+    @Test(expected = LiquidPlannerException.class)
+    public void testDeleteClient() throws JSONException {
+        ClientService service = new ClientServiceClient(USER, PASSWORD);
+
+        Client newClient = new Client();
+        newClient.setName("A new Client to be deleted");
+        Client client = service.createClient(WORKSPACE_ID, newClient);
+
+        service.deleteClient(WORKSPACE_ID, client.getId().toString());
+
+        service.getClient(WORKSPACE_ID, client.getId().toString());
     }
 
 }

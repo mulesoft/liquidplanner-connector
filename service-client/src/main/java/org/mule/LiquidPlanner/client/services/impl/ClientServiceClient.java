@@ -44,7 +44,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
     public List<Client> getClients(String workSpaceId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
 
-        String url = getClientBaseURL(workSpaceId);
+        String url = getURL(workSpaceId);
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -68,7 +68,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(clientId, "The client id should not be null nor empty");
 
-        String url = getClientBaseURL(workSpaceId) + "/" + clientId;
+        String url = getURL(workSpaceId) + "/" + clientId;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -89,7 +89,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(clientId, "The client id should not be null nor empty");
 
-        String url = getClientBaseURL(workSpaceId) + "/" + clientId + ServiceEntity.COMMENT.path();
+        String url = getURL(workSpaceId) + "/" + clientId + ServiceEntity.COMMENT.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -113,7 +113,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(clientId, "The client id should not be null nor empty");
 
-        String url = getClientBaseURL(workSpaceId) + "/" + clientId + ServiceEntity.DOCUMENT.path();
+        String url = getURL(workSpaceId) + "/" + clientId + ServiceEntity.DOCUMENT.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -137,7 +137,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(clientId, "The client id should not be null nor empty");
 
-        String url = getClientBaseURL(workSpaceId) + "/" + clientId + ServiceEntity.ESTIMATE.path();
+        String url = getURL(workSpaceId) + "/" + clientId + ServiceEntity.ESTIMATE.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -161,7 +161,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(clientId, "The client id should not be null nor empty");
 
-        String url = getClientBaseURL(workSpaceId) + "/" + clientId + ServiceEntity.ESTIMATE.path() + "/" + estimateId;
+        String url = getURL(workSpaceId) + "/" + clientId + ServiceEntity.ESTIMATE.path() + "/" + estimateId;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -182,7 +182,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(clientId, "The client id should not be null nor empty");
 
-        String url = getClientBaseURL(workSpaceId) + "/" + clientId + ServiceEntity.LINK.path();
+        String url = getURL(workSpaceId) + "/" + clientId + ServiceEntity.LINK.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -206,7 +206,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(clientId, "The client id should not be null nor empty");
 
-        String url = getClientBaseURL(workSpaceId) + "/" + clientId + ServiceEntity.NOTE.path();
+        String url = getURL(workSpaceId) + "/" + clientId + ServiceEntity.NOTE.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -226,8 +226,25 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
     public Client createClient(String workSpaceId, Client client) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
-        String url = getClientBaseURL(workSpaceId);
+        String url = getURL(workSpaceId);
         return this.createEntity(ServiceEntity.CLIENT.getName(), client, url);
+    }
+
+    @Override
+    public Client updateClient(String workSpaceId, Client client) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+
+        String url = getURL(workSpaceId) + "/" + client.getId();
+        return this.updateEntity(ServiceEntity.CLIENT.getName(), client, url);
+    }
+
+    @Override
+    public Client deleteClient(String workSpaceId, String id) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+        Validate.notEmpty(id, "The id can not be null nor empty.");
+
+        String url = getURL(workSpaceId) + "/" + id;
+        return this.deleteEntity(url, Client.class);
     }
 
     @Override
@@ -241,7 +258,7 @@ public class ClientServiceClient extends AbstractServiceClient implements Client
         return null;
     }
 
-    private String getClientBaseURL(String workSpaceId) {
+    private String getURL(String workSpaceId) {
         return getBaseURL() + "/" + workSpaceId + ServiceEntity.CLIENT.path();
     }
 

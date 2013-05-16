@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 import org.mule.LiquidPlanner.client.core.ServiceEntity;
+import org.mule.LiquidPlanner.client.model.Client;
 import org.mule.LiquidPlanner.client.services.CustomField;
 import org.mule.LiquidPlanner.client.services.CustomFieldService;
 
@@ -38,7 +39,7 @@ public class CustomFieldServiceClient extends AbstractServiceClient implements C
     public List<CustomField> getCustomFields(String workSpaceId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
 
-        String url = getCustomFieldBaseURL(workSpaceId);
+        String url = getURL(workSpaceId);
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -61,7 +62,7 @@ public class CustomFieldServiceClient extends AbstractServiceClient implements C
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(customFieldId, "The custom field id should not be null nor empty");
 
-        String url = getCustomFieldBaseURL(workSpaceId) + "/" + customFieldId;
+        String url = getURL(workSpaceId) + "/" + customFieldId;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -70,6 +71,22 @@ public class CustomFieldServiceClient extends AbstractServiceClient implements C
         return deserializeResponse(clientResponse, CustomField.class);
     }
 
+    @Override
+    public CustomField updateCustomField(String workSpaceId, CustomField customField) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+
+        String url = getURL(workSpaceId) + "/" + customField.getId();
+        return this.updateEntity(ServiceEntity.CUSTOM_FIELD.getName(), customField, url);
+    }
+
+    @Override
+    public CustomField deleteCustomField(String workSpaceId, String id) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+        Validate.notEmpty(id, "The id can not be null nor empty.");
+
+        String url = getURL(workSpaceId) + "/" + id;
+        return this.deleteEntity(url, CustomField.class);
+    }
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
@@ -82,7 +99,7 @@ public class CustomFieldServiceClient extends AbstractServiceClient implements C
         return null;
     }
 
-    private String getCustomFieldBaseURL(String workSpaceId) {
+    private String getURL(String workSpaceId) {
         return getBaseURL() + "/" + workSpaceId + ServiceEntity.CUSTOM_FIELD.path();
     }
 

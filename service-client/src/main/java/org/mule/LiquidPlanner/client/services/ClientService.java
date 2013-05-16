@@ -29,4 +29,8 @@ public interface ClientService {
 
     public Client createClient(String workSpaceId, Client client);
 
+    public Client updateClient(String workSpaceId, Client client);
+
+    public Client deleteClient(String workSpaceId, String id);
+
 }
