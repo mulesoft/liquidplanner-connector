@@ -224,14 +224,14 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
     }
     
     
-    public LPPackage updateLink(String workSpaceId, LPPackage link) {
+    public LPPackage updatePackage(String workSpaceId, LPPackage lpPackage) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
-        String url = getURL(workSpaceId) + "/" + link.getId();
-        return this.updateEntity(ServiceEntity.PACKAGE.getName(), link, url);
+        String url = getURL(workSpaceId) + "/" + lpPackage.getId();
+        return this.updateEntity(ServiceEntity.PACKAGE.getName(), lpPackage, url);
     }
 
-    public LPPackage deleteLink(String workSpaceId, String id) {
+    public LPPackage deletePackage(String workSpaceId, String id) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(id, "The id can not be null nor empty.");
 

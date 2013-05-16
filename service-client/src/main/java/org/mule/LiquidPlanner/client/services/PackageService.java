@@ -96,4 +96,8 @@ public interface PackageService {
      */
     public LPPackage createPackage(String workSpaceId, LPPackage aPackage);
 
+    public LPPackage updatePackage(String workSpaceId, LPPackage lpPackage);
+
+    public LPPackage deletePackage(String workSpaceId, String id);
+
 }

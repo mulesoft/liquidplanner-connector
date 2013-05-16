@@ -3,6 +3,8 @@ package org.mule.LiquidPlanner.integration.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.codehaus.jettison.json.JSONException;
 import org.junit.After;
 import org.junit.Before;
@@ -101,9 +103,44 @@ public class PackageServiceClientTestIT extends AbstractServiceClientTestIT {
 
         LPPackage aPackage = new LPPackage();
         aPackage.setName("newTestPackage");
-
         LPPackage newPackage = service.createPackage(WORKSPACE_ID, aPackage);
+
         printOutResponse(newPackage.toString());
+    }
+
+    @Test
+    public void testUpdatePackage() throws JSONException {
+        PackageService service = new PackageServiceClient(USER, PASSWORD);
+
+        LPPackage aPackage = new LPPackage();
+        aPackage.setName("newTestPackageToBeUpdated");
+        aPackage = service.createPackage(WORKSPACE_ID, aPackage);
+
+        String originalName = aPackage.getName();
+        String updatedName = originalName + "[UPDATED]";
+
+        aPackage.setName(updatedName);
+        LPPackage updatedPackage = service.updatePackage(WORKSPACE_ID, aPackage);
+
+        try {
+            Assert.assertEquals("The package names should be the same", updatedName, updatedPackage.getName());
+        } finally {
+            service.deletePackage(WORKSPACE_ID, updatedPackage.getId().toString());
+
+        }
+    }
+
+    @Test(expected = LiquidPlannerException.class)
+    public void testDeletePackage() throws JSONException {
+        PackageService service = new PackageServiceClient(USER, PASSWORD);
+
+        LPPackage aPackage = new LPPackage();
+        aPackage.setName("newTestPackageToBeDeleted");
+        aPackage = service.createPackage(WORKSPACE_ID, aPackage);
+
+        service.deletePackage(WORKSPACE_ID, aPackage.getId().toString());
+
+        service.getPackage(WORKSPACE_ID, aPackage.getId().toString());
     }
 
 }
