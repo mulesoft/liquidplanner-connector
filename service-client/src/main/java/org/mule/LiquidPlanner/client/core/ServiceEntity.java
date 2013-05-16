@@ -37,7 +37,9 @@ public enum ServiceEntity {
 
     TASK("Task", "/tasks"),
 
-    TIMESHEET_ENTRIES("TimesheetEntrie", "/timesheet_entries"),
+    TIMESHEET("Timesheets", "/timesheets"),
+    
+    TIMESHEET_ENTRIES("TimesheetEntry", "/timesheet_entries"),
 
     TREEITEM("Treeitem", "/treeitems"),
 

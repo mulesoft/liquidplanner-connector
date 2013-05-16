@@ -1,11 +1,17 @@
 package org.mule.LiquidPlanner.client.services.impl;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
+import org.mule.LiquidPlanner.client.model.Client;
 import org.mule.LiquidPlanner.client.model.Filter;
+import org.mule.LiquidPlanner.client.model.Timesheet;
+import org.mule.LiquidPlanner.client.model.TimesheetEntry;
 import org.mule.LiquidPlanner.client.services.TimeSheetService;
 
+import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
@@ -13,9 +19,8 @@ import com.sun.jersey.api.client.filter.ClientFilter;
 
 public class TimeSheetServiceClient extends AbstractServiceClient implements TimeSheetService {
 
-    private static final String API_WORKSPACE_PATH = "/workspaces";
-    private static final String API_TIMESHEET_PATH = "/timesheets";
-    private static final String API_TIMESHEET_ENTRIES_PATH = "/timesheet_entries";
+    // private static final String API_TIMESHEET_ENTRIES_PATH =
+    // "/timesheet_entries";
 
     private static final String API_TIMESHEET_ENTRIES_ACCEPT = "/accept";
     private static final String API_TIMESHEET_ENTRIES_REJECT = "/reject";
@@ -35,7 +40,7 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
      * (java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public String getTimeSheets(String workSpaceId, List<Filter> filters) {
+    public List<Timesheet> getTimeSheets(String workSpaceId, List<Filter> filters) {
 
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notNull(filters, "The filter list can not be null");
@@ -44,14 +49,10 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
         WebResource.Builder builder = getBuilder(user, password, url, filterListToMap(filters));
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
-        validateHttpStatus(clientResponse);
 
-        String response = clientResponse.getEntity(String.class);
-        if (clientResponse.getStatus() >= 400) {
-            return response;
-        }
-
-        return response;
+        Type type = new TypeToken<List<Timesheet>>() {
+        }.getType();
+        return deserializeResponse(clientResponse, type);
     }
 
     /*
@@ -62,7 +63,7 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
      * (java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public String getTimeSheet(String workSpaceId, String timesheetId) {
+    public Timesheet getTimeSheet(String workSpaceId, String timesheetId) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(timesheetId, "The timesheet id can not be null nor empty.");
 
@@ -70,14 +71,7 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
-        validateHttpStatus(clientResponse);
-
-        String response = clientResponse.getEntity(String.class);
-        if (clientResponse.getStatus() >= 400) {
-            return response;
-        }
-
-        return response;
+        return deserializeResponse(clientResponse, Timesheet.class);
     }
 
     /*
@@ -88,23 +82,27 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
      * java.lang.String)
      */
     @Override
-    public String getTimeSheetEntries(String workSpaceId, String timesheetId, List<Filter> filters) {
+    public List<TimesheetEntry> getTimeSheetEntries(String workSpaceId, String timesheetId, List<Filter> filters) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(timesheetId, "The timesheet id can not be null nor empty.");
         Validate.notNull(filters, "The filter list can not be null");
 
-        String url = getTimesheetBaseURL(workSpaceId) + "/" + timesheetId + API_TIMESHEET_ENTRIES_PATH;
+        String url = getTimesheetBaseURL(workSpaceId) + "/" + timesheetId + ServiceEntity.TIMESHEET_ENTRIES.path();
         WebResource.Builder builder = getBuilder(user, password, url, filterListToMap(filters));
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
-        validateHttpStatus(clientResponse);
-
-        String response = clientResponse.getEntity(String.class);
-        if (clientResponse.getStatus() >= 400) {
-            return response;
-        }
-
-        return response;
+        
+        Type type = new TypeToken<List<TimesheetEntry>>() {
+        }.getType();
+        return deserializeResponse(clientResponse, type);
+        
+//        validateHttpStatus(clientResponse);
+//        String response = clientResponse.getEntity(String.class);
+//        if (clientResponse.getStatus() >= 400) {
+//            return response;
+//        }
+//
+//        return response;
     }
 
     /*
@@ -115,30 +113,23 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
      * java.lang.String, java.lang.String)
      */
     @Override
-    public String getTimeSheetEntry(String workSpaceId, String timesheetId, String timesheetEntryId) {
+    public TimesheetEntry getTimeSheetEntry(String workSpaceId, String timesheetId, String timesheetEntryId) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(timesheetId, "The timesheet id can not be null nor empty.");
         Validate.notEmpty(timesheetEntryId, "The timesheet entry id can not be null nor empty.");
 
-        String url = getTimesheetBaseURL(workSpaceId) + "/" + timesheetId + API_TIMESHEET_ENTRIES_PATH + "/"
-                + timesheetEntryId;
+        String url = getTimesheetBaseURL(workSpaceId) + "/" + timesheetId + ServiceEntity.TIMESHEET_ENTRIES.path()
+                + "/" + timesheetEntryId;
 
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
-        validateHttpStatus(clientResponse);
-
-        String response = clientResponse.getEntity(String.class);
-        if (clientResponse.getStatus() >= 400) {
-            return response;
-        }
-
-        return response;
+        return deserializeResponse(clientResponse, TimesheetEntry.class);
     }
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
-        return baseUrl + API_WORKSPACE_PATH;
+        return baseUrl + ServiceEntity.WORKSPACE.path();
     }
 
     @Override
@@ -148,7 +139,7 @@ public class TimeSheetServiceClient extends AbstractServiceClient implements Tim
     }
 
     private String getTimesheetBaseURL(String workSpaceId) {
-        return getBaseURL() + "/" + workSpaceId + API_TIMESHEET_PATH;
+        return getBaseURL() + "/" + workSpaceId + ServiceEntity.TIMESHEET.path();
     }
 
     @Override

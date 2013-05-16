@@ -3,6 +3,8 @@ package org.mule.LiquidPlanner.client.services;
 import java.util.List;
 
 import org.mule.LiquidPlanner.client.model.Filter;
+import org.mule.LiquidPlanner.client.model.Timesheet;
+import org.mule.LiquidPlanner.client.model.TimesheetEntry;
 
 /**
  * The interface describe operations to be performed over the TimeSheet
@@ -22,7 +24,7 @@ public interface TimeSheetService {
      * @param filters
      * @return
      */
-    public String getTimeSheets(String workSpaceId, List<Filter> filters);
+    public List<Timesheet> getTimeSheets(String workSpaceId, List<Filter> filters);
 
     /**
      * Returns a particular time sheet for the provided workspace.
@@ -33,7 +35,7 @@ public interface TimeSheetService {
      * @param timesheetId
      * @return
      */
-    public String getTimeSheet(String workSpaceId, String timesheetId);
+    public Timesheet getTimeSheet(String workSpaceId, String timesheetId);
 
     /**
      * Returns all the time sheet entries related to a particular time sheet
@@ -45,7 +47,7 @@ public interface TimeSheetService {
      * @param filters
      * @return
      */
-    public String getTimeSheetEntries(String workSpaceId, String timesheetId, List<Filter> filters);
+    public List<TimesheetEntry> getTimeSheetEntries(String workSpaceId, String timesheetId, List<Filter> filters);
 
     /**
      * Returns a particular time sheet entry related to a given time sheet id
@@ -56,6 +58,6 @@ public interface TimeSheetService {
      * @param timesheetEntryId
      * @return
      */
-    public String getTimeSheetEntry(String workSpaceId, String timesheetId, String timesheetEntryId);
+    public TimesheetEntry getTimeSheetEntry(String workSpaceId, String timesheetId, String timesheetEntryId);
 
 }
