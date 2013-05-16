@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import junit.framework.Assert;
+
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -15,6 +17,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
 import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Project;
 import org.mule.LiquidPlanner.client.services.ProjectService;
@@ -78,7 +81,46 @@ public class ProjectServiceClientTestIT extends AbstractServiceClientTestIT {
         Project response = service.createProject(WORKSPACE_ID, project);
 
         printOutResponse(response.toString());
-        
+
+    }
+
+    @Test
+    public void testUpdateProject() throws JSONException, JsonParseException, JsonMappingException, IOException {
+        ProjectService service = new ProjectServiceClient(USER, PASSWORD);
+
+        Project project = new Project();
+        project.setDescription("some description");
+        project.setName("Test_iapp_Name_to_update");
+        project.setParentId("6875321");
+
+        Project createdProject = service.createProject(WORKSPACE_ID, project);
+
+        String updatedName = createdProject.getName() + "[UPDATED]";
+        createdProject.setName(updatedName);
+
+        Project updatedProject = service.updateProject(WORKSPACE_ID, createdProject);
+        try {
+            Assert.assertEquals("The names should be the same.", updatedName, updatedProject.getName());
+        } finally {
+            service.deleteProject(WORKSPACE_ID, createdProject.getId().toString());
+        }
+
+    }
+
+    @Test(expected = LiquidPlannerException.class)
+    public void testDeleteProject() throws JSONException, JsonParseException, JsonMappingException, IOException {
+        ProjectService service = new ProjectServiceClient(USER, PASSWORD);
+
+        Project project = new Project();
+        project.setDescription("some description");
+        project.setName("Test_iapp_Name_to_delete");
+        project.setParentId("6875321");
+
+        Project createdProject = service.createProject(WORKSPACE_ID, project);
+
+        service.deleteProject(WORKSPACE_ID, createdProject.getId().toString());
+
+        service.getProject(WORKSPACE_ID, createdProject.getId().toString());
     }
 
 }

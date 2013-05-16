@@ -48,4 +48,8 @@ public interface ProjectService {
      */
     public Project createProject(String workSpaceId, Project project);
 
+    public Project updateProject(String workSpaceId, Project project);
+
+    public Project deleteProject(String workSpaceId, String id);
+
 }

@@ -10,6 +10,7 @@ import org.apache.commons.lang.Validate;
 import org.codehaus.jackson.type.TypeReference;
 import org.mule.LiquidPlanner.client.core.ServiceEntity;
 import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
+import org.mule.LiquidPlanner.client.model.Client;
 import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Folder;
 import org.mule.LiquidPlanner.client.model.Milestone;
@@ -50,7 +51,7 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
     public List<Project> getProjects(String workSpaceId) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
-        String url = getProjectBaseURL(workSpaceId);
+        String url = getURL(workSpaceId);
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -73,7 +74,7 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(projectId, "The project id can not be null nor empty.");
 
-        String url = getProjectBaseURL(workSpaceId) + "/" + projectId;
+        String url = getURL(workSpaceId) + "/" + projectId;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -94,7 +95,7 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(projectId, "The project id can not be null nor empty.");
 
-        String url = getProjectBaseURL(workSpaceId) + "/" + projectId + API_COMMENT_PATH;
+        String url = getURL(workSpaceId) + "/" + projectId + API_COMMENT_PATH;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -116,9 +117,26 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
     public Project createProject(String workSpaceId, Project project) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
-        String url = getProjectBaseURL(workSpaceId);
+        String url = getURL(workSpaceId);
 
         return this.createEntity("project", project, url);
+    }
+
+    @Override
+    public Project updateProject(String workSpaceId, Project project) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+
+        String url = getURL(workSpaceId) + "/" + project.getId();
+        return this.updateEntity(ServiceEntity.PROJECT.getName(), project, url);
+    }
+
+    @Override
+    public Project deleteProject(String workSpaceId, String id) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+        Validate.notEmpty(id, "The id can not be null nor empty.");
+
+        String url = getURL(workSpaceId) + "/" + id;
+        return this.deleteEntity(url, Project.class);
     }
 
     @Override
@@ -139,7 +157,7 @@ public class ProjectServiceClient extends AbstractServiceClient implements Proje
         return clientFilters;
     }
 
-    private String getProjectBaseURL(String workSpaceId) {
+    private String getURL(String workSpaceId) {
         return getBaseURL() + "/" + workSpaceId + ServiceEntity.PROJECT.path();
     }
 }
