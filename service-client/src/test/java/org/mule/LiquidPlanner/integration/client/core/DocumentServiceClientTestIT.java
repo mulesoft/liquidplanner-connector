@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mule.LiquidPlanner.client.core.ServiceEntity;
+import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
 import org.mule.LiquidPlanner.client.model.Document;
 import org.mule.LiquidPlanner.client.services.DocumentService;
 import org.mule.LiquidPlanner.client.services.impl.DocumentServiceClient;
@@ -70,7 +71,7 @@ public class DocumentServiceClientTestIT extends AbstractServiceClientTestIT {
 
     @Ignore
     @Test
-    public void testCreateDocumentDocument() throws JSONException, IOException {
+    public void testCreateDocument() throws JSONException, IOException {
         DocumentService service = new DocumentServiceClient(USER, PASSWORD);
 
         // Package ID
@@ -86,6 +87,20 @@ public class DocumentServiceClientTestIT extends AbstractServiceClientTestIT {
         printOutResponse(document.toString());
 
         fileInputStream.close();
+    }
+
+    @Ignore
+    @Test(expected = LiquidPlannerException.class)
+    public void testDeleteDocument() throws JSONException, IOException {
+        String documentID = "689832";
+        DocumentService service = new DocumentServiceClient(USER, PASSWORD);
+
+        // TODO: this should really change!
+        Document deletedDocument = service.deleteDocument(WORKSPACE_ID, documentID);
+
+        printOutResponse(deletedDocument.toString());
+
+        service.getDocument(WORKSPACE_ID, documentID);
     }
 
 }

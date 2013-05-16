@@ -9,6 +9,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang.Validate;
 import org.mule.LiquidPlanner.client.core.ServiceEntity;
+import org.mule.LiquidPlanner.client.model.Client;
 import org.mule.LiquidPlanner.client.model.Document;
 import org.mule.LiquidPlanner.client.services.DocumentService;
 
@@ -47,7 +48,7 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
     public List<Document> getDocuments(String workSpaceId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
 
-        String url = getDocumentBaseURL(workSpaceId);
+        String url = getURL(workSpaceId);
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -69,7 +70,7 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(documentId, "The document id should not be null nor empty");
 
-        String url = getDocumentBaseURL(workSpaceId) + "/" + documentId;
+        String url = getURL(workSpaceId) + "/" + documentId;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -89,7 +90,7 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(documentId, "The document id should not be null nor empty");
 
-        String url = getDocumentBaseURL(workSpaceId) + "/" + documentId + API_DOCUMENT_DOWNLOAD_PATH;
+        String url = getURL(workSpaceId) + "/" + documentId + API_DOCUMENT_DOWNLOAD_PATH;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -128,7 +129,15 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
         return response;
 
         // return deserializeResponse(clientResponse, Document.class);
+    }
 
+    @Override
+    public Document deleteDocument(String workSpaceId, String id) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+        Validate.notEmpty(id, "The id can not be null nor empty.");
+
+        String url = getURL(workSpaceId) + "/" + id;
+        return this.deleteEntity(url, Document.class);
     }
 
     @Override
@@ -142,7 +151,7 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
         return null;
     }
 
-    private String getDocumentBaseURL(String workSpaceId) {
+    private String getURL(String workSpaceId) {
         return getBaseURL() + "/" + workSpaceId + ServiceEntity.DOCUMENT.path();
     }
 

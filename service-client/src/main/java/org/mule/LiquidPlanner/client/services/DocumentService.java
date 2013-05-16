@@ -17,4 +17,6 @@ public interface DocumentService {
     public String createDocument(String workSpaceId, ServiceEntity entity, String entityId, String fileName,
             String fileDescription, InputStream fileInputStream);
 
+    public Document deleteDocument(String workSpaceId, String id);
+
 }
