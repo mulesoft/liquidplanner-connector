@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.mule.LiquidPlanner.client.core.ServiceEntity;
 import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
 import org.mule.LiquidPlanner.client.model.Link;
+import org.mule.LiquidPlanner.client.services.LinkService;
 import org.mule.LiquidPlanner.client.services.impl.LinkServiceClient;
 
 public class LinkServiceClientTestIT extends AbstractServiceClientTestIT {
@@ -35,7 +36,7 @@ public class LinkServiceClientTestIT extends AbstractServiceClientTestIT {
 
     @Test
     public void testGetLinks() throws JSONException {
-        LinkServiceClient service = new LinkServiceClient(USER, PASSWORD);
+        LinkService service = new LinkServiceClient(USER, PASSWORD);
         List<Link> links = service.getLinks(WORKSPACE_ID);
 
         printOutResponse(links.toString());
@@ -43,7 +44,7 @@ public class LinkServiceClientTestIT extends AbstractServiceClientTestIT {
 
     @Test
     public void testGetLink() throws JSONException {
-        LinkServiceClient service = new LinkServiceClient(USER, PASSWORD);
+        LinkService service = new LinkServiceClient(USER, PASSWORD);
         Link link = service.getLink(WORKSPACE_ID, LINK_ID);
 
         printOutResponse(link.toString());
@@ -51,7 +52,7 @@ public class LinkServiceClientTestIT extends AbstractServiceClientTestIT {
 
     @Test
     public void testCreateLink() throws JSONException {
-        LinkServiceClient service = new LinkServiceClient(USER, PASSWORD);
+        LinkService service = new LinkServiceClient(USER, PASSWORD);
         Link aLink = new Link();
         aLink.setType(ServiceEntity.LINK.getName());
         aLink.setDescription("A test link");
@@ -65,7 +66,7 @@ public class LinkServiceClientTestIT extends AbstractServiceClientTestIT {
 
     @Test
     public void testUpdateLink() throws JSONException {
-        LinkServiceClient service = new LinkServiceClient(USER, PASSWORD);
+        LinkService service = new LinkServiceClient(USER, PASSWORD);
 
         Link newLink = service.createLink(WORKSPACE_ID, aLink);
 
@@ -87,7 +88,7 @@ public class LinkServiceClientTestIT extends AbstractServiceClientTestIT {
 
     @Test(expected = LiquidPlannerException.class)
     public void testDeleteLink() throws JSONException {
-        LinkServiceClient service = new LinkServiceClient(USER, PASSWORD);
+        LinkService service = new LinkServiceClient(USER, PASSWORD);
 
         Link newLink = service.createLink(WORKSPACE_ID, aLink);
 

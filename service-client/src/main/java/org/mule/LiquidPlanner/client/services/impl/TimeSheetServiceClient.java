@@ -36,7 +36,7 @@ public class TimesheetServiceClient extends AbstractServiceClient implements Tim
      * (java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public List<Timesheet> getTimeSheets(String workSpaceId, List<Filter> filters) {
+    public List<Timesheet> getTimesheets(String workSpaceId, List<Filter> filters) {
 
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notNull(filters, "The filter list can not be null");
@@ -59,7 +59,7 @@ public class TimesheetServiceClient extends AbstractServiceClient implements Tim
      * (java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public Timesheet getTimeSheet(String workSpaceId, String timesheetId) {
+    public Timesheet getTimesheet(String workSpaceId, String timesheetId) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(timesheetId, "The timesheet id can not be null nor empty.");
 

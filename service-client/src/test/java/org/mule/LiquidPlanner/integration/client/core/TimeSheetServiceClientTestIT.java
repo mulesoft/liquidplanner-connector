@@ -30,7 +30,7 @@ public class TimesheetServiceClientTestIT extends AbstractServiceClientTestIT {
     @Test
     public void testGetTimesheets() throws JSONException {
         TimesheetService service = new TimesheetServiceClient(USER, PASSWORD);
-        List<Timesheet> timesheets = service.getTimeSheets(WORKSPACE_ID, new ArrayList<Filter>());
+        List<Timesheet> timesheets = service.getTimesheets(WORKSPACE_ID, new ArrayList<Filter>());
 
         printOutResponse(timesheets.toString());
     }
@@ -38,7 +38,7 @@ public class TimesheetServiceClientTestIT extends AbstractServiceClientTestIT {
     @Test
     public void testGetTimesheet() {
         TimesheetService service = new TimesheetServiceClient(USER, PASSWORD);
-        Timesheet timesheet = service.getTimeSheet(WORKSPACE_ID, TIMESHEET_ID);
+        Timesheet timesheet = service.getTimesheet(WORKSPACE_ID, TIMESHEET_ID);
 
         printOutResponse(timesheet.toString());
     }

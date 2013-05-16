@@ -24,7 +24,7 @@ public interface TimesheetService {
      * @param filters
      * @return
      */
-    public List<Timesheet> getTimeSheets(String workSpaceId, List<Filter> filters);
+    public List<Timesheet> getTimesheets(String workSpaceId, List<Filter> filters);
 
     /**
      * Returns a particular time sheet for the provided workspace.
@@ -35,6 +35,6 @@ public interface TimesheetService {
      * @param timesheetId
      * @return
      */
-    public Timesheet getTimeSheet(String workSpaceId, String timesheetId);
+    public Timesheet getTimesheet(String workSpaceId, String timesheetId);
 
 }

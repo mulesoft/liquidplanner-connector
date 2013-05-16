@@ -7,8 +7,8 @@ import org.mule.LiquidPlanner.client.model.TimesheetEntry;
 
 public interface TimesheetEntryService {
 
-    public List<TimesheetEntry> getTimeSheetEntries(String workSpaceId, List<Filter> filters);
+    public List<TimesheetEntry> getTimesheetEntries(String workSpaceId, List<Filter> filters);
 
-    public TimesheetEntry getTimeSheetEntry(String workSpaceId, String timesheetEntryId);
+    public TimesheetEntry getTimesheetEntry(String workSpaceId, String timesheetEntryId);
 
 }

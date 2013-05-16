@@ -28,7 +28,7 @@ public class TimesheetEntryServiceClient extends AbstractServiceClient implement
      * @see org.mule.LiquidPlanner.client.services.impl.TimesheetEntryService#getTimeSheetEntries(java.lang.String, java.util.List)
      */
     @Override
-    public List<TimesheetEntry> getTimeSheetEntries(String workSpaceId, List<Filter> filters) {
+    public List<TimesheetEntry> getTimesheetEntries(String workSpaceId, List<Filter> filters) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notNull(filters, "The filter list can not be null");
 
@@ -46,7 +46,7 @@ public class TimesheetEntryServiceClient extends AbstractServiceClient implement
      * @see org.mule.LiquidPlanner.client.services.impl.TimesheetEntryService#getTimeSheetEntry(java.lang.String, java.lang.String)
      */
     @Override
-    public TimesheetEntry getTimeSheetEntry(String workSpaceId, String timesheetEntryId) {
+    public TimesheetEntry getTimesheetEntry(String workSpaceId, String timesheetEntryId) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(timesheetEntryId, "The timesheet entry id can not be null nor empty.");
 

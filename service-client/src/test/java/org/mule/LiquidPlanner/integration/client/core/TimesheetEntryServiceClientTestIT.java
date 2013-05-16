@@ -32,7 +32,7 @@ public class TimesheetEntryServiceClientTestIT extends AbstractServiceClientTest
     @Test
     public void testGetTimesheetEntries() {
         TimesheetEntryService service = new TimesheetEntryServiceClient(USER, PASSWORD);
-        List<TimesheetEntry> timesheetEntries = service.getTimeSheetEntries(WORKSPACE_ID, new ArrayList<Filter>());
+        List<TimesheetEntry> timesheetEntries = service.getTimesheetEntries(WORKSPACE_ID, new ArrayList<Filter>());
 
         printOutResponse(timesheetEntries.toString());
     }
@@ -40,7 +40,7 @@ public class TimesheetEntryServiceClientTestIT extends AbstractServiceClientTest
     @Test
     public void testGetTimesheetEntry() {
         TimesheetEntryService service = new TimesheetEntryServiceClient(USER, PASSWORD);
-        TimesheetEntry timesheetEntry = service.getTimeSheetEntry(WORKSPACE_ID, TIMESHEET_ENTRY_ID);
+        TimesheetEntry timesheetEntry = service.getTimesheetEntry(WORKSPACE_ID, TIMESHEET_ENTRY_ID);
 
         printOutResponse(timesheetEntry.toString());
     }

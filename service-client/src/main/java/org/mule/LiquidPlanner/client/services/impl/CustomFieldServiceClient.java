@@ -72,23 +72,6 @@ public class CustomFieldServiceClient extends AbstractServiceClient implements C
     }
 
     @Override
-    public CustomField updateCustomField(String workSpaceId, CustomField customField) {
-        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
-
-        String url = getURL(workSpaceId) + "/" + customField.getId();
-        return this.updateEntity(ServiceEntity.CUSTOM_FIELD.getName(), customField, url);
-    }
-
-    @Override
-    public CustomField deleteCustomField(String workSpaceId, String id) {
-        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
-        Validate.notEmpty(id, "The id can not be null nor empty.");
-
-        String url = getURL(workSpaceId) + "/" + id;
-        return this.deleteEntity(url, CustomField.class);
-    }
-
-    @Override
     protected String extendGetBaseUrl(String baseUrl) {
         return baseUrl + ServiceEntity.WORKSPACE.path();
     }

@@ -8,6 +8,7 @@ import org.apache.commons.lang.Validate;
 import org.mule.LiquidPlanner.client.core.ServiceEntity;
 import org.mule.LiquidPlanner.client.model.Folder;
 import org.mule.LiquidPlanner.client.model.Link;
+import org.mule.LiquidPlanner.client.services.LinkService;
 
 import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.ClientResponse;
@@ -22,12 +23,16 @@ import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
  * @author damiansima
  * 
  */
-public class LinkServiceClient extends AbstractServiceClient {
+public class LinkServiceClient extends AbstractServiceClient implements LinkService {
 
     public LinkServiceClient(String user, String password) {
         super(user, password);
     }
 
+    /* (non-Javadoc)
+     * @see org.mule.LiquidPlanner.client.services.impl.LinkService#getLinks(java.lang.String)
+     */
+    @Override
     public List<Link> getLinks(String workSpaceId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
 
@@ -43,6 +48,10 @@ public class LinkServiceClient extends AbstractServiceClient {
 
     }
 
+    /* (non-Javadoc)
+     * @see org.mule.LiquidPlanner.client.services.impl.LinkService#getLink(java.lang.String, java.lang.String)
+     */
+    @Override
     public Link getLink(String workSpaceId, String linkId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(linkId, "The link id should not be null nor empty");
@@ -56,6 +65,10 @@ public class LinkServiceClient extends AbstractServiceClient {
         return deserializeResponse(clientResponse, Link.class);
     }
 
+    /* (non-Javadoc)
+     * @see org.mule.LiquidPlanner.client.services.impl.LinkService#createLink(java.lang.String, org.mule.LiquidPlanner.client.model.Link)
+     */
+    @Override
     public Link createLink(String workSpaceId, Link link) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
@@ -63,6 +76,10 @@ public class LinkServiceClient extends AbstractServiceClient {
         return this.createEntity(ServiceEntity.LINK.getName(), link, url);
     }
 
+    /* (non-Javadoc)
+     * @see org.mule.LiquidPlanner.client.services.impl.LinkService#updateLink(java.lang.String, org.mule.LiquidPlanner.client.model.Link)
+     */
+    @Override
     public Link updateLink(String workSpaceId, Link link) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
@@ -70,6 +87,10 @@ public class LinkServiceClient extends AbstractServiceClient {
         return this.updateEntity(ServiceEntity.LINK.getName(), link, url);
     }
 
+    /* (non-Javadoc)
+     * @see org.mule.LiquidPlanner.client.services.impl.LinkService#deleteLink(java.lang.String, java.lang.String)
+     */
+    @Override
     public Link deleteLink(String workSpaceId, String id) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(id, "The id can not be null nor empty.");

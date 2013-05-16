@@ -105,9 +105,9 @@ public class LiquidPlannerConnector implements TimesheetService, MemberService, 
      */
     @Processor
     @Override
-    public String getTimeSheets(String workSpaceId, @Optional List<Filter> filters) {
+    public String getTimesheets(String workSpaceId, @Optional List<Filter> filters) {
         filters = filters == null ? new ArrayList<Filter>() : filters;
-        return client.getTimeSheets(workSpaceId, filters);
+        return client.getTimesheets(workSpaceId, filters);
     }
 
     /**
@@ -125,8 +125,8 @@ public class LiquidPlannerConnector implements TimesheetService, MemberService, 
      */
     @Processor
     @Override
-    public String getTimeSheet(String workSpaceId, String timesheetId) {
-        return client.getTimeSheet(workSpaceId, timesheetId);
+    public String getTimesheet(String workSpaceId, String timesheetId) {
+        return client.getTimesheet(workSpaceId, timesheetId);
     }
 
     /**
