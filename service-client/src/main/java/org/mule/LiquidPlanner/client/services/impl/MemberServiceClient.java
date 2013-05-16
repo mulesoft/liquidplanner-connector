@@ -70,21 +70,6 @@ public class MemberServiceClient extends AbstractServiceClient implements Member
         return deserializeResponse(clientResponse, Member.class);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.mule.LiquidPlanner.client.services.impl.PackageService#
-     * createMember (java.lang.String, java.lang.String,
-     * org.mule.LiquidPLanner.client.model.Member)
-     */
-    @Override
-    public Member createMember(String workSpaceId, Member member) {
-        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
-
-        String url = getMemeberBaseURL(workSpaceId);
-        return this.createEntity(ServiceEntity.MEMEBER.getName(), member, url);
-    }
-
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
         return baseUrl + ServiceEntity.WORKSPACE.path();

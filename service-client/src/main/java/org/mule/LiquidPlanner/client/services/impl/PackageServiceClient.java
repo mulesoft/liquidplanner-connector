@@ -45,7 +45,7 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
     public List<LPPackage> getPackages(String workSpaceId, List<Filter> filters) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
-        String url = getPackageBaseURL(workSpaceId);
+        String url = getURL(workSpaceId);
         WebResource.Builder builder = getBuilder(user, password, url, filterListToMap(filters));
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -68,7 +68,7 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(packageId, "The package id can not be null nor empty.");
 
-        String url = getPackageBaseURL(workSpaceId) + "/" + packageId;
+        String url = getURL(workSpaceId) + "/" + packageId;
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -88,7 +88,7 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(packageId, "The package id can not be null nor empty.");
 
-        String url = getPackageBaseURL(workSpaceId) + "/" + packageId + ServiceEntity.COMMENT.path();
+        String url = getURL(workSpaceId) + "/" + packageId + ServiceEntity.COMMENT.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -110,7 +110,7 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(packageId, "The package id can not be null nor empty.");
 
-        String url = getPackageBaseURL(workSpaceId) + "/" + packageId + ServiceEntity.DEPENDENCY.path();
+        String url = getURL(workSpaceId) + "/" + packageId + ServiceEntity.DEPENDENCY.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -132,7 +132,7 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(packageId, "The package id can not be null nor empty.");
 
-        String url = getPackageBaseURL(workSpaceId) + "/" + packageId + ServiceEntity.DOCUMENT.path();
+        String url = getURL(workSpaceId) + "/" + packageId + ServiceEntity.DOCUMENT.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -154,7 +154,7 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(packageId, "The package id can not be null nor empty.");
 
-        String url = getPackageBaseURL(workSpaceId) + "/" + packageId + ServiceEntity.ESTIMATE.path();
+        String url = getURL(workSpaceId) + "/" + packageId + ServiceEntity.ESTIMATE.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -176,7 +176,7 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(packageId, "The package id can not be null nor empty.");
 
-        String url = getPackageBaseURL(workSpaceId) + "/" + packageId + ServiceEntity.LINK.path();
+        String url = getURL(workSpaceId) + "/" + packageId + ServiceEntity.LINK.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -198,7 +198,7 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(packageId, "The package id can not be null nor empty.");
 
-        String url = getPackageBaseURL(workSpaceId) + "/" + packageId + ServiceEntity.NOTE.path();
+        String url = getURL(workSpaceId) + "/" + packageId + ServiceEntity.NOTE.path();
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
@@ -219,9 +219,26 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
     public LPPackage createPackage(String workSpaceId, LPPackage aPackage) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
-        String url = getPackageBaseURL(workSpaceId);
+        String url = getURL(workSpaceId);
         return this.createEntity(ServiceEntity.PACKAGE.getName(), aPackage, url);
     }
+    
+    
+    public LPPackage updateLink(String workSpaceId, LPPackage link) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+
+        String url = getURL(workSpaceId) + "/" + link.getId();
+        return this.updateEntity(ServiceEntity.PACKAGE.getName(), link, url);
+    }
+
+    public LPPackage deleteLink(String workSpaceId, String id) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+        Validate.notEmpty(id, "The id can not be null nor empty.");
+
+        String url = getURL(workSpaceId) + "/" + id;
+        return this.deleteEntity(url, LPPackage.class);
+    }
+    
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
@@ -234,7 +251,7 @@ public class PackageServiceClient extends AbstractServiceClient implements Packa
         return null;
     }
 
-    private String getPackageBaseURL(String workSpaceId) {
+    private String getURL(String workSpaceId) {
         return getBaseURL() + "/" + workSpaceId + ServiceEntity.PACKAGE.path();
     }
 

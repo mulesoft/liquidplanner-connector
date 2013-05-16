@@ -42,25 +42,4 @@ public class MemberServiceClientTestIT extends AbstractServiceClientTestIT {
         printOutResponse(member.toString());
     }
 
-    @Ignore
-    @Test
-    public void testCreateMemeber() throws JSONException {
-        MemberService service = new MemberServiceClient(USER, PASSWORD);
-
-        Member aMember = new Member();
-        aMember.setAccess_level("member");
-        aMember.setCompany("fakemember");
-        aMember.setEmail("fake.member@gmail.com");
-        aMember.setFirst_name("Fake");
-        aMember.setIs_virtual(false);
-        aMember.setLast_name("Memeber");
-        aMember.setUser_name("fakemember");
-        aMember.setTeam_name("iApps");
-        aMember.setType(ServiceEntity.MEMEBER.getName());
-
-        Member member = service.createMember(WORKSPACE_ID, aMember);
-
-        printOutResponse(member.toString());
-    }
-
 }

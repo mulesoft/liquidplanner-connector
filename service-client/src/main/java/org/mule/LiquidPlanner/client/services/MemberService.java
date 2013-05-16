@@ -23,12 +23,4 @@ public interface MemberService {
      */
     public Member getMember(String workSpaceId, String memberId);
 
-    /**
-     * 
-     * @param workSpaceId
-     * @param member
-     * @return
-     */
-    public Member createMember(String workSpaceId, Member member);
-
 }
