@@ -8,6 +8,6 @@ public interface WorkspaceService {
 
     public List<Workspace> getWorkSpaces();
 
-    public Workspace getComment(String workSpaceId);
+    public Workspace getWorkspaceComment(String workSpaceId);
 
 }

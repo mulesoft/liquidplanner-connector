@@ -34,7 +34,7 @@ public class WorkspaceServiceClientTestIT extends AbstractServiceClientTestIT {
     @Test
     public void testGetClient() throws JSONException {
         WorkspaceService service = new WorkspaceServiceClient(USER, PASSWORD);
-        Workspace workspace = service.getComment(WORKSPACE_ID);
+        Workspace workspace = service.getWorkspaceComment(WORKSPACE_ID);
 
         System.out.println(workspace.getInbox_id());
         printOutResponse(workspace.toString());

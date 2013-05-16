@@ -10,6 +10,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mule.LiquidPlanner.client.model.Filter;
 import org.mule.LiquidPlanner.client.model.IdFilter;
+import org.mule.LiquidPlanner.client.model.Timesheet;
 import org.mule.LiquidPlanner.client.model.IdFilter.IdFilterOperator;
 import org.mule.LiquidPlanner.client.model.IdFilter.IdFilterType;
 import org.mule.LiquidPlanner.client.model.Task;
@@ -63,9 +64,9 @@ public class TaskServiceClientTestIT extends AbstractServiceClientTestIT {
     @Test
     public void testGetTimeSheets() throws JSONException {
         TaskService service = new TaskServiceClient(USER, PASSWORD);
-        String response = service.getTimeSheets(WORKSPACE_ID, TASK_ID, new ArrayList<Filter>());
+        List<Timesheet> response = service.getTaksTimesheets(WORKSPACE_ID, TASK_ID, new ArrayList<Filter>());
 
-        printOutResponse(response);
+        printOutResponse(response.toString());
     }
 
     @Ignore

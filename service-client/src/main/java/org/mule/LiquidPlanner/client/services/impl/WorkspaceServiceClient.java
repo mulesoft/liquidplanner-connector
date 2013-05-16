@@ -55,7 +55,7 @@ public class WorkspaceServiceClient extends AbstractServiceClient implements Wor
      * (java.lang.String)
      */
     @Override
-    public Workspace getComment(String workSpaceId) {
+    public Workspace getWorkspaceComment(String workSpaceId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
 
         String url = getMemeberBaseURL() + "/" + workSpaceId;

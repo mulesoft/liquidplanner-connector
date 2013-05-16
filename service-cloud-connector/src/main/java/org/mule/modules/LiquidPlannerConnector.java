@@ -15,23 +15,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.mule.LiquidPlanner.client.core.LiquidPlannerClient;
+import org.mule.LiquidPlanner.client.model.CheckListItem;
+import org.mule.LiquidPlanner.client.model.Client;
 import org.mule.LiquidPlanner.client.model.Comment;
+import org.mule.LiquidPlanner.client.model.Document;
+import org.mule.LiquidPlanner.client.model.Estimate;
+import org.mule.LiquidPlanner.client.model.Event;
 import org.mule.LiquidPlanner.client.model.Filter;
 import org.mule.LiquidPlanner.client.model.Folder;
+import org.mule.LiquidPlanner.client.model.Link;
+import org.mule.LiquidPlanner.client.model.Member;
 import org.mule.LiquidPlanner.client.model.Milestone;
+import org.mule.LiquidPlanner.client.model.Note;
 import org.mule.LiquidPlanner.client.model.Project;
 import org.mule.LiquidPlanner.client.model.Task;
+import org.mule.LiquidPlanner.client.model.Timesheet;
+import org.mule.LiquidPlanner.client.model.TimesheetEntry;
 import org.mule.LiquidPlanner.client.model.TreeItem;
 import org.mule.LiquidPlanner.client.model.TreeItemType;
-import org.mule.LiquidPlanner.client.services.FolderService;
+import org.mule.LiquidPlanner.client.services.ClientService;
+import org.mule.LiquidPlanner.client.services.CommentService;
+import org.mule.LiquidPlanner.client.services.CustomField;
+import org.mule.LiquidPlanner.client.services.CustomFieldService;
+import org.mule.LiquidPlanner.client.services.EventService;
 import org.mule.LiquidPlanner.client.services.MemberService;
-import org.mule.LiquidPlanner.client.services.MileStoneService;
 import org.mule.LiquidPlanner.client.services.ProjectService;
+import org.mule.LiquidPlanner.client.services.TaskService;
+import org.mule.LiquidPlanner.client.services.TimesheetEntryService;
 import org.mule.LiquidPlanner.client.services.TimesheetService;
-import org.mule.LiquidPlanner.client.services.TreeItemService;
-import org.mule.LiquidPlanner.client.services.impl.FolderServiceClient;
-import org.mule.LiquidPlanner.client.services.impl.MilestoneServiceClient;
-import org.mule.LiquidPlanner.client.services.impl.TaskServiceClient;
 import org.mule.api.ConnectionException;
 import org.mule.api.annotations.Connect;
 import org.mule.api.annotations.ConnectionIdentifier;
@@ -48,7 +59,8 @@ import org.mule.api.annotations.param.Optional;
  * @author MuleSoft, Inc.
  */
 @Connector(name = "liquidplanner", schemaVersion = "1.0-SNAPSHOT")
-public class LiquidPlannerConnector implements TimesheetService, MemberService, ProjectService {
+public class LiquidPlannerConnector implements TimesheetService, TimesheetEntryService, MemberService, ProjectService,
+        TaskService, ClientService, CustomFieldService, CommentService, EventService {
 
     private LiquidPlannerClient client;
 
@@ -105,7 +117,7 @@ public class LiquidPlannerConnector implements TimesheetService, MemberService, 
      */
     @Processor
     @Override
-    public String getTimesheets(String workSpaceId, @Optional List<Filter> filters) {
+    public List<Timesheet> getTimesheets(String workSpaceId, @Optional List<Filter> filters) {
         filters = filters == null ? new ArrayList<Filter>() : filters;
         return client.getTimesheets(workSpaceId, filters);
     }
@@ -125,7 +137,7 @@ public class LiquidPlannerConnector implements TimesheetService, MemberService, 
      */
     @Processor
     @Override
-    public String getTimesheet(String workSpaceId, String timesheetId) {
+    public Timesheet getTimesheet(String workSpaceId, String timesheetId) {
         return client.getTimesheet(workSpaceId, timesheetId);
     }
 
@@ -137,17 +149,16 @@ public class LiquidPlannerConnector implements TimesheetService, MemberService, 
      * 
      * @param workSpaceId
      *            Content to be processed
-     * @param timesheetId
-     *            the id of the timesheet
+     * 
      * @param filters
      *            the list of {@link Filter} to run through the search
      * @return Some string
      */
     @Processor
     @Override
-    public String getTimeSheetEntries(String workSpaceId, String timesheetId, @Optional List<Filter> filters) {
+    public List<TimesheetEntry> getTimesheetEntries(String workSpaceId, @Optional List<Filter> filters) {
         filters = filters == null ? new ArrayList<Filter>() : filters;
-        return client.getTimeSheetEntries(workSpaceId, timesheetId, filters);
+        return client.getTimesheetEntries(workSpaceId, filters);
     }
 
     /**
@@ -158,16 +169,15 @@ public class LiquidPlannerConnector implements TimesheetService, MemberService, 
      * 
      * @param workSpaceId
      *            Content to be processed
-     * @param timesheetId
-     *            the id of the timesheet
+     * 
      * @param timesheetEntryId
      *            the id of the timesheet entry
      * @return Some string
      */
     @Processor
     @Override
-    public String getTimeSheetEntry(String workSpaceId, String timesheetId, String timesheetEntryId) {
-        return client.getTimeSheetEntry(workSpaceId, timesheetId, timesheetEntryId);
+    public TimesheetEntry getTimesheetEntry(String workSpaceId, String timesheetEntryId) {
+        return client.getTimesheetEntry(workSpaceId, timesheetEntryId);
     }
 
     /**
@@ -182,7 +192,7 @@ public class LiquidPlannerConnector implements TimesheetService, MemberService, 
      */
     @Processor
     @Override
-    public String getMembers(String workSpaceId) {
+    public List<Member> getMembers(String workSpaceId) {
         return client.getMembers(workSpaceId);
     }
 
@@ -201,7 +211,7 @@ public class LiquidPlannerConnector implements TimesheetService, MemberService, 
      */
     @Processor
     @Override
-    public String getMember(String workSpaceId, String memberId) {
+    public Member getMember(String workSpaceId, String memberId) {
         return client.getMember(workSpaceId, memberId);
     }
 
@@ -296,32 +306,6 @@ public class LiquidPlannerConnector implements TimesheetService, MemberService, 
         return client.getTreeItems(workSpaceId);
     }
 
-    // <!-- BEGIN_INCLUDE(liquidplanner:get-tree-item) -->
-    // <liquidplanner:get-tree-item workSpaceId="#[map-payload:workspaceid]"
-    // treeItemId="#[map-payload:treeitemid]" clazz="#[map-payload:clazz]"/>
-    // <!-- END_INCLUDE(liquidplanner:get-tree-item) -->
-    // /**
-    // * Get a particular Tree items related to a workspace
-    // *
-    // * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
-    // * liquidplanner:get-tree-item}
-    // *
-    // * @param workSpaceId
-    // * the id of the workspace
-    // * @param treeItemId
-    // * the id of the tree item
-    // * @param clazz
-    // * the class of the treeitem to be returned
-    // *
-    // * @return a {@link TreeItem}
-    // */
-    // @Processor
-    // @Override
-    // public <T extends TreeItem> T getTreeItem(String workSpaceId, String
-    // treeItemId, Class<T> clazz) {
-    // return client.getTreeItem(workSpaceId, treeItemId, clazz);
-    // }
-
     /**
      * Duplicates a particular {@link Project}
      * 
@@ -389,27 +373,225 @@ public class LiquidPlannerConnector implements TimesheetService, MemberService, 
         }
     }
 
-    // /**
-    // * Configurable
-    // */
-    // @Configurable
-    // private String myProperty;
-    //
-    // /**
-    // * Set property
-    // *
-    // * @param myProperty My property
-    // */
-    // public void setMyProperty(String myProperty)
-    // {
-    // this.myProperty = myProperty;
-    // }
-    //
-    // /**
-    // * Get property
-    // */
-    // public String getMyProperty()
-    // {
-    // return this.myProperty;
-    // }
+    @Processor
+    @Override
+    public Project updateProject(String workSpaceId, Project project) {
+        return client.updateProject(workSpaceId, project);
+    }
+
+    @Processor
+    @Override
+    public Project deleteProject(String workSpaceId, String id) {
+        return client.deleteProject(workSpaceId, id);
+    }
+
+    @Processor
+    @Override
+    public List<Task> getTasks(String workSpaceId, List<Filter> filters) {
+        return client.getTasks(workSpaceId, filters);
+    }
+
+    @Processor
+    @Override
+    public Task getTask(String workSpaceId, String taskId) {
+        return client.getTask(workSpaceId, taskId);
+    }
+
+    @Processor
+    @Override
+    public Task createTask(String workSpaceId, Task task) {
+        return client.createTask(workSpaceId, task);
+    }
+
+    @Processor
+    @Override
+    public Task updateTask(String workSpaceId, Task task) {
+        return client.updateTask(workSpaceId, task);
+    }
+
+    @Processor
+    @Override
+    public Task deleteTask(String workSpaceId, String taskId) {
+        return client.deleteTask(workSpaceId, taskId);
+    }
+
+    @Processor
+    @Override
+    public List<Timesheet> getTaksTimesheets(String workSpaceId, String taskId, List<Filter> filters) {
+        return client.getTaksTimesheets(workSpaceId, taskId, filters);
+    }
+
+    @Processor
+    @Override
+    public Timesheet getTaskTimesheet(String workSpaceId, String taskId, String timesheetId) {
+        return client.getTaskTimesheet(workSpaceId, taskId, timesheetId);
+    }
+
+    @Processor
+    @Override
+    public List<Client> getClients(String workSpaceId) {
+        return client.getClients(workSpaceId);
+    }
+
+    @Processor
+    @Override
+    public Client getClient(String workSpaceId, String clientId) {
+        return client.getClient(workSpaceId, clientId);
+    }
+
+    @Processor
+    @Override
+    public List<Comment> getClientComments(String workSpaceId, String clientId) {
+        return client.getClientComments(workSpaceId, clientId);
+    }
+
+    @Processor
+    @Override
+    public List<Document> getClientDocuments(String workSpaceId, String clientId) {
+        return client.getClientDocuments(workSpaceId, clientId);
+    }
+
+    @Processor
+    @Override
+    public List<Estimate> getClientEstimates(String workSpaceId, String clientId) {
+        return client.getClientEstimates(workSpaceId, clientId);
+    }
+
+    @Processor
+    @Override
+    public Estimate getClientEstimate(String workSpaceId, String clientId, String estimateId) {
+        return client.getClientEstimate(workSpaceId, clientId, estimateId);
+    }
+
+    @Processor
+    @Override
+    public List<Link> getClientLinks(String workSpaceId, String clientId) {
+        return client.getClientLinks(workSpaceId, clientId);
+    }
+
+    @Override
+    public Note getClientNote(String workSpaceId, String clientId) {
+        return client.getClientNote(workSpaceId, clientId);
+    }
+
+    @Processor
+    @Override
+    public Client createClient(String workSpaceId, Client client) {
+        return this.client.createClient(workSpaceId, client);
+    }
+
+    @Processor
+    @Override
+    public Client updateClient(String workSpaceId, Client client) {
+        return this.client.updateClient(workSpaceId, client);
+    }
+
+    @Processor
+    @Override
+    public Client deleteClient(String workSpaceId, String id) {
+        return client.deleteClient(workSpaceId, id);
+    }
+
+    @Processor
+    @Override
+    public List<CustomField> getCustomFields(String workSpaceId) {
+        return client.getCustomFields(workSpaceId);
+    }
+
+    @Processor
+    @Override
+    public CustomField getCustomField(String workSpaceId, String customFieldId) {
+        return client.getCustomField(workSpaceId, customFieldId);
+    }
+
+    @Processor
+    @Override
+    public List<Comment> getComments(String workSpaceId) {
+        return client.getComments(workSpaceId);
+    }
+
+    @Processor
+    @Override
+    public Comment getComment(String workSpaceId, String commentId) {
+        return client.getComment(workSpaceId, commentId);
+    }
+
+    @Processor
+    @Override
+    public Comment createComment(String workSpaceId, Comment comment) {
+        return client.createComment(workSpaceId, comment);
+    }
+
+    @Processor
+    @Override
+    public Comment updateComment(String workSpaceId, Comment comment) {
+        return client.updateComment(workSpaceId, comment);
+    }
+
+    @Processor
+    @Override
+    public Comment deleteComment(String workSpaceId, String commentId) {
+        return client.deleteComment(workSpaceId, commentId);
+    }
+
+    @Processor
+    @Override
+    public List<Event> getEvents(String workSpaceId) {
+        return client.getEvents(workSpaceId);
+    }
+
+    @Processor
+    @Override
+    public Event getEvent(String workSpaceId, String eventId) {
+        return client.getEvent(workSpaceId, eventId);
+    }
+
+    @Processor
+    @Override
+    public List<CheckListItem> getEventCheckListItems(String workSpaceId, String eventId) {
+        return client.getCheckListItems(workSpaceId);
+    }
+
+    @Processor
+    @Override
+    public List<Comment> getEventComments(String workSpaceId, String eventId) {
+        return client.getEventComments(workSpaceId, eventId);
+    }
+
+    @Processor
+    @Override
+    public List<Document> getEventDocuments(String workSpaceId, String eventId) {
+        return client.getEventDocuments(workSpaceId, eventId);
+    }
+
+    @Processor
+    @Override
+    public List<Link> getEventLinks(String workSpaceId, String eventId) {
+        return client.getEventLinks(workSpaceId, eventId);
+    }
+
+    @Processor
+    @Override
+    public String getEventTimesheetEntries(String workSpaceId, String eventId) {
+        return client.getEventTimesheetEntries(workSpaceId, eventId);
+    }
+
+    @Processor
+    @Override
+    public Event createEvent(String workSpaceId, Event event) {
+        return client.createEvent(workSpaceId, event);
+    }
+
+    @Processor
+    @Override
+    public Event updateEvent(String workSpaceId, Event event) {
+        return client.updateEvent(workSpaceId, event);
+    }
+
+    @Processor
+    @Override
+    public Event deleteEvent(String workSpaceId, String commentId) {
+        return client.deleteEvent(workSpaceId, commentId);
+    }
+
 }

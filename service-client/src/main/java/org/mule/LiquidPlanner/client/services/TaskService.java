@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.mule.LiquidPlanner.client.model.Filter;
 import org.mule.LiquidPlanner.client.model.Task;
+import org.mule.LiquidPlanner.client.model.Timesheet;
 
 /**
  * The interface describe operations to be performed over the Task resources of
@@ -38,7 +39,7 @@ public interface TaskService {
      * @param filter
      * @return
      */
-    public String getTimeSheets(String workSpaceId, String taskId, List<Filter> filters);
+    public List<Timesheet> getTaksTimesheets(String workSpaceId, String taskId, List<Filter> filters);
 
     /**
      * Retrieves a particular time sheets
@@ -46,7 +47,7 @@ public interface TaskService {
      * @param workSpaceId
      * @return
      */
-    public String getTimeSheet(String workSpaceId, String taskId, String timesheetId);
+    public Timesheet getTaskTimesheet(String workSpaceId, String taskId, String timesheetId);
 
     /**
      * Create a Task

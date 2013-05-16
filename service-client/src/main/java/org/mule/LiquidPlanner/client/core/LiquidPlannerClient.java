@@ -28,6 +28,7 @@ import org.mule.LiquidPlanner.client.model.Workspace;
 import org.mule.LiquidPlanner.client.services.ActivityService;
 import org.mule.LiquidPlanner.client.services.CheckListItemService;
 import org.mule.LiquidPlanner.client.services.ClientService;
+import org.mule.LiquidPlanner.client.services.CommentService;
 import org.mule.LiquidPlanner.client.services.CustomField;
 import org.mule.LiquidPlanner.client.services.CustomFieldService;
 import org.mule.LiquidPlanner.client.services.DocumentService;
@@ -46,6 +47,7 @@ import org.mule.LiquidPlanner.client.services.WorkspaceService;
 import org.mule.LiquidPlanner.client.services.impl.ActivityServiceClient;
 import org.mule.LiquidPlanner.client.services.impl.CheckListItemServiceClient;
 import org.mule.LiquidPlanner.client.services.impl.ClientServiceClient;
+import org.mule.LiquidPlanner.client.services.impl.CommentServiceClient;
 import org.mule.LiquidPlanner.client.services.impl.CustomFieldServiceClient;
 import org.mule.LiquidPlanner.client.services.impl.DocumentServiceClient;
 import org.mule.LiquidPlanner.client.services.impl.EventServiceClient;
@@ -69,7 +71,8 @@ import org.mule.LiquidPlanner.client.services.impl.WorkspaceServiceClient;
  */
 public class LiquidPlannerClient implements ProjectService, TimesheetService, TimesheetEntryService, MemberService,
         TreeItemService, TaskService, MileStoneService, FolderService, ClientService, EventService, CustomFieldService,
-        LinkService, PackageService, ActivityService, DocumentService, WorkspaceService, CheckListItemService {
+        LinkService, PackageService, ActivityService, DocumentService, WorkspaceService, CheckListItemService,
+        CommentService {
 
     private ProjectService projectService;
     private TimesheetService timesheetService;
@@ -88,6 +91,7 @@ public class LiquidPlannerClient implements ProjectService, TimesheetService, Ti
     private DocumentService documentService;
     private WorkspaceService workspaceService;
     private CheckListItemService checkListItemService;
+    private CommentService commentService;
 
     public LiquidPlannerClient(String user, String password) {
         Validate.notEmpty(user, "The user can not be null nor empty");
@@ -110,6 +114,7 @@ public class LiquidPlannerClient implements ProjectService, TimesheetService, Ti
         this.documentService = new DocumentServiceClient(user, password);
         this.workspaceService = new WorkspaceServiceClient(user, password);
         this.checkListItemService = new CheckListItemServiceClient(user, password);
+        this.commentService = new CommentServiceClient(user, password);
     }
 
     @Override
@@ -184,13 +189,13 @@ public class LiquidPlannerClient implements ProjectService, TimesheetService, Ti
     }
 
     @Override
-    public String getTimeSheets(String workSpaceId, String taskId, List<Filter> filters) {
-        return taskService.getTimeSheets(workSpaceId, taskId, filters);
+    public List<Timesheet> getTaksTimesheets(String workSpaceId, String taskId, List<Filter> filters) {
+        return taskService.getTaksTimesheets(workSpaceId, taskId, filters);
     }
 
     @Override
-    public String getTimeSheet(String workSpaceId, String taskId, String timesheetId) {
-        return taskService.getTimeSheet(workSpaceId, taskId, timesheetId);
+    public Timesheet getTaskTimesheet(String workSpaceId, String taskId, String timesheetId) {
+        return taskService.getTaskTimesheet(workSpaceId, taskId, timesheetId);
     }
 
     @Override
@@ -506,8 +511,8 @@ public class LiquidPlannerClient implements ProjectService, TimesheetService, Ti
     }
 
     @Override
-    public Workspace getComment(String workSpaceId) {
-        return workspaceService.getComment(workSpaceId);
+    public Workspace getWorkspaceComment(String workSpaceId) {
+        return workspaceService.getWorkspaceComment(workSpaceId);
     }
 
     @Override
@@ -518,6 +523,31 @@ public class LiquidPlannerClient implements ProjectService, TimesheetService, Ti
     @Override
     public CheckListItem getCheckListItem(String workSpaceId, String checkListItemId) {
         return checkListItemService.getCheckListItem(workSpaceId, checkListItemId);
+    }
+
+    @Override
+    public List<Comment> getComments(String workSpaceId) {
+        return commentService.getComments(workSpaceId);
+    }
+
+    @Override
+    public Comment getComment(String workSpaceId, String commentId) {
+        return commentService.getComment(workSpaceId, commentId);
+    }
+
+    @Override
+    public Comment createComment(String workSpaceId, Comment comment) {
+        return commentService.createComment(workSpaceId, comment);
+    }
+
+    @Override
+    public Comment updateComment(String workSpaceId, Comment comment) {
+        return commentService.updateComment(workSpaceId, comment);
+    }
+
+    @Override
+    public Comment deleteComment(String workSpaceId, String commentId) {
+        return commentService.deleteComment(workSpaceId, commentId);
     }
 
 }
