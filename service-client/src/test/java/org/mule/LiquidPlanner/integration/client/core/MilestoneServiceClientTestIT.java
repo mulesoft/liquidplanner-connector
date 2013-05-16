@@ -8,9 +8,11 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jettison.json.JSONException;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
 import org.mule.LiquidPlanner.client.model.Milestone;
 import org.mule.LiquidPlanner.client.services.MileStoneService;
 import org.mule.LiquidPlanner.client.services.impl.MilestoneServiceClient;
@@ -62,7 +64,56 @@ public class MilestoneServiceClientTestIT extends AbstractServiceClientTestIT {
         Milestone newMilestone = service.createMilestone(WORKSPACE_ID, response);
 
         printOutResponse(newMilestone.toString());
+    }
 
+    @Test
+    public void testUpdateMilestone() throws JSONException, JsonParseException, JsonMappingException, IOException {
+        MileStoneService service = new MilestoneServiceClient(USER, PASSWORD);
+
+        // Get Base Milstone
+        Milestone response = service.getMilestone(WORKSPACE_ID, MILESTONE_ID);
+
+        // Null some stuff to create a new one
+        response.setId(null);
+        response.setParentId(new Integer("8152840"));
+        List<Integer> parentIds = new ArrayList<Integer>();
+        parentIds.add(new Integer("8152840"));
+        response.setParentIds(parentIds);
+        response.setName("Milestone_to_be_deleted");
+        Milestone newMilestone = service.createMilestone(WORKSPACE_ID, response);
+
+        Milestone aMilestone = service.getMilestone(WORKSPACE_ID, newMilestone.getId().toString());
+        String updatedName = aMilestone.getName() + "[UPDATED]";
+        aMilestone.setName(updatedName);
+
+        Milestone updatedMilestone = service.updateMilestone(WORKSPACE_ID, aMilestone);
+        try {
+            Assert.assertEquals("The milestone names should be the same.", updatedName, updatedMilestone.getName());
+        } finally {
+            service.deleteMilestone(WORKSPACE_ID, newMilestone.getId().toString());
+        }
+    }
+
+    @Test(expected = LiquidPlannerException.class)
+    public void testDeleteMilestone() throws JSONException, JsonParseException, JsonMappingException, IOException {
+        MileStoneService service = new MilestoneServiceClient(USER, PASSWORD);
+
+        // Get Base Milstone
+        Milestone response = service.getMilestone(WORKSPACE_ID, MILESTONE_ID);
+
+        // Null some stuff to create a new one
+        response.setId(null);
+        response.setParentId(new Integer("8152840"));
+        List<Integer> parentIds = new ArrayList<Integer>();
+        parentIds.add(new Integer("8152840"));
+        response.setParentIds(parentIds);
+        response.setName("Milestone_to_be_deleted");
+        Milestone newMilestone = service.createMilestone(WORKSPACE_ID, response);
+
+        // Delete milestone
+        service.deleteMilestone(WORKSPACE_ID, newMilestone.getId().toString());
+
+        service.getMilestone(WORKSPACE_ID, newMilestone.getId().toString());
     }
 
 }

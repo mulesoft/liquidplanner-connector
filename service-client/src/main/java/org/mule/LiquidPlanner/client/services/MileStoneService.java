@@ -12,4 +12,8 @@ public interface MileStoneService {
 
     public Milestone createMilestone(String workSpaceId, Milestone milestone);
 
+    public Milestone updateMilestone(String workSpaceId, Milestone milestone);
+
+    public Milestone deleteMilestone(String workSpaceId, String id);
+
 }

@@ -10,6 +10,7 @@ import org.apache.commons.lang.Validate;
 import org.codehaus.jackson.type.TypeReference;
 import org.mule.LiquidPlanner.client.core.ServiceEntity;
 import org.mule.LiquidPlanner.client.exception.LiquidPlannerException;
+import org.mule.LiquidPlanner.client.model.Client;
 import org.mule.LiquidPlanner.client.model.Folder;
 import org.mule.LiquidPlanner.client.model.Milestone;
 import org.mule.LiquidPlanner.client.model.Project;
@@ -39,7 +40,7 @@ public class MilestoneServiceClient extends AbstractServiceClient implements Mil
     public List<Milestone> getMilestones(String workSpaceId) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
-        String url = getMilestoneBaseURL(workSpaceId);
+        String url = getURL(workSpaceId);
 
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
@@ -64,7 +65,7 @@ public class MilestoneServiceClient extends AbstractServiceClient implements Mil
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(mileStoneId, "The milestone id can not be null nor empty.");
 
-        String url = getMilestoneBaseURL(workSpaceId) + "/" + mileStoneId;
+        String url = getURL(workSpaceId) + "/" + mileStoneId;
 
         WebResource.Builder builder = getBuilder(user, password, url, null);
 
@@ -85,9 +86,27 @@ public class MilestoneServiceClient extends AbstractServiceClient implements Mil
     public Milestone createMilestone(String workSpaceId, Milestone milestone) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
-        String url = getMilestoneBaseURL(workSpaceId);
+        String url = getURL(workSpaceId);
         return this.createEntity("milestone", milestone, url);
     }
+    
+    @Override
+    public Milestone updateMilestone(String workSpaceId, Milestone milestone) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+
+        String url = getURL(workSpaceId) + "/" + milestone.getId();
+        return this.updateEntity(ServiceEntity.MILESTONE.getName(), milestone, url);
+    }
+
+    @Override
+    public Milestone deleteMilestone(String workSpaceId, String id) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
+        Validate.notEmpty(id, "The id can not be null nor empty.");
+
+        String url = getURL(workSpaceId) + "/" + id;
+        return this.deleteEntity(url, Milestone.class);
+    }
+
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {
@@ -107,7 +126,7 @@ public class MilestoneServiceClient extends AbstractServiceClient implements Mil
         return clientFilters;
     }
 
-    private String getMilestoneBaseURL(String workSpaceId) {
+    private String getURL(String workSpaceId) {
         return getBaseURL() + "/" + workSpaceId + ServiceEntity.MILESTONE.path();
     }
 }
