@@ -16,14 +16,14 @@ import org.mule.LiquidPlanner.client.services.MemberService;
 import org.mule.LiquidPlanner.client.services.MileStoneService;
 import org.mule.LiquidPlanner.client.services.ProjectService;
 import org.mule.LiquidPlanner.client.services.TaskService;
-import org.mule.LiquidPlanner.client.services.TimeSheetService;
+import org.mule.LiquidPlanner.client.services.TimesheetService;
 import org.mule.LiquidPlanner.client.services.TreeItemService;
 import org.mule.LiquidPlanner.client.services.impl.FolderServiceClient;
 import org.mule.LiquidPlanner.client.services.impl.MemberServiceClient;
 import org.mule.LiquidPlanner.client.services.impl.MilestoneServiceClient;
 import org.mule.LiquidPlanner.client.services.impl.ProjectServiceClient;
 import org.mule.LiquidPlanner.client.services.impl.TaskServiceClient;
-import org.mule.LiquidPlanner.client.services.impl.TimeSheetServiceClient;
+import org.mule.LiquidPlanner.client.services.impl.TimesheetServiceClient;
 import org.mule.LiquidPlanner.client.services.impl.TreeItemServiceClient;
 
 /**
@@ -32,11 +32,11 @@ import org.mule.LiquidPlanner.client.services.impl.TreeItemServiceClient;
  * @author damiansima
  * 
  */
-public class LiquidPlannerClient implements ProjectService, TimeSheetService, MemberService, TreeItemService,
+public class LiquidPlannerClient implements ProjectService, TimesheetService, MemberService, TreeItemService,
         TaskService, MileStoneService, FolderService {
 
     private ProjectService projectService;
-    private TimeSheetService timeSheetService;
+    private TimesheetService timeSheetService;
     private MemberService memberService;
     private TreeItemService treeItemService;
     private TaskService taskService;
@@ -48,7 +48,7 @@ public class LiquidPlannerClient implements ProjectService, TimeSheetService, Me
         Validate.notEmpty(password, "The password can not be null nor empty");
 
         this.projectService = new ProjectServiceClient(user, password);
-        this.timeSheetService = new TimeSheetServiceClient(user, password);
+        this.timeSheetService = new TimesheetServiceClient(user, password);
         this.memberService = new MemberServiceClient(user, password);
         this.treeItemService = new TreeItemServiceClient(user, password);
         this.taskService = new TaskServiceClient(user, password);

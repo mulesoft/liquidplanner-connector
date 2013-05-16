@@ -27,7 +27,7 @@ import org.mule.LiquidPlanner.client.services.FolderService;
 import org.mule.LiquidPlanner.client.services.MemberService;
 import org.mule.LiquidPlanner.client.services.MileStoneService;
 import org.mule.LiquidPlanner.client.services.ProjectService;
-import org.mule.LiquidPlanner.client.services.TimeSheetService;
+import org.mule.LiquidPlanner.client.services.TimesheetService;
 import org.mule.LiquidPlanner.client.services.TreeItemService;
 import org.mule.LiquidPlanner.client.services.impl.FolderServiceClient;
 import org.mule.LiquidPlanner.client.services.impl.MilestoneServiceClient;
@@ -48,7 +48,7 @@ import org.mule.api.annotations.param.Optional;
  * @author MuleSoft, Inc.
  */
 @Connector(name = "liquidplanner", schemaVersion = "1.0-SNAPSHOT")
-public class LiquidPlannerConnector implements TimeSheetService, MemberService, ProjectService {
+public class LiquidPlannerConnector implements TimesheetService, MemberService, ProjectService {
 
     private LiquidPlannerClient client;
 

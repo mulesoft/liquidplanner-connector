@@ -13,7 +13,7 @@ import org.mule.LiquidPlanner.client.model.TimesheetEntry;
  * @author damiansima
  * 
  */
-public interface TimeSheetService {
+public interface TimesheetService {
 
     /**
      * Returns a list of all the time sheets related to given project.
@@ -36,28 +36,5 @@ public interface TimeSheetService {
      * @return
      */
     public Timesheet getTimeSheet(String workSpaceId, String timesheetId);
-
-    /**
-     * Returns all the time sheet entries related to a particular time sheet
-     * 
-     * @param user
-     * 
-     * @param workSpaceId
-     * @param timesheetId
-     * @param filters
-     * @return
-     */
-    public List<TimesheetEntry> getTimeSheetEntries(String workSpaceId, String timesheetId, List<Filter> filters);
-
-    /**
-     * Returns a particular time sheet entry related to a given time sheet id
-     * 
-     * 
-     * @param workSpaceId
-     * @param timesheetId
-     * @param timesheetEntryId
-     * @return
-     */
-    public TimesheetEntry getTimeSheetEntry(String workSpaceId, String timesheetId, String timesheetEntryId);
 
 }
