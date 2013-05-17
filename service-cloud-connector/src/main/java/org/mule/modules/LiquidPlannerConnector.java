@@ -121,7 +121,7 @@ public class LiquidPlannerConnector implements TimesheetService, TimesheetEntryS
      * Return a list of the time sheets
      * 
      * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
-     * liquidplanner:get-time-sheets}
+     * liquidplanner:get-timesheets}
      * 
      * @param workSpaceId
      *            Content to be processed
@@ -141,7 +141,7 @@ public class LiquidPlannerConnector implements TimesheetService, TimesheetEntryS
      * Return a time sheets
      * 
      * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
-     * liquidplanner:get-time-sheet}
+     * liquidplanner:get-timesheet}
      * 
      * @param workSpaceId
      *            Content to be processed
@@ -160,7 +160,7 @@ public class LiquidPlannerConnector implements TimesheetService, TimesheetEntryS
      * Return a list of time sheets entries
      * 
      * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
-     * liquidplanner:get-time-sheet-entries}
+     * liquidplanner:get-timesheet-entries}
      * 
      * @param workSpaceId
      *            Content to be processed
@@ -180,11 +180,10 @@ public class LiquidPlannerConnector implements TimesheetService, TimesheetEntryS
      * Return a time sheet entry
      * 
      * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
-     * liquidplanner:get-time-sheet-entry}
+     * liquidplanner:get-timesheet-entry}
      * 
      * @param workSpaceId
      *            Content to be processed
-     * 
      * @param timesheetEntryId
      *            the id of the timesheet entry
      * @return Some string
@@ -388,225 +387,696 @@ public class LiquidPlannerConnector implements TimesheetService, TimesheetEntryS
         }
     }
 
+    /**
+     * Updates a particular {@link Project}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:update-project}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param project
+     *            the project to update
+     * @return the updated {@link Project}
+     */
     @Processor
     @Override
     public Project updateProject(String workSpaceId, Project project) {
         return client.updateProject(workSpaceId, project);
     }
 
+    /**
+     * Deletes a particular {@link Project}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:delete-project}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param id
+     *            the project id to delete
+     * @return the deleted {@link Project}
+     */
     @Processor
     @Override
     public Project deleteProject(String workSpaceId, String id) {
         return client.deleteProject(workSpaceId, id);
     }
 
+    /**
+     * Retrieves all the existing tasks in the workspace
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-tasks}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param filters
+     *            the list of {@link Filter} to run through the search
+     * @return the list of {@link Task}
+     */
     @Processor
     @Override
-    public List<Task> getTasks(String workSpaceId, List<Filter> filters) {
+    public List<Task> getTasks(String workSpaceId, @Optional List<Filter> filters) {
+        filters = filters == null ? new ArrayList<Filter>() : filters;
         return client.getTasks(workSpaceId, filters);
     }
 
+    /**
+     * Retrieves a particular tasks in the workspace
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-task}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param taskId
+     *            the id of the {@link Task} to retrieve
+     * @return the {@link Task}
+     */
     @Processor
     @Override
     public Task getTask(String workSpaceId, String taskId) {
         return client.getTask(workSpaceId, taskId);
     }
 
+    /**
+     * Creates a task
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:create-task}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param task
+     *            the {@link Task} to be created
+     * @return the {@link Task} created
+     */
     @Processor
     @Override
     public Task createTask(String workSpaceId, Task task) {
         return client.createTask(workSpaceId, task);
     }
 
+    /**
+     * Updates a task
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:update-task}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param task
+     *            the {@link Task} to be updated
+     * @return the {@link Task} updated
+     */
     @Processor
     @Override
     public Task updateTask(String workSpaceId, Task task) {
         return client.updateTask(workSpaceId, task);
     }
 
+    /**
+     * Deletes a task
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:delete-task}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param taskId
+     *            the id of the {@link Task} to be deleted
+     * @return the {@link Task} deleted
+     */
     @Processor
     @Override
     public Task deleteTask(String workSpaceId, String taskId) {
         return client.deleteTask(workSpaceId, taskId);
     }
 
+    /**
+     * Retrieves all the {@link Timesheet} related to a {@link Task}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-task-timesheets}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param taskId
+     *            the id of the {@link Task} to be deleted
+     * @param filters
+     *            a list of {@link Filter} to be apply to the search
+     * 
+     * @return a list of {@link Timesheet}
+     */
     @Processor
     @Override
-    public List<Timesheet> getTaksTimesheets(String workSpaceId, String taskId, List<Filter> filters) {
-        return client.getTaksTimesheets(workSpaceId, taskId, filters);
+    public List<Timesheet> getTaskTimesheets(String workSpaceId, String taskId, @Optional List<Filter> filters) {
+        return client.getTaskTimesheets(workSpaceId, taskId, filters);
     }
 
+    /**
+     * Retrieves a particular {@link Timesheet} related to a {@link Task}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-task-timesheet}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param taskId
+     *            the id of the {@link Task} to be deleted
+     * @param timesheetId
+     *            the id of the {@link Timesheet}
+     * 
+     * @return the {@link Timesheet}
+     */
     @Processor
     @Override
     public Timesheet getTaskTimesheet(String workSpaceId, String taskId, String timesheetId) {
         return client.getTaskTimesheet(workSpaceId, taskId, timesheetId);
     }
 
+    /**
+     * Retrieves all the {@link Client} in the workspace
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-clients}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * 
+     * 
+     * @return a list of {@link Client}
+     */
     @Processor
     @Override
     public List<Client> getClients(String workSpaceId) {
         return client.getClients(workSpaceId);
     }
 
+    /**
+     * Retrieve a particular {@link Client}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-client}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param clientId
+     *            the id of the client
+     * 
+     * @return a {@link Client}
+     */
     @Processor
     @Override
     public Client getClient(String workSpaceId, String clientId) {
         return client.getClient(workSpaceId, clientId);
     }
 
+    /**
+     * Retrieve all the {@link Comment} for a particular {@link Client}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-client-comments}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param clientId
+     *            the id of the client
+     * 
+     * @return a list of {@link Comment}
+     */
     @Processor
     @Override
     public List<Comment> getClientComments(String workSpaceId, String clientId) {
         return client.getClientComments(workSpaceId, clientId);
     }
 
+    /**
+     * Retrieve all the {@link Document} for a particular {@link Client}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-client-documents}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param clientId
+     *            the id of the client
+     * 
+     * @return a list of {@link Document}
+     */
     @Processor
     @Override
     public List<Document> getClientDocuments(String workSpaceId, String clientId) {
         return client.getClientDocuments(workSpaceId, clientId);
     }
 
+    /**
+     * Retrieve all the {@link Estimate} for a particular {@link Client}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-client-estimates}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param clientId
+     *            the id of the client
+     * 
+     * @return a list of {@link Estimate}
+     */
     @Processor
     @Override
     public List<Estimate> getClientEstimates(String workSpaceId, String clientId) {
         return client.getClientEstimates(workSpaceId, clientId);
     }
 
+    /**
+     * Retrieve a particular {@link Estimate} for a particular {@link Client}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-client-estimate}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param clientId
+     *            the id of the client
+     * @param estimateId
+     *            the id of the estimate
+     * 
+     * @return a {@link Estimate}
+     */
     @Processor
     @Override
     public Estimate getClientEstimate(String workSpaceId, String clientId, String estimateId) {
         return client.getClientEstimate(workSpaceId, clientId, estimateId);
     }
 
+    /**
+     * Retrieve all the {@link Link} for a particular {@link Client}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-client-links}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param clientId
+     *            the id of the client
+     * 
+     * @return a list of {@link Link}
+     */
     @Processor
     @Override
     public List<Link> getClientLinks(String workSpaceId, String clientId) {
         return client.getClientLinks(workSpaceId, clientId);
     }
 
+    /**
+     * Retrieve a {@link Note} for a particular {@link Client}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-client-note}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param clientId
+     *            the id of the client
+     * 
+     * @return a {@link Note}
+     */
+    @Processor
     @Override
     public Note getClientNote(String workSpaceId, String clientId) {
         return client.getClientNote(workSpaceId, clientId);
     }
 
+    /**
+     * Creates a {@link Client}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:create-client}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param client
+     *            the the client
+     * 
+     * @return the {@link Client} created
+     */
     @Processor
     @Override
     public Client createClient(String workSpaceId, Client client) {
         return this.client.createClient(workSpaceId, client);
     }
 
+    /**
+     * Updates a {@link Client}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:update-client}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param client
+     *            the the client
+     * 
+     * @return the {@link Client} updated
+     */
     @Processor
     @Override
     public Client updateClient(String workSpaceId, Client client) {
         return this.client.updateClient(workSpaceId, client);
     }
 
+    /**
+     * Deletes a {@link Client}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:delete-client}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param id
+     *            the id of the client
+     * 
+     * @return the {@link Client} deleted
+     */
     @Processor
     @Override
     public Client deleteClient(String workSpaceId, String id) {
         return client.deleteClient(workSpaceId, id);
     }
 
+    /**
+     * Retrieves all the {@link CustomField} in the workspace
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-custom-fields}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * 
+     * @return a list of {@link CustomField}
+     */
     @Processor
     @Override
     public List<CustomField> getCustomFields(String workSpaceId) {
         return client.getCustomFields(workSpaceId);
     }
 
+    /**
+     * Retrieves a particular {@link CustomField}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-custom-field}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param customFieldId
+     *            the id of the custom field
+     * 
+     * @return a {@link CustomField}
+     */
     @Processor
     @Override
     public CustomField getCustomField(String workSpaceId, String customFieldId) {
         return client.getCustomField(workSpaceId, customFieldId);
     }
 
+    /**
+     * Retrieves all the {@link Comment} in the workspace
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-comments}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * 
+     * @return a list of {@link Comment}
+     */
     @Processor
     @Override
     public List<Comment> getComments(String workSpaceId) {
         return client.getComments(workSpaceId);
     }
 
+    /**
+     * Retrieves a particular {@link Comment}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-comment}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param commentId
+     *            the id of the comment
+     * @return a {@link Comment}
+     */
     @Processor
     @Override
     public Comment getComment(String workSpaceId, String commentId) {
         return client.getComment(workSpaceId, commentId);
     }
 
+    /**
+     * Creates a {@link Comment}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:create-comment}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param comment
+     *            the comment to be created
+     * @return the {@link Comment} created
+     */
     @Processor
     @Override
     public Comment createComment(String workSpaceId, Comment comment) {
         return client.createComment(workSpaceId, comment);
     }
 
+    /**
+     * Updates a {@link Comment}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:update-comment}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param comment
+     *            the comment to be updated
+     * @return the {@link Comment} updated
+     */
     @Processor
     @Override
     public Comment updateComment(String workSpaceId, Comment comment) {
         return client.updateComment(workSpaceId, comment);
     }
 
+    /**
+     * Deletes a {@link Comment}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:delete-comment}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param commentId
+     *            the id of the comment
+     * @return the {@link Comment} deleted
+     */
     @Processor
     @Override
     public Comment deleteComment(String workSpaceId, String commentId) {
         return client.deleteComment(workSpaceId, commentId);
     }
 
+    /**
+     * Retrieves all the {@link Event} in the workspace
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-events}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * 
+     * @return a list of {@link Event}
+     */
     @Processor
     @Override
     public List<Event> getEvents(String workSpaceId) {
         return client.getEvents(workSpaceId);
     }
 
+    /**
+     * Retrieves a particular {@link Event}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-event}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param eventId
+     *            the id of the event
+     * 
+     * @return a {@link Event}
+     */
     @Processor
     @Override
     public Event getEvent(String workSpaceId, String eventId) {
         return client.getEvent(workSpaceId, eventId);
     }
 
+    /**
+     * Retrieves all the {@link CheckListItem} related to an event
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-event-check-list-items}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param eventId
+     *            the id of the event
+     * 
+     * @return a list of {@link CheckListItem}
+     */
     @Processor
     @Override
     public List<CheckListItem> getEventCheckListItems(String workSpaceId, String eventId) {
         return client.getCheckListItems(workSpaceId);
     }
 
+    /**
+     * Retrieves all the {@link Comment} related to an event
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-event-comments}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param eventId
+     *            the id of the event
+     * 
+     * @return a list of {@link Comment}
+     */
     @Processor
     @Override
     public List<Comment> getEventComments(String workSpaceId, String eventId) {
         return client.getEventComments(workSpaceId, eventId);
     }
 
+    /**
+     * Retrieves all the {@link Document} related to an event
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-event-documents}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param eventId
+     *            the id of the event
+     * 
+     * @return a list of {@link Document}
+     */
     @Processor
     @Override
     public List<Document> getEventDocuments(String workSpaceId, String eventId) {
         return client.getEventDocuments(workSpaceId, eventId);
     }
 
+    /**
+     * Retrieves all the {@link Link} related to an event
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-event-links}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param eventId
+     *            the id of the event
+     * 
+     * @return a list of {@link Link}
+     */
     @Processor
     @Override
     public List<Link> getEventLinks(String workSpaceId, String eventId) {
         return client.getEventLinks(workSpaceId, eventId);
     }
 
+    /**
+     * Retrieves all the {@link TimesheetEntry} related to an event
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-event-timesheet-entries}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param eventId
+     *            the id of the event
+     * 
+     * @return a list of {@link TimesheetEntry}
+     */
     @Processor
     @Override
-    public String getEventTimesheetEntries(String workSpaceId, String eventId) {
+    public List<TimesheetEntry> getEventTimesheetEntries(String workSpaceId, String eventId) {
         return client.getEventTimesheetEntries(workSpaceId, eventId);
     }
 
+    /**
+     * Creates a {@link Event}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:create-event}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param event
+     *            the event
+     * 
+     * @return the {@link Event} created
+     */
     @Processor
     @Override
     public Event createEvent(String workSpaceId, Event event) {
         return client.createEvent(workSpaceId, event);
     }
 
+    /**
+     * Updates a {@link Event}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:update-event}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param event
+     *            the event
+     * 
+     * @return the {@link Event} updated
+     */
     @Processor
     @Override
     public Event updateEvent(String workSpaceId, Event event) {
         return client.updateEvent(workSpaceId, event);
     }
 
+    /**
+     * Deletes a {@link Event}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:update-event}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param id
+     *            the id of event
+     * 
+     * @return the {@link Event} deleted
+     */
     @Processor
     @Override
-    public Event deleteEvent(String workSpaceId, String commentId) {
-        return client.deleteEvent(workSpaceId, commentId);
+    public Event deleteEvent(String workSpaceId, String id) {
+        return client.deleteEvent(workSpaceId, id);
     }
 
     @Override

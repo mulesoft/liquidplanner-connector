@@ -1,22 +1,18 @@
-<!-- BEGIN_INCLUDE(liquidplanner:get-time-sheets) -->
-    <liquidplanner:get-time-sheets workSpaceId="#[map-payload:workspace-id]" >
-    	<liquidplanner:filters ref="#[map-payload:filters]" />
-    </liquidplanner:get-time-sheets>
-<!-- END_INCLUDE(liquidplanner:get-time-sheets) --> 
+<!-- BEGIN_INCLUDE(liquidplanner:get-timesheets) -->
+    <liquidplanner:get-timesheets workSpaceId="#[map-payload:workspace-id]" />
+<!-- END_INCLUDE(liquidplanner:get-timesheets) --> 
 
-<!-- BEGIN_INCLUDE(liquidplanner:get-time-sheet) -->
-	<liquidplanner:get-time-sheet workSpaceId="#[map-payload:content]" timesheetId="#[map-payload:time-sheet-id]" />
-<!-- END_INCLUDE(liquidplanner:get-time-sheet) -->
+<!-- BEGIN_INCLUDE(liquidplanner:get-timesheet) -->
+	<liquidplanner:get-timesheet workSpaceId="#[map-payload:content]" timesheetId="#[map-payload:timesheet-id]" />
+<!-- END_INCLUDE(liquidplanner:get-timesheet) -->
 
-<!-- BEGIN_INCLUDE(liquidplanner:get-time-sheet-entries) -->
-	<liquidplanner:get-time-sheet-entries workSpaceId="#[map-payload:content]" timesheetId="#[map-payload:time-sheet-id]" >
-		<liquidplanner:filters ref="#[map-payload:filters]" />
-	</liquidplanner:get-time-sheet-entries >
-<!-- END_INCLUDE(liquidplanner:get-time-sheet-entries) -->
+<!-- BEGIN_INCLUDE(liquidplanner:get-timesheet-entries) -->
+	<liquidplanner:get-timesheet-entries workSpaceId="#[map-payload:content]" />
+<!-- END_INCLUDE(liquidplanner:get-timesheet-entries) -->
 
-<!-- BEGIN_INCLUDE(liquidplanner:get-time-sheet-entry) -->
-	<liquidplanner:get-time-sheet-entry workSpaceId="#[map-payload:content]" timesheetId="#[map-payload:time-sheet-id]" timesheetEntryId ="#[map-payload:time-sheet-entry-id]" />
-<!-- END_INCLUDE(liquidplanner:get-time-sheet-entry) -->
+<!-- BEGIN_INCLUDE(liquidplanner:get-timesheet-entry) -->
+	<liquidplanner:get-timesheet-entry workSpaceId="#[map-payload:content]" timesheetEntryId ="#[map-payload:time-sheet-entry-id]" />
+<!-- END_INCLUDE(liquidplanner:get-timesheet-entry) -->
 
 <!-- BEGIN_INCLUDE(liquidplanner:get-members) -->
 	<liquidplanner:get-members workSpaceId="#[map-payload:content]" />
@@ -51,3 +47,169 @@
 <!-- BEGIN_INCLUDE(liquidplanner:duplicate-project) -->
     <liquidplanner:duplicate-project workSpaceId="#[map-payload:workspaceid]" sourceProjectId="#[map-payload:sourceprojectid]" destinationParentId="#[map-payload:destinationparentid]" newProjectName="#[map-payload:newprojectname]"/>
 <!-- END_INCLUDE(liquidplanner:duplicate-project) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:update-project) -->
+	<liquidplanner:update-project workSpaceId="#[map-payload:workspaceid]" >
+		<liquidplanner:project  ref="#[map-payload:project-ref]" />
+	</liquidplanner:update-project>
+<!-- END_INCLUDE(liquidplanner:update-project) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:delete-project) -->
+	<liquidplanner:delete-project workSpaceId="#[map-payload:workspaceid]" id="#[map-payload:project-id]"/>
+<!-- END_INCLUDE(liquidplanner:delete-project) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-tasks) -->
+	<liquidplanner:get-tasks workSpaceId="#[map-payload:workspaceid]"/>
+<!-- END_INCLUDE(liquidplanner:get-tasks) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-task) -->
+	<liquidplanner:get-task workSpaceId="#[map-payload:workspaceid]" taskId="#[map-payload:task-id]"/>
+<!-- END_INCLUDE(liquidplanner:get-task) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:create-task) -->
+	<liquidplanner:create-task workSpaceId="#[map-payload:workspaceid]">
+		<liquidplanner:task  ref="#[map-payload:task-ref]" />
+	</liquidplanner:create-task>
+<!-- END_INCLUDE(liquidplanner:create-task) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:update-task) -->
+	<liquidplanner:update-task workSpaceId="#[map-payload:workspaceid]">
+		<liquidplanner:task  ref="#[map-payload:task-ref]" />
+	</liquidplanner:update-task>
+<!-- END_INCLUDE(liquidplanner:update-task) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:delete-task) -->
+	<liquidplanner:delete-task workSpaceId="#[map-payload:workspaceid]" taskId="#[map-payload:task-id]"/>
+<!-- END_INCLUDE(liquidplanner:delete-task) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-task-timesheets) -->
+	<liquidplanner:get-task-timesheets workSpaceId="#[map-payload:workspaceid]" taskId="#[map-payload:task-id]"/>
+<!-- END_INCLUDE(liquidplanner:get-task-timesheets) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-task-timesheet) -->
+	<liquidplanner:get-task-timesheet workSpaceId="#[map-payload:workspaceid]" taskId="#[map-payload:task-id]" timesheetId="#[map-payload:timesheet-id]" />
+<!-- END_INCLUDE(liquidplanner:get-task-timesheet) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-clients) -->
+	<liquidplanner:get-clients workSpaceId="#[map-payload:workspaceid]"/>
+<!-- END_INCLUDE(liquidplanner:get-clients) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-client) -->
+	<liquidplanner:get-client workSpaceId="#[map-payload:workspaceid]" clientId="#[map-payload:clientid]"/>
+<!-- END_INCLUDE(liquidplanner:get-client) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-client-comments) -->
+	<liquidplanner:get-client-comments workSpaceId="#[map-payload:workspaceid]" clientId="#[map-payload:clientid]"/>
+<!-- END_INCLUDE(liquidplanner:get-client-comments) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-client-documents) -->
+	<liquidplanner:get-client-documents workSpaceId="#[map-payload:workspaceid]" clientId="#[map-payload:clientid]"/>
+<!-- END_INCLUDE(liquidplanner:get-client-documents) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-client-estimates) -->
+	<liquidplanner:get-client-estimates workSpaceId="#[map-payload:workspaceid]" clientId="#[map-payload:clientid]"/>
+<!-- END_INCLUDE(liquidplanner:get-client-estimates) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-client-estimate) -->
+	<liquidplanner:get-client-estimate workSpaceId="#[map-payload:workspaceid]" clientId="#[map-payload:clientid]" estimateId="#[map-payload:estimateid]"/>
+<!-- END_INCLUDE(liquidplanner:get-client-estimate) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-client-links) -->
+	<liquidplanner:get-client-links workSpaceId="#[map-payload:workspaceid]" clientId="#[map-payload:clientid]"/>
+<!-- END_INCLUDE(liquidplanner:get-client-links) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-client-note) -->
+	<liquidplanner:get-client-note workSpaceId="#[map-payload:workspaceid]" clientId="#[map-payload:clientid]"/>
+<!-- END_INCLUDE(liquidplanner:get-client-note) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:create-client) -->
+	<liquidplanner:create-client workSpaceId="#[map-payload:workspaceid]">
+		<liquidplanner:client ref="#[map-payload:client]" />
+	</liquidplanner:create-client>
+<!-- END_INCLUDE(liquidplanner:create-client) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:update-client) -->
+	<liquidplanner:update-client workSpaceId="#[map-payload:workspaceid]" >
+		<liquidplanner:client ref="#[map-payload:client]" />
+	</liquidplanner:update-client>
+<!-- END_INCLUDE(liquidplanner:update-client) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:delete-client) -->
+	<liquidplanner:delete-client workSpaceId="#[map-payload:workspaceid]" id="#[map-payload:clientId]"/>
+<!-- END_INCLUDE(liquidplanner:delete-client) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-custom-fields) -->
+	<liquidplanner:get-custom-fields workSpaceId="#[map-payload:workspaceid]"/>
+<!-- END_INCLUDE(liquidplanner:get-custom-fields) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-custom-field) -->
+	<liquidplanner:get-custom-field workSpaceId="#[map-payload:workspaceid]" customFieldId="#[map-payload:workspaceid]"/>
+<!-- END_INCLUDE(liquidplanner:get-custom-field) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-comments) -->
+	<liquidplanner:get-comments workSpaceId="#[map-payload:workspaceid]"/>
+<!-- END_INCLUDE(liquidplanner:get-comments) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-comment) -->
+	<liquidplanner:get-comment workSpaceId="#[map-payload:workspaceid]" commentId="#[map-payload:commentid]"/>
+<!-- END_INCLUDE(liquidplanner:get-comment) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:create-comment) -->
+	<liquidplanner:create-comment workSpaceId="#[map-payload:workspaceid]" >
+		<liquidplanner:comment ref="#[map-payload:comment]" />
+	</liquidplanner:create-comment>
+<!-- END_INCLUDE(liquidplanner:create-comment) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:update-comment) -->
+	<liquidplanner:update-comment workSpaceId="#[map-payload:workspaceid]">
+		<liquidplanner:comment ref="#[map-payload:comment]" />
+	</liquidplanner:update-comment>
+<!-- END_INCLUDE(liquidplanner:update-comment) -->
+ 
+<!-- BEGIN_INCLUDE(liquidplanner:delete-comment) -->
+	<liquidplanner:delete-comment workSpaceId="#[map-payload:workspaceid]" commentId="#[map-payload:commentId]"/>
+<!-- END_INCLUDE(liquidplanner:delete-comment) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-events) -->
+	<liquidplanner:get-events workSpaceId="#[map-payload:workspaceid]" />
+<!-- END_INCLUDE(liquidplanner:get-events) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-event) -->
+	<liquidplanner:get-event workSpaceId="#[map-payload:workspaceid]" eventId="#[map-payload:eventid]"/>
+<!-- END_INCLUDE(liquidplanner:get-event) -->  
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-event-check-list-items) -->
+	<liquidplanner:get-event-check-list-items workSpaceId="#[map-payload:workspaceid]" eventId="#[map-payload:eventid]"/>
+<!-- END_INCLUDE(liquidplanner:get-event-check-list-items) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-event-comments) -->
+	<liquidplanner:get-event-comments workSpaceId="#[map-payload:workspaceid]" eventId="#[map-payload:eventid]"/>
+<!-- END_INCLUDE(liquidplanner:get-event-comments) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-event-documents) -->
+	<liquidplanner:get-event-documents workSpaceId="#[map-payload:workspaceid]" eventId="#[map-payload:eventid]"/>
+<!-- END_INCLUDE(liquidplanner:get-event-documents) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-event-links) -->
+	<liquidplanner:get-event-links workSpaceId="#[map-payload:workspaceid]" eventId="#[map-payload:eventid]"/>
+<!-- END_INCLUDE(liquidplanner:get-event-links) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-event-timesheet-entries) -->
+	<liquidplanner:get-event-timesheet-entries workSpaceId="#[map-payload:workspaceid]" eventId="#[map-payload:eventid]"/>
+<!-- END_INCLUDE(liquidplanner:get-event-timesheet-entries) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:create-event) -->
+	<liquidplanner:create-event workSpaceId="#[map-payload:workspaceid]">
+		<liquidplanner:event ref="#[map-payload:event]" />
+	</liquidplanner:create-event>
+<!-- END_INCLUDE(liquidplanner:create-event) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:update-event) -->
+	<liquidplanner:update-event workSpaceId="#[map-payload:workspaceid]">
+		<liquidplanner:event ref="#[map-payload:event]" />
+	</liquidplanner:update-event>
+<!-- END_INCLUDE(liquidplanner:update-event) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:delete-event) -->
+	<liquidplanner:delete-event workSpaceId="#[map-payload:workspaceid]" id="#[map-payload:eventId]"/>
+<!-- END_INCLUDE(liquidplanner:delete-event) -->

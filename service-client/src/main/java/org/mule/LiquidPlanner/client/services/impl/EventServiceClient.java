@@ -11,6 +11,7 @@ import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Document;
 import org.mule.LiquidPlanner.client.model.Event;
 import org.mule.LiquidPlanner.client.model.Link;
+import org.mule.LiquidPlanner.client.model.TimesheetEntry;
 import org.mule.LiquidPlanner.client.services.EventService;
 
 import com.google.gson.reflect.TypeToken;
@@ -174,7 +175,7 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
      * getEventTimesheetEntries(java.lang.String, java.lang.String)
      */
     @Override
-    public String getEventTimesheetEntries(String workSpaceId, String eventId) {
+    public List<TimesheetEntry> getEventTimesheetEntries(String workSpaceId, String eventId) {
         Validate.notEmpty(workSpaceId, "The workspace id should not be null nor empty");
         Validate.notEmpty(eventId, "The event id should not be null nor empty");
 
@@ -183,15 +184,10 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
 
         ClientResponse clientResponse = builder.get(ClientResponse.class);
 
-        // Type type = new TypeToken<List<>>() {
-        // }.getType();
-        // return deserializeResponse(clientResponse, type);
+        Type type = new TypeToken<List<TimesheetEntry>>() {
+        }.getType();
+        return deserializeResponse(clientResponse, type);
 
-        String response = clientResponse.getEntity(String.class);
-        if (clientResponse.getStatus() >= 400) {
-            return response;
-        }
-        return response;
     }
 
     /*
@@ -208,12 +204,11 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         String url = getURL(workSpaceId);
         return this.createEntity(ServiceEntity.EVENT.getName(), event, url);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.mule.LiquidPlanner.client.services.impl.TaskService#updateEvent(
+     * @see org.mule.LiquidPlanner.client.services.impl.TaskService#updateEvent(
      * java.lang.String, org.mule.LiquidPlaner.client.Model.Event)
      */
     @Override
@@ -227,8 +222,7 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.mule.LiquidPlanner.client.services.impl.TaskService#deleteEvent(
+     * @see org.mule.LiquidPlanner.client.services.impl.TaskService#deleteEvent(
      * java.lang.String, java.lan.String)
      */
     @Override
@@ -239,7 +233,6 @@ public class EventServiceClient extends AbstractServiceClient implements EventSe
         String url = getURL(workSpaceId) + "/" + id;
         return this.deleteEntity(url, Event.class);
     }
-    
 
     @Override
     protected String extendGetBaseUrl(String baseUrl) {

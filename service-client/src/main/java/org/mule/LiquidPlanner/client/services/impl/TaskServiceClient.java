@@ -84,7 +84,7 @@ public class TaskServiceClient extends AbstractServiceClient implements TaskServ
      * (java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public List<Timesheet> getTaksTimesheets(String workSpaceId, String taskId, List<Filter> filters) {
+    public List<Timesheet> getTaskTimesheets(String workSpaceId, String taskId, List<Filter> filters) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
         Validate.notEmpty(taskId, "The task id can not be null nor empty.");
         Validate.notNull(filters, "The filters parameter can not be null");

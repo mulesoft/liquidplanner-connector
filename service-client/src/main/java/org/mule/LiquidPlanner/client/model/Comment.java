@@ -56,8 +56,6 @@ public class Comment extends TreeItem {
     @JsonProperty("id")
     private int id;
 
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
     public List<String> getAtPersonIds() {
         return atPersonIds;
     }
@@ -152,14 +150,6 @@ public class Comment extends TreeItem {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    public void setAdditionalProperties(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 
 }

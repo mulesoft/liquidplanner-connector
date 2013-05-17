@@ -16,6 +16,7 @@ import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Document;
 import org.mule.LiquidPlanner.client.model.Event;
 import org.mule.LiquidPlanner.client.model.Link;
+import org.mule.LiquidPlanner.client.model.TimesheetEntry;
 import org.mule.LiquidPlanner.client.services.CommentService;
 import org.mule.LiquidPlanner.client.services.EventService;
 import org.mule.LiquidPlanner.client.services.impl.CommentServiceClient;
@@ -93,9 +94,9 @@ public class EventServiceClientTestIT extends AbstractServiceClientTestIT {
     @Test
     public void testGetEventTimesheetEntries() throws JSONException {
         EventService service = new EventServiceClient(USER, PASSWORD);
-        String response = service.getEventTimesheetEntries(WORKSPACE_ID, EVENT_ID);
+        List<TimesheetEntry> timesheeEntries = service.getEventTimesheetEntries(WORKSPACE_ID, EVENT_ID);
 
-        printOutResponse(response.toString());
+        printOutResponse(timesheeEntries.toString());
     }
 
     @Ignore

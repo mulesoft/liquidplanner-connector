@@ -189,8 +189,8 @@ public class LiquidPlannerClient implements ProjectService, TimesheetService, Ti
     }
 
     @Override
-    public List<Timesheet> getTaksTimesheets(String workSpaceId, String taskId, List<Filter> filters) {
-        return taskService.getTaksTimesheets(workSpaceId, taskId, filters);
+    public List<Timesheet> getTaskTimesheets(String workSpaceId, String taskId, List<Filter> filters) {
+        return taskService.getTaskTimesheets(workSpaceId, taskId, filters);
     }
 
     @Override
@@ -359,7 +359,7 @@ public class LiquidPlannerClient implements ProjectService, TimesheetService, Ti
     }
 
     @Override
-    public String getEventTimesheetEntries(String workSpaceId, String eventId) {
+    public List<TimesheetEntry> getEventTimesheetEntries(String workSpaceId, String eventId) {
         return eventService.getEventTimesheetEntries(workSpaceId, eventId);
     }
 

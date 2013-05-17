@@ -7,6 +7,7 @@ import org.mule.LiquidPlanner.client.model.Comment;
 import org.mule.LiquidPlanner.client.model.Document;
 import org.mule.LiquidPlanner.client.model.Event;
 import org.mule.LiquidPlanner.client.model.Link;
+import org.mule.LiquidPlanner.client.model.TimesheetEntry;
 
 public interface EventService {
 
@@ -22,7 +23,7 @@ public interface EventService {
 
     public List<Link> getEventLinks(String workSpaceId, String eventId);
 
-    public String getEventTimesheetEntries(String workSpaceId, String eventId);
+    public List<TimesheetEntry> getEventTimesheetEntries(String workSpaceId, String eventId);
 
     public Event createEvent(String workSpaceId, Event event);
 

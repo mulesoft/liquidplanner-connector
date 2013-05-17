@@ -39,7 +39,7 @@ public interface TaskService {
      * @param filter
      * @return
      */
-    public List<Timesheet> getTaksTimesheets(String workSpaceId, String taskId, List<Filter> filters);
+    public List<Timesheet> getTaskTimesheets(String workSpaceId, String taskId, List<Filter> filters);
 
     /**
      * Retrieves a particular time sheets

@@ -64,7 +64,7 @@ public class TaskServiceClientTestIT extends AbstractServiceClientTestIT {
     @Test
     public void testGetTimeSheets() throws JSONException {
         TaskService service = new TaskServiceClient(USER, PASSWORD);
-        List<Timesheet> response = service.getTaksTimesheets(WORKSPACE_ID, TASK_ID, new ArrayList<Filter>());
+        List<Timesheet> response = service.getTaskTimesheets(WORKSPACE_ID, TASK_ID, new ArrayList<Filter>());
 
         printOutResponse(response.toString());
     }
