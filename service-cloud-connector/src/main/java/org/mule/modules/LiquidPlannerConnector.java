@@ -1079,187 +1079,661 @@ public class LiquidPlannerConnector implements TimesheetService, TimesheetEntryS
         return client.deleteEvent(workSpaceId, id);
     }
 
+    /**
+     * Retrieves all the {@link Link} in the workspace
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-links}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * 
+     * @return a list of {@link Link}
+     */
+    @Processor
     @Override
     public List<Link> getLinks(String workSpaceId) {
         return client.getLinks(workSpaceId);
     }
 
+    /**
+     * Retrieves a particular {@link Link}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-link}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param linkId
+     *            the id of the link
+     * @return a {@link Link}
+     */
+    @Processor
     @Override
     public Link getLink(String workSpaceId, String linkId) {
         return client.getLink(workSpaceId, linkId);
     }
 
+    /**
+     * Creates a {@link Link}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:create-link}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param link
+     *            the link to be created
+     * @return the {@link Link} created
+     */
+    @Processor
     @Override
     public Link createLink(String workSpaceId, Link link) {
         return client.createLink(workSpaceId, link);
     }
 
+    /**
+     * Updates a {@link Link}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:update-link}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param link
+     *            the link to be updated
+     * @return the {@link Link} updated
+     */
+    @Processor
     @Override
     public Link updateLink(String workSpaceId, Link link) {
         return client.updateLink(workSpaceId, link);
     }
 
+    /**
+     * Deletes a {@link Link}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:delete-link}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param id
+     *            the id of the link to be deleted
+     * @return the {@link Link} deleted
+     */
+    @Processor
     @Override
     public Link deleteLink(String workSpaceId, String id) {
         return client.deleteLink(workSpaceId, id);
     }
 
+    /**
+     * Retrieves all the {@link Milestone} in the workspace
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-milestones}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @return a list of {@link Milestone}
+     */
+    @Processor
     @Override
     public List<Milestone> getMilestones(String workSpaceId) {
         return client.getMilestones(workSpaceId);
     }
 
+    /**
+     * Retrieves a particular {@link Milestone}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-milestone}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param milestoneId
+     *            the id of the milestone
+     * @return the {@link Milestone}
+     */
+    @Processor
     @Override
-    public Milestone getMilestone(String workSpaceId, String mileStoneId) {
-        return client.getMilestone(workSpaceId, mileStoneId);
+    public Milestone getMilestone(String workSpaceId, String milestoneId) {
+        return client.getMilestone(workSpaceId, milestoneId);
     }
 
+    /**
+     * Creates particular {@link Milestone}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:create-milestone}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param milestone
+     *            the {@link Milestone}
+     * @return the {@link Milestone} created
+     */
+    @Processor
     @Override
     public Milestone createMilestone(String workSpaceId, Milestone milestone) {
         return client.createMilestone(workSpaceId, milestone);
     }
 
+    /**
+     * Updates a particular {@link Milestone}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:update-milestone}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param milestone
+     *            the {@link Milestone}
+     * @return the {@link Milestone} updated
+     */
+    @Processor
     @Override
     public Milestone updateMilestone(String workSpaceId, Milestone milestone) {
         return client.updateMilestone(workSpaceId, milestone);
     }
 
+    /**
+     * Deletes a particular {@link Milestone}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:delete-milestone}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param id
+     *            the id of the {@link Milestone}
+     * @return the {@link Milestone} deleted
+     */
+    @Processor
     @Override
     public Milestone deleteMilestone(String workSpaceId, String id) {
         return client.deleteMilestone(workSpaceId, id);
     }
 
+    /**
+     * Retrieves all the {@link LPPackage} in the workspace
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-packages}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param filters
+     *            a list of {@link Filter} to be applied to the search
+     * @return a list of {@link LPPackage}
+     */
+    @Processor
     @Override
-    public List<LPPackage> getPackages(String workSpaceId, List<Filter> filters) {
+    public List<LPPackage> getPackages(String workSpaceId, @Optional List<Filter> filters) {
+        filters = filters == null ? new ArrayList<Filter>() : filters;
         return client.getPackages(workSpaceId, filters);
     }
 
+    /**
+     * Retrieves a particular {@link LPPackage}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-package}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param packageId
+     *            the id of the package
+     * @return the {@link LPPackage}
+     */
+    @Processor
     @Override
     public LPPackage getPackage(String workSpaceId, String packageId) {
         return client.getPackage(workSpaceId, packageId);
     }
 
+    /**
+     * Retrieves all the {@link Comment} for a particular {@link LPPackage}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-package-comments}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param packageId
+     *            the id of the package
+     * @return a list of {@link Comment}
+     */
+    @Processor
     @Override
     public List<Comment> getPackageComments(String workSpaceId, String packageId) {
         return client.getPackageComments(workSpaceId, packageId);
     }
 
+    /**
+     * Retrieves all the {@link Dependency} for a particular {@link LPPackage}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-package-dependencies}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param packageId
+     *            the id of the package
+     * @return a list of {@link Dependency}
+     */
+    @Processor
     @Override
     public List<Dependency> getPackageDependencies(String workSpaceId, String packageId) {
         return client.getPackageDependencies(workSpaceId, packageId);
     }
 
+    /**
+     * Retrieves all the {@link Document} for a particular {@link LPPackage}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-package-documents}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param packageId
+     *            the id of the package
+     * @return a list of {@link Document}
+     */
+    @Processor
     @Override
     public List<Document> getPackageDocuments(String workSpaceId, String packageId) {
         return client.getPackageDocuments(workSpaceId, packageId);
     }
 
+    /**
+     * Retrieves all the {@link Estimate} for a particular {@link LPPackage}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-package-estimates}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param packageId
+     *            the id of the package
+     * @return a list of {@link Estimate}
+     */
+    @Processor
     @Override
     public List<Estimate> getPackageEstimates(String workSpaceId, String packageId) {
         return client.getPackageEstimates(workSpaceId, packageId);
     }
 
+    /**
+     * Retrieves all the {@link Link} for a particular {@link LPPackage}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-package-links}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param packageId
+     *            the id of the package
+     * @return a list of {@link Link}
+     */
+    @Processor
     @Override
     public List<Link> getPackageLinks(String workSpaceId, String packageId) {
         return client.getPackageLinks(workSpaceId, packageId);
     }
 
+    /**
+     * Retrieves all the {@link Note} for a particular {@link LPPackage}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-package-note}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param packageId
+     *            the id of the package
+     * @return a list of {@link Note}
+     */
+    @Processor
     @Override
     public List<Note> getPackageNote(String workSpaceId, String packageId) {
         return client.getPackageNote(workSpaceId, packageId);
     }
 
+    /**
+     * Creates a {@link LPPackage}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:create-package}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param aPackage
+     *            the {@link LPPackage} to be created
+     * @return the {@link LPPackage} created
+     */
+    @Processor
     @Override
     public LPPackage createPackage(String workSpaceId, LPPackage aPackage) {
         return client.createPackage(workSpaceId, aPackage);
     }
 
+    /**
+     * Updates a {@link LPPackage}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:update-package}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param lpPackage
+     *            the {@link LPPackage} to be updated
+     * @return the {@link LPPackage} updated
+     */
+    @Processor
     @Override
     public LPPackage updatePackage(String workSpaceId, LPPackage lpPackage) {
         return client.updatePackage(workSpaceId, lpPackage);
     }
 
+    /**
+     * Deletes a {@link LPPackage}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:delete-package}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param id
+     *            the id of the {@link LPPackage} to be updated
+     * @return the {@link LPPackage} deleted
+     */
+    @Processor
     @Override
     public LPPackage deletePackage(String workSpaceId, String id) {
         return client.deletePackage(workSpaceId, id);
     }
 
+    /**
+     * Retrieves all the {@link Folder} in the workspace
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-folders}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @return a list of {@link Folder}
+     */
+    @Processor
     @Override
     public List<Folder> getFolders(String workSpaceId) {
         return client.getFolders(workSpaceId);
     }
 
+    /**
+     * Retrieves a particular {@link Folder}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-folder}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param folderId
+     *            the id of the folder
+     * @return a {@link Folder}
+     */
+    @Processor
     @Override
     public Folder getFolder(String workSpaceId, String folderId) {
         return client.getFolder(workSpaceId, folderId);
     }
 
+    /**
+     * Creates a {@link Folder}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:create-folder}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param folder
+     *            the {@link Folder} to be created
+     * @return the {@link Folder} created
+     */
+    @Processor
     @Override
     public Folder createFolder(String workSpaceId, Folder folder) {
         return client.createFolder(workSpaceId, folder);
     }
 
+    /**
+     * Updates a {@link Folder}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:update-folder}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param folder
+     *            the {@link Folder} to be updated
+     * @return the {@link Folder} updated
+     */
+    @Processor
     @Override
     public Folder updateFolder(String workSpaceId, Folder folder) {
         return client.updateFolder(workSpaceId, folder);
     }
 
+    /**
+     * Deletes a {@link Folder}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:delete-folder}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param id
+     *            the id of the {@link Folder} to be deleted
+     * @return the {@link Folder} deleted
+     */
+    @Processor
     @Override
     public Folder deleteFolder(String workSpaceId, String id) {
         return client.deleteFolder(workSpaceId, id);
     }
 
+    /**
+     * Retrieves all the {@link Activity} in the workspace
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-activities}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @return a list of {@link Activity}
+     */
+    @Processor
     @Override
     public List<Activity> getActivities(String workSpaceId) {
         return client.getActivities(workSpaceId);
     }
 
+    /**
+     * Retrieves a particular {@link Activity}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-activity}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param activityId
+     *            the id of the activity
+     * @return the {@link Activity}
+     */
+    @Processor
     @Override
     public Activity getActivity(String workSpaceId, String activityId) {
         return client.getActivity(workSpaceId, activityId);
     }
 
+    /**
+     * Retrieves all the {@link Document} in the workspace
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-documents}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @return a list of {@link Document}
+     */
+    @Processor
     @Override
     public List<Document> getDocuments(String workSpaceId) {
         return client.getDocuments(workSpaceId);
     }
 
+    /**
+     * Retrieves a particular {@link Document}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-document}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param documentId
+     *            the id of the document
+     * @return a {@link Document}
+     */
+    @Processor
     @Override
     public Document getDocument(String workSpaceId, String documentId) {
         return client.getDocument(workSpaceId, documentId);
     }
 
+    /**
+     * Retrieves all the {@link Document} in the workspace
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:download-document}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param documentId
+     *            the id of the document
+     * @return the input stream for the actual document represented by a
+     *         {@link Document}
+     */
+    @Processor
     @Override
     public InputStream downloadDocument(String workSpaceId, String documentId) {
         return client.downloadDocument(workSpaceId, documentId);
     }
 
+    /**
+     * Creates a {@link Document}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:create-document}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param entity
+     *            the type to which the document should be created against
+     * @param entityId
+     *            the id of the entity
+     * @param fileName
+     *            the name of the file to assign to the document
+     * @param fileDescription
+     *            a description for the document @ fileInputStream the
+     * @param fileInputStream
+     *            for the document to be uploaded
+     * @return a string representation of the document
+     */
+    @Processor
     @Override
     public String createDocument(String workSpaceId, ServiceEntity entity, String entityId, String fileName,
             String fileDescription, InputStream fileInputStream) {
         return client.createDocument(workSpaceId, entity, entityId, fileName, fileDescription, fileInputStream);
     }
 
+    /**
+     * Deletes a {@link Document}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:delete-document}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param id
+     *            the id of the document to be deleted
+     * @return the {@link Document} deleted
+     */
+    @Processor
     @Override
     public Document deleteDocument(String workSpaceId, String id) {
         return client.deleteDocument(workSpaceId, id);
     }
 
+    /**
+     * Retrieves all the {@link Workspace} releted to the account
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-work-spaces}
+     * 
+     * @return the {@link Workspace} deleted
+     */
+    @Processor
     @Override
     public List<Workspace> getWorkSpaces() {
         return client.getWorkSpaces();
     }
 
+    /**
+     * Retrieves a particular {@link Workspace}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-workspace}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @return the {@link Workspace}
+     */
+    @Processor
     @Override
-    public Workspace getWorkspaceComment(String workSpaceId) {
-        return client.getWorkspaceComment(workSpaceId);
+    public Workspace getWorkspace(String workSpaceId) {
+        return client.getWorkspace(workSpaceId);
     }
 
+    /**
+     * Retrieves all the {@link CheckListItem} in the workspace
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-check-list-items}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @return a list of {@link CheckListItem}
+     */
+    @Processor
     @Override
     public List<CheckListItem> getCheckListItems(String workSpaceId) {
         return client.getCheckListItems(workSpaceId);
     }
 
+    /**
+     * Retrieves all the {@link CheckListItem} in the workspace
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:get-check-list-item}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param checkListItemId
+     *            the id of the checklistitem
+     * @return a list of {@link CheckListItem}
+     */
+    @Processor
     @Override
     public CheckListItem getCheckListItem(String workSpaceId, String checkListItemId) {
         return client.getCheckListItem(workSpaceId, checkListItemId);

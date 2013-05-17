@@ -213,3 +213,177 @@
 <!-- BEGIN_INCLUDE(liquidplanner:delete-event) -->
 	<liquidplanner:delete-event workSpaceId="#[map-payload:workspaceid]" id="#[map-payload:eventId]"/>
 <!-- END_INCLUDE(liquidplanner:delete-event) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-links) -->
+	<liquidplanner:get-links workSpaceId="#[map-payload:workspaceid]"/>
+<!-- END_INCLUDE(liquidplanner:get-links) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-link) -->
+	<liquidplanner:get-link workSpaceId="#[map-payload:workspaceid]" linkId="#[map-payload:linkid]"/>
+<!-- END_INCLUDE(liquidplanner:get-link) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:create-link) -->
+	<liquidplanner:create-link workSpaceId="#[map-payload:workspaceid]">
+		<liquidplanner:link ref="#[map-payload:link]"/>
+	</liquidplanner:create-link>
+<!-- END_INCLUDE(liquidplanner:create-link) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:update-link) -->
+	<liquidplanner:update-link workSpaceId="#[map-payload:workspaceid]">
+		<liquidplanner:link ref="#[map-payload:link]"/>
+	</liquidplanner:update-link>
+<!-- END_INCLUDE(liquidplanner:update-link) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:delete-link) -->
+	<liquidplanner:delete-link workSpaceId="#[map-payload:workspaceid]" id="#[map-payload:linkid]"/>
+<!-- END_INCLUDE(liquidplanner:delete-link) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-milestones) -->
+	<liquidplanner:get-milestones workSpaceId="#[map-payload:workspaceid]"/>
+<!-- END_INCLUDE(liquidplanner:get-milestones) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-milestone) -->
+	<liquidplanner:get-milestone workSpaceId="#[map-payload:workspaceid]" milestoneId="#[map-payload:milstoneid]"/>
+<!-- END_INCLUDE(liquidplanner:get-milestone) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:create-milestone) -->
+	<liquidplanner:create-milestone workSpaceId="#[map-payload:workspaceid]">
+		<liquidplanner:milestone ref="#[map-payload:link]"/>
+	</liquidplanner:create-milestone>
+<!-- END_INCLUDE(liquidplanner:create-milestone) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:update-milestone) -->
+	<liquidplanner:update-milestone workSpaceId="#[map-payload:workspaceid]">
+		<liquidplanner:milestone ref="#[map-payload:link]"/>
+	</liquidplanner:update-milestone>
+<!-- END_INCLUDE(liquidplanner:update-milestone) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:delete-milestone) -->
+	<liquidplanner:delete-milestone workSpaceId="#[map-payload:workspaceid]" id="#[map-payload:milestoneid]"/>
+<!-- END_INCLUDE(liquidplanner:delete-milestone) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-packages) -->
+	<liquidplanner:get-packages workSpaceId="#[map-payload:workspaceid]"/>
+<!-- END_INCLUDE(liquidplanner:get-packages) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-package) -->
+	<liquidplanner:get-package workSpaceId="#[map-payload:workspaceid]" packageId="#[map-payload:packageId]"/>
+<!-- END_INCLUDE(liquidplanner:get-package) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-package-comments) -->
+	<liquidplanner:get-package-comments workSpaceId="#[map-payload:workspaceid]" packageId="#[map-payload:packageId]"/>
+<!-- END_INCLUDE(liquidplanner:get-package-comments) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-package-dependencies) -->
+	<liquidplanner:get-package-dependencies workSpaceId="#[map-payload:workspaceid]" packageId="#[map-payload:packageId]"/>
+<!-- END_INCLUDE(liquidplanner:get-package-dependencies) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-package-documents) -->
+	<liquidplanner:get-package-documents workSpaceId="#[map-payload:workspaceid]" packageId="#[map-payload:packageId]"/>
+<!-- END_INCLUDE(liquidplanner:get-package-documents) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-package-estimates) -->
+	<liquidplanner:get-package-estimates workSpaceId="#[map-payload:workspaceid]" packageId="#[map-payload:packageId]"/>
+<!-- END_INCLUDE(liquidplanner:get-package-estimates) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-package-links) -->
+	<liquidplanner:get-package-links workSpaceId="#[map-payload:workspaceid]" packageId="#[map-payload:packageId]"/>
+<!-- END_INCLUDE(liquidplanner:get-package-links) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-package-note) -->
+	<liquidplanner:get-package-note workSpaceId="#[map-payload:workspaceid]" packageId="#[map-payload:packageId]"/>
+<!-- END_INCLUDE(liquidplanner:get-package-note) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:create-package) -->
+	<liquidplanner:create-package workSpaceId="#[map-payload:workspaceid]">
+		<liquidplanner:a-package ref="#[map-payload:package]"/>
+	</liquidplanner:create-package>
+<!-- END_INCLUDE(liquidplanner:create-package) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:update-package) -->
+	<liquidplanner:update-package workSpaceId="#[map-payload:workspaceid]">
+		<liquidplanner:lp-package ref="#[map-payload:package]"/>
+	</liquidplanner:update-package>
+<!-- END_INCLUDE(liquidplanner:update-package) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:delete-package) -->
+	<liquidplanner:delete-package workSpaceId="#[map-payload:workspaceid]" id="#[map-payload:packageId]"/>
+<!-- END_INCLUDE(liquidplanner:delete-package) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-folders) -->
+	<liquidplanner:get-folders workSpaceId="#[map-payload:workspaceid]"/>
+<!-- END_INCLUDE(liquidplanner:get-folders) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-folder) -->
+	<liquidplanner:get-folder workSpaceId="#[map-payload:workspaceid]" folderId="#[map-payload:folderId]"/>
+<!-- END_INCLUDE(liquidplanner:get-folder) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:create-folder) -->
+	<liquidplanner:create-folder workSpaceId="#[map-payload:workspaceid]" >
+		<liquidplanner:folder ref="#[map-payload:folder]"/>
+	</liquidplanner:create-folder>
+<!-- END_INCLUDE(liquidplanner:create-folder) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:update-folder) -->
+	<liquidplanner:update-folder workSpaceId="#[map-payload:workspaceid]" >
+		<liquidplanner:folder ref="#[map-payload:folder]"/>
+	</liquidplanner:update-folder>
+<!-- END_INCLUDE(liquidplanner:update-folder) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:delete-folder) -->
+	<liquidplanner:delete-folder workSpaceId="#[map-payload:workspaceid]" id="#[map-payload:folderId]"/>
+<!-- END_INCLUDE(liquidplanner:delete-folder) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-activities) -->
+	<liquidplanner:get-activities workSpaceId="#[map-payload:workspaceid]"/>
+<!-- END_INCLUDE(liquidplanner:get-activities) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-activity) -->
+	<liquidplanner:get-activity workSpaceId="#[map-payload:workspaceid]" activityId="#[map-payload:activityId]"/>
+<!-- END_INCLUDE(liquidplanner:get-activity) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-documents) -->
+	<liquidplanner:get-documents workSpaceId="#[map-payload:workspaceid]"/>
+<!-- END_INCLUDE(liquidplanner:get-documents) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-document) -->
+	<liquidplanner:get-document workSpaceId="#[map-payload:workspaceid]" documentId="#[map-payload:documentid]"/>
+<!-- END_INCLUDE(liquidplanner:get-document) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:download-document) -->
+	<liquidplanner:download-document workSpaceId="#[map-payload:workspaceid]" documentId="#[map-payload:documentid]"/>
+<!-- END_INCLUDE(liquidplanner:download-document) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:create-document) -->
+	<liquidplanner:create-document workSpaceId="#[map-payload:workspaceid]" entity="#[map-payload:entityType]" entityId="#[map-payload:entityid]" fileName="#[map-payload:filename]" fileDescription="#[map-payload:filedescription]" fileInputStream-ref="#[map-payload:inputStream]">
+	</liquidplanner:create-document>
+<!-- END_INCLUDE(liquidplanner:create-document) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:delete-document) -->
+	<liquidplanner:delete-document workSpaceId="#[map-payload:workspaceid]" id="#[map-payload:documentid]"/>
+<!-- END_INCLUDE(liquidplanner:delete-document) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-work-spaces) -->
+	<liquidplanner:get-work-spaces/>
+<!-- END_INCLUDE(liquidplanner:get-work-spaces) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-workspace) -->
+	<liquidplanner:get-workspace workSpaceId="#[map-payload:workspaceid]"/>
+<!-- END_INCLUDE(liquidplanner:get-workspace) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-check-list-items) -->
+	<liquidplanner:get-check-list-items workSpaceId="#[map-payload:workspaceid]"/>
+<!-- END_INCLUDE(liquidplanner:get-check-list-items) -->
+
+<!-- BEGIN_INCLUDE(liquidplanner:get-check-list-item) -->
+	<liquidplanner:get-check-list-item workSpaceId="#[map-payload:workspaceid]" checkListItemId="#[map-payload:checklistitemid]"/>
+<!-- END_INCLUDE(liquidplanner:get-check-list-item) -->
+
+
+
+
+
+
+
+
+

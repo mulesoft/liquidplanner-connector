@@ -511,8 +511,8 @@ public class LiquidPlannerClient implements ProjectService, TimesheetService, Ti
     }
 
     @Override
-    public Workspace getWorkspaceComment(String workSpaceId) {
-        return workspaceService.getWorkspaceComment(workSpaceId);
+    public Workspace getWorkspace(String workSpaceId) {
+        return workspaceService.getWorkspace(workSpaceId);
     }
 
     @Override
