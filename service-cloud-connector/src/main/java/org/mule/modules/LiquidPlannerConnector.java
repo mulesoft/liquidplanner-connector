@@ -11,18 +11,23 @@
  */
 package org.mule.modules;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.mule.LiquidPlanner.client.core.LiquidPlannerClient;
+import org.mule.LiquidPlanner.client.core.ServiceEntity;
+import org.mule.LiquidPlanner.client.model.Activity;
 import org.mule.LiquidPlanner.client.model.CheckListItem;
 import org.mule.LiquidPlanner.client.model.Client;
 import org.mule.LiquidPlanner.client.model.Comment;
+import org.mule.LiquidPlanner.client.model.Dependency;
 import org.mule.LiquidPlanner.client.model.Document;
 import org.mule.LiquidPlanner.client.model.Estimate;
 import org.mule.LiquidPlanner.client.model.Event;
 import org.mule.LiquidPlanner.client.model.Filter;
 import org.mule.LiquidPlanner.client.model.Folder;
+import org.mule.LiquidPlanner.client.model.LPPackage;
 import org.mule.LiquidPlanner.client.model.Link;
 import org.mule.LiquidPlanner.client.model.Member;
 import org.mule.LiquidPlanner.client.model.Milestone;
@@ -33,16 +38,25 @@ import org.mule.LiquidPlanner.client.model.Timesheet;
 import org.mule.LiquidPlanner.client.model.TimesheetEntry;
 import org.mule.LiquidPlanner.client.model.TreeItem;
 import org.mule.LiquidPlanner.client.model.TreeItemType;
+import org.mule.LiquidPlanner.client.model.Workspace;
+import org.mule.LiquidPlanner.client.services.ActivityService;
+import org.mule.LiquidPlanner.client.services.CheckListItemService;
 import org.mule.LiquidPlanner.client.services.ClientService;
 import org.mule.LiquidPlanner.client.services.CommentService;
 import org.mule.LiquidPlanner.client.services.CustomField;
 import org.mule.LiquidPlanner.client.services.CustomFieldService;
+import org.mule.LiquidPlanner.client.services.DocumentService;
 import org.mule.LiquidPlanner.client.services.EventService;
+import org.mule.LiquidPlanner.client.services.FolderService;
+import org.mule.LiquidPlanner.client.services.LinkService;
 import org.mule.LiquidPlanner.client.services.MemberService;
+import org.mule.LiquidPlanner.client.services.MileStoneService;
+import org.mule.LiquidPlanner.client.services.PackageService;
 import org.mule.LiquidPlanner.client.services.ProjectService;
 import org.mule.LiquidPlanner.client.services.TaskService;
 import org.mule.LiquidPlanner.client.services.TimesheetEntryService;
 import org.mule.LiquidPlanner.client.services.TimesheetService;
+import org.mule.LiquidPlanner.client.services.WorkspaceService;
 import org.mule.api.ConnectionException;
 import org.mule.api.annotations.Connect;
 import org.mule.api.annotations.ConnectionIdentifier;
@@ -60,7 +74,8 @@ import org.mule.api.annotations.param.Optional;
  */
 @Connector(name = "liquidplanner", schemaVersion = "1.0-SNAPSHOT")
 public class LiquidPlannerConnector implements TimesheetService, TimesheetEntryService, MemberService, ProjectService,
-        TaskService, ClientService, CustomFieldService, CommentService, EventService {
+        TaskService, ClientService, CustomFieldService, CommentService, EventService, LinkService, MileStoneService,
+        PackageService, FolderService, ActivityService, DocumentService, WorkspaceService, CheckListItemService {
 
     private LiquidPlannerClient client;
 
@@ -592,6 +607,192 @@ public class LiquidPlannerConnector implements TimesheetService, TimesheetEntryS
     @Override
     public Event deleteEvent(String workSpaceId, String commentId) {
         return client.deleteEvent(workSpaceId, commentId);
+    }
+
+    @Override
+    public List<Link> getLinks(String workSpaceId) {
+        return client.getLinks(workSpaceId);
+    }
+
+    @Override
+    public Link getLink(String workSpaceId, String linkId) {
+        return client.getLink(workSpaceId, linkId);
+    }
+
+    @Override
+    public Link createLink(String workSpaceId, Link link) {
+        return client.createLink(workSpaceId, link);
+    }
+
+    @Override
+    public Link updateLink(String workSpaceId, Link link) {
+        return client.updateLink(workSpaceId, link);
+    }
+
+    @Override
+    public Link deleteLink(String workSpaceId, String id) {
+        return client.deleteLink(workSpaceId, id);
+    }
+
+    @Override
+    public List<Milestone> getMilestones(String workSpaceId) {
+        return client.getMilestones(workSpaceId);
+    }
+
+    @Override
+    public Milestone getMilestone(String workSpaceId, String mileStoneId) {
+        return client.getMilestone(workSpaceId, mileStoneId);
+    }
+
+    @Override
+    public Milestone createMilestone(String workSpaceId, Milestone milestone) {
+        return client.createMilestone(workSpaceId, milestone);
+    }
+
+    @Override
+    public Milestone updateMilestone(String workSpaceId, Milestone milestone) {
+        return client.updateMilestone(workSpaceId, milestone);
+    }
+
+    @Override
+    public Milestone deleteMilestone(String workSpaceId, String id) {
+        return client.deleteMilestone(workSpaceId, id);
+    }
+
+    @Override
+    public List<LPPackage> getPackages(String workSpaceId, List<Filter> filters) {
+        return client.getPackages(workSpaceId, filters);
+    }
+
+    @Override
+    public LPPackage getPackage(String workSpaceId, String packageId) {
+        return client.getPackage(workSpaceId, packageId);
+    }
+
+    @Override
+    public List<Comment> getPackageComments(String workSpaceId, String packageId) {
+        return client.getPackageComments(workSpaceId, packageId);
+    }
+
+    @Override
+    public List<Dependency> getPackageDependencies(String workSpaceId, String packageId) {
+        return client.getPackageDependencies(workSpaceId, packageId);
+    }
+
+    @Override
+    public List<Document> getPackageDocuments(String workSpaceId, String packageId) {
+        return client.getPackageDocuments(workSpaceId, packageId);
+    }
+
+    @Override
+    public List<Estimate> getPackageEstimates(String workSpaceId, String packageId) {
+        return client.getPackageEstimates(workSpaceId, packageId);
+    }
+
+    @Override
+    public List<Link> getPackageLinks(String workSpaceId, String packageId) {
+        return client.getPackageLinks(workSpaceId, packageId);
+    }
+
+    @Override
+    public List<Note> getPackageNote(String workSpaceId, String packageId) {
+        return client.getPackageNote(workSpaceId, packageId);
+    }
+
+    @Override
+    public LPPackage createPackage(String workSpaceId, LPPackage aPackage) {
+        return client.createPackage(workSpaceId, aPackage);
+    }
+
+    @Override
+    public LPPackage updatePackage(String workSpaceId, LPPackage lpPackage) {
+        return client.updatePackage(workSpaceId, lpPackage);
+    }
+
+    @Override
+    public LPPackage deletePackage(String workSpaceId, String id) {
+        return client.deletePackage(workSpaceId, id);
+    }
+
+    @Override
+    public List<Folder> getFolders(String workSpaceId) {
+        return client.getFolders(workSpaceId);
+    }
+
+    @Override
+    public Folder getFolder(String workSpaceId, String folderId) {
+        return client.getFolder(workSpaceId, folderId);
+    }
+
+    @Override
+    public Folder createFolder(String workSpaceId, Folder folder) {
+        return client.createFolder(workSpaceId, folder);
+    }
+
+    @Override
+    public Folder updateFolder(String workSpaceId, Folder folder) {
+        return client.updateFolder(workSpaceId, folder);
+    }
+
+    @Override
+    public Folder deleteFolder(String workSpaceId, String id) {
+        return client.deleteFolder(workSpaceId, id);
+    }
+
+    @Override
+    public List<Activity> getActivities(String workSpaceId) {
+        return client.getActivities(workSpaceId);
+    }
+
+    @Override
+    public Activity getActivity(String workSpaceId, String activityId) {
+        return client.getActivity(workSpaceId, activityId);
+    }
+
+    @Override
+    public List<Document> getDocuments(String workSpaceId) {
+        return client.getDocuments(workSpaceId);
+    }
+
+    @Override
+    public Document getDocument(String workSpaceId, String documentId) {
+        return client.getDocument(workSpaceId, documentId);
+    }
+
+    @Override
+    public InputStream downloadDocument(String workSpaceId, String documentId) {
+        return client.downloadDocument(workSpaceId, documentId);
+    }
+
+    @Override
+    public String createDocument(String workSpaceId, ServiceEntity entity, String entityId, String fileName,
+            String fileDescription, InputStream fileInputStream) {
+        return client.createDocument(workSpaceId, entity, entityId, fileName, fileDescription, fileInputStream);
+    }
+
+    @Override
+    public Document deleteDocument(String workSpaceId, String id) {
+        return client.deleteDocument(workSpaceId, id);
+    }
+
+    @Override
+    public List<Workspace> getWorkSpaces() {
+        return client.getWorkSpaces();
+    }
+
+    @Override
+    public Workspace getWorkspaceComment(String workSpaceId) {
+        return client.getWorkspaceComment(workSpaceId);
+    }
+
+    @Override
+    public List<CheckListItem> getCheckListItems(String workSpaceId) {
+        return client.getCheckListItems(workSpaceId);
+    }
+
+    @Override
+    public CheckListItem getCheckListItem(String workSpaceId, String checkListItemId) {
+        return client.getCheckListItem(workSpaceId, checkListItemId);
     }
 
 }
