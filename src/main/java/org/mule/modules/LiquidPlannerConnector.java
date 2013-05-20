@@ -1739,4 +1739,22 @@ public class LiquidPlannerConnector implements TimesheetService, TimesheetEntryS
         return client.getCheckListItem(workSpaceId, checkListItemId);
     }
 
+    /**
+     * Updates a {@link Document}
+     * 
+     * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
+     * liquidplanner:update-document}
+     * 
+     * @param workSpaceId
+     *            the id of the workspace
+     * @param document
+     *            the {@link Document} to be updated
+     * @return the {@link Document} updated
+     */
+    @Processor
+    @Override
+    public Document updateDocument(String workSpaceId, Document document) {
+        return client.updateDocument(workSpaceId, document);
+    }
+
 }

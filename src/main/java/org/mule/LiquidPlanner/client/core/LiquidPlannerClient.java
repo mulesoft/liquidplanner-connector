@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) MuleSoft, Inc. All rights reserved. http://www.mulesoft.com
+ *
+ * The software in this package is published under the terms of the CPAL v1.0
+ * license, a copy of which has been included with this distribution in the
+ * LICENSE.md file.
+ */
+
 package org.mule.LiquidPlanner.client.core;
 
 import java.io.InputStream;
@@ -548,6 +556,11 @@ public class LiquidPlannerClient implements ProjectService, TimesheetService, Ti
     @Override
     public Comment deleteComment(String workSpaceId, String commentId) {
         return commentService.deleteComment(workSpaceId, commentId);
+    }
+
+    @Override
+    public Document updateDocument(String workSpaceId, Document document) {
+        return documentService.updateDocument(workSpaceId, document);
     }
 
 }

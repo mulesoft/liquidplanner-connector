@@ -379,7 +379,11 @@
 	<liquidplanner:get-check-list-item workSpaceId="#[map-payload:workspaceid]" checkListItemId="#[map-payload:checklistitemid]"/>
 <!-- END_INCLUDE(liquidplanner:get-check-list-item) -->
 
-
+<!-- BEGIN_INCLUDE(liquidplanner:update-document) -->
+	<liquidplanner:update-document workSpaceId="#[map-payload:workspaceid]" >
+		<liquidplanner:document ref="#[map-payload:document]"/>
+	</liquidplanner:update-document>
+<!-- END_INCLUDE(liquidplanner:update-document) -->
 
 
 

@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) MuleSoft, Inc. All rights reserved. http://www.mulesoft.com
+ *
+ * The software in this package is published under the terms of the CPAL v1.0
+ * license, a copy of which has been included with this distribution in the
+ * LICENSE.md file.
+ */
+
 package org.mule.LiquidPlanner.client.services.impl;
 
 import java.io.InputStream;
@@ -11,6 +19,7 @@ import org.apache.commons.lang.Validate;
 import org.mule.LiquidPlanner.client.core.ServiceEntity;
 import org.mule.LiquidPlanner.client.model.Client;
 import org.mule.LiquidPlanner.client.model.Document;
+import org.mule.LiquidPlanner.client.model.Folder;
 import org.mule.LiquidPlanner.client.services.DocumentService;
 
 import com.google.gson.reflect.TypeToken;
@@ -130,7 +139,15 @@ public class DocumentServiceClient extends AbstractServiceClient implements Docu
 
         // return deserializeResponse(clientResponse, Document.class);
     }
+    
+    @Override
+    public Document updateDocument(String workSpaceId, Document document) {
+        Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
 
+        String url = getURL(workSpaceId) + "/" + document.getId();
+        return this.updateEntity(ServiceEntity.DOCUMENT.getName(), document, url);
+    }
+    
     @Override
     public Document deleteDocument(String workSpaceId, String id) {
         Validate.notEmpty(workSpaceId, "The workspace id can not be null nor empty.");
