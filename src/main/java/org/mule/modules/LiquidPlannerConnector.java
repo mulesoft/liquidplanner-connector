@@ -1633,6 +1633,11 @@ public class LiquidPlannerConnector implements TimesheetService, TimesheetEntryS
     /**
      * Creates a {@link Document}
      * 
+     * <b>NOTE:</b> due to unresolved issues in the LiquidPlanner API this
+     * message processor is not returning a Java Object. Instead the processor
+     * is returning a String which is the JSON representation of the object that
+     * the LiquidPlanner API is actually returning.
+     * 
      * {@sample.xml ../../../doc/LiquidPlanner-connector.xml.sample
      * liquidplanner:create-document}
      * 
