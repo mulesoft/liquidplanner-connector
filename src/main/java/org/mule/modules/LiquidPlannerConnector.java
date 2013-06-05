@@ -68,11 +68,16 @@ import org.mule.api.annotations.param.ConnectionKey;
 import org.mule.api.annotations.param.Optional;
 
 /**
- * Cloud Connector
+ * LiquidPlanner is a platform-independent, online project management system
+ * which features ranged estimates (e.g. 3–5 days) to express the uncertainty in
+ * project schedules.This collaborative software is accessible via modern
+ * web-browsers and mobile applications for iPhone, iPad, and Android operating
+ * system-based devices.
+ * 
  * 
  * @author MuleSoft, Inc.
  */
-@Connector(name = "liquidplanner", schemaVersion = "1.0-SNAPSHOT")
+@Connector(name = "liquidplanner", schemaVersion = "1.0", friendlyName = "LiquidPlanner")
 public class LiquidPlannerConnector implements TimesheetService, TimesheetEntryService, MemberService, ProjectService,
         TaskService, ClientService, CustomFieldService, CommentService, EventService, LinkService, MileStoneService,
         PackageService, FolderService, ActivityService, DocumentService, WorkspaceService, CheckListItemService {
