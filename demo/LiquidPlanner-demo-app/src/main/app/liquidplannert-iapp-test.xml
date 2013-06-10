@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:context="http://www.springframework.org/schema/context" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:liquidplanner="http://www.mulesoft.org/schema/mule/liquidplanner" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/liquidplanner http://www.mulesoft.org/schema/mule/liquidplanner/1.0/mule-liquidplanner.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+    <liquidplanner:config name="Liquidplanner" doc:name="LiquidPlanner" password="${lp.password}" username="${lp.username}">
+        <liquidplanner:connection-pooling-profile initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
+    </liquidplanner:config>
+    <context:property-placeholder location="tenant.properties"/>
+    <flow name="get-clients-Flow" doc:name="get-clients-Flow">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="${http.port}" path="get-clients" doc:name="HTTP"/>
+        <liquidplanner:get-clients config-ref="Liquidplanner" workSpaceId="79456" doc:name="LiquidPlanner">
+        </liquidplanner:get-clients>
+        <object-to-string-transformer doc:name="Object to String"/>
+    </flow>
+    
+     <flow name="get-client-Flow" doc:name="get-client-Flow">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="${http.port}" path="get-client" doc:name="HTTP"/>
+        <liquidplanner:get-client config-ref="Liquidplanner" workSpaceId="79456" doc:name="LiquidPlanner" clientId="6874968">
+        </liquidplanner:get-client>
+        <object-to-string-transformer doc:name="Object to String"/>
+    </flow>
+    
+    <flow name="get-tasks-Flow" doc:name="get-tasks-Flow">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="${http.port}" path="get-tasks" doc:name="HTTP"/>
+        <liquidplanner:get-tasks config-ref="Liquidplanner" workSpaceId="79456" doc:name="LiquidPlanner" />
+        <object-to-string-transformer doc:name="Object to String"/>
+    </flow>
+    
+    <flow name="get-task-Flow" doc:name="get-task-Flow">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="${http.port}" path="get-task" doc:name="HTTP"/>
+        <liquidplanner:get-task config-ref="Liquidplanner" workSpaceId="79456" doc:name="LiquidPlanner" taskId="7371543"/>
+        <object-to-string-transformer doc:name="Object to String"/>
+    </flow>
+</mule>
